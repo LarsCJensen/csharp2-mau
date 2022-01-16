@@ -1,0 +1,136 @@
+﻿<Window x:Class="MyGames.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MyGames" 
+        xmlns:viewmodel="clr-namespace:MyGames.ViewModels" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:dialogYesNo="clr-namespace:MyGames.Dialogs.DialogYesNo"
+        mc:Ignorable="d"
+        Title="MyGames" Width="800" Height="600" MaxHeight="1000" MaxWidth="800">
+    <Window.Resources>
+        <ResourceDictionary Source="CommonResources.xaml"/>
+    </Window.Resources>
+    <Window.Background>
+        <ImageBrush ImageSource="/MyGames;component/Assets/rq_bg.gif" TileMode="Tile" ViewportUnits="Absolute" Viewport="0,0,31,42"/>
+    </Window.Background>
+    <Grid x:Name="MainGrid">
+        <!--FUTURE-->
+        <!--<i:Interaction.Triggers>
+            <i:EventTrigger EventName="MouseUp">
+                <i:InvokeCommandAction Command="{Binding MouseDown}" />
+            </i:EventTrigger>
+        </i:Interaction.Triggers>-->
+        <Grid.Resources>
+            <Style TargetType="TextBlock">
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="FontWeight" Value="ExtraBold" />
+                <Style.Triggers>
+                    <!--The ListView should have their foreground set to black, and not white as TextBlocks and not be bold-->
+                    <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource AncestorType=ListView}}" Value="True">
+                        <Setter Property="Foreground" Value="Black"/>
+                        <Setter Property="FontWeight" Value="Normal" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>            
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>            
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="75" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Grid.ColumnSpan="3">
+            <Menu>
+                    <MenuItem Header="_File">
+                        <MenuItem Header="_Export" Command="{Binding ExportCommand}" />
+                        <MenuItem Header="_Exit" Command="{Binding CloseCommand}" />
+                </MenuItem>
+                    <MenuItem Header="_Options">
+                        <MenuItem Header="_None Yet" />
+                    </MenuItem>
+                <MenuItem Header="_Help">
+                    <MenuItem Header="_About" Command="{Binding AboutCommand}"/>
+                </MenuItem>
+                </Menu>            
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <TextBlock Text="Filter" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,15,0,0"/>
+            <StackPanel Orientation="Horizontal" Margin="5,5">
+                <TextBox Height="30" Width="200" Padding="5,5"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,30,0,0" Text="{Binding SearchFilter, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding AddGameEnabled}"/>
+                <TextBlock Text="{Binding Count, FallbackValue='0 games in collection' , StringFormat= '\{0\} games in your collection'}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,30,0,10" Visibility="{Binding AddGameEnabled, Converter={StaticResource BoolToVis}}"/>
+                <Button Content="Load test data" Command="{Binding LoadTestData}"  Width="100" Height="20" Margin="200,30,0,0" IsEnabled="{Binding AddGameEnabled}"/>
+            </StackPanel>            
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="0" Margin="10,5">
+            <TabControl SelectedIndex="{Binding TabControlSelectedIndex}">
+                <TabItem Header="Games">
+                    <ListView x:Name="lvGamesList" ItemsSource="{Binding GamesView}" SelectedItem="{Binding SelectedGame, FallbackValue=null}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Title}" Width="200">
+                                    <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="Title">Title</GridViewColumnHeader>
+                                </GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Platform.PlatformShort}" Width="100">
+                                    <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="Platform.PlatformShort">Platform</GridViewColumnHeader>
+                                </GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Genre.GenreName}" Width="150">
+                                    <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="Genre.GenreName">Genre</GridViewColumnHeader>
+                                </GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=ReleaseDate, StringFormat='yyyy-MM-dd'}" Width="100">
+                                    <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="ReleaseDate">Release</GridViewColumnHeader>
+                                </GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Box, Converter={StaticResource BoolToStringConverter}, TargetNullValue=False}" Width="50">
+                                    <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="Box">Box</GridViewColumnHeader>
+                                </GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Manual, Converter={StaticResource BoolToStringConverter}, TargetNullValue=False}" Width="50">
+                                    <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="Manual">Manual</GridViewColumnHeader>
+                                </GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Grade}" Width="50">
+                                    <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="Grade">Grade</GridViewColumnHeader>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>                    
+                </TabItem>
+                <TabItem Header="Hardware">
+                    <ListView x:Name="lvHardwareList" ItemsSource="{Binding HardwareView}" SelectedItem="{Binding SelectedHardware, FallbackValue=null}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Width="200">
+                                    <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="Name">Name</GridViewColumnHeader>
+                                </GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Platform.PlatformShort}" Width="100">
+                                    <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="Platform.PlatformShort">Platform</GridViewColumnHeader>
+                                </GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=ReleaseDate, StringFormat='yyyy-MM-dd'}" Width="100">
+                                    <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="ReleaseDate">Release</GridViewColumnHeader>
+                                </GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Box, Converter={StaticResource BoolToStringConverter}, TargetNullValue=False}" Width="50">
+                                    <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="Box">Box</GridViewColumnHeader>
+                                </GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Manual, Converter={StaticResource BoolToStringConverter}, TargetNullValue=False}" Width="50">
+                                    <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="Manual">Manual</GridViewColumnHeader>
+                                </GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Region, TargetNullValue=False}" Width="50">
+                                    <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="Region">Region</GridViewColumnHeader>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </TabItem>
+            </TabControl>
+        </Grid>        
+        <Grid Grid.Row="3" Grid.Column="0">            
+            <StackPanel Orientation="Horizontal" Margin="5,5">
+                <Button Content="Open" Width="50" Height="20" Margin="5" Command="{Binding OpenGameCommand}" IsEnabled="{Binding SelectedGame, Converter={StaticResource ObjectNullConverter}, FallbackValue=False}"/>
+                <Button Content="Add" Width="50" Height="20" Margin="5" Command="{Binding AddGameCommand}" IsEnabled="{Binding AddGameEnabled}"/>
+                <Button Content="Edit" Width="50" Height="20" Margin="5" Command="{Binding EditGameCommand}" IsEnabled="{Binding SelectedGame, Converter={StaticResource ObjectNullConverter}, FallbackValue=False}"/>
+                <Button Content="Delete"  Width="50" Height="20" Margin="5" Command="{Binding DeleteGameCommand}" IsEnabled="{Binding SelectedGame, Converter={StaticResource ObjectNullConverter}, FallbackValue=False}"/>                
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfFoodItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <FoodItem>
+    <Ingredients>
+      <string>Cereal</string>
+      <string>Milk</string>
+    </Ingredients>
+    <Name>Breakfast</Name>
+  </FoodItem>
+  <FoodItem>
+    <Ingredients>
+      <string>Meat</string>
+      <string>Sallad</string>
+    </Ingredients>
+    <Name>Lunch</Name>
+  </FoodItem>
+  <FoodItem>
+    <Ingredients>
+      <string>Grass</string>
+      <string>Fish</string>
+    </Ingredients>
+    <Name>Supper</Name>
+  </FoodItem>
+  <FoodItem>
+    <Ingredients>
+      <string>Farmer</string>
+      <string>Farmer's Wife</string>
+    </Ingredients>
+    <Name>Always</Name>
+  </FoodItem>
+</ArrayOfFoodItem>

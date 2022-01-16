@@ -1,0 +1,167 @@
+﻿<Window x:Class="Assignment2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Assignment2"
+        mc:Ignorable="d"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Title="Animal Creator" Width="800" SizeToContent="Manual" WindowStartupLocation="CenterScreen" Height="640">
+    <Grid x:Name="mainGrid" Margin="0,0,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="109*"/>
+            <ColumnDefinition Width="349*"/>
+            <ColumnDefinition Width="118*"/>
+            <ColumnDefinition Width="224*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="300"/>
+            <RowDefinition Height="300"/>
+        </Grid.RowDefinitions>
+        <GroupBox x:Name="groupBox" Header="Animal Specification" HorizontalAlignment="Left" Height="296" Margin="10,10,0,0" VerticalAlignment="Top" Width="780" Grid.Row="0" Grid.ColumnSpan="4">
+            <Grid HorizontalAlignment="Left" Height="284" Margin="-2,0,0,0" VerticalAlignment="Center" Width="752">
+                <Label Content="Name" HorizontalAlignment="Left" Height="28" Margin="26,18,0,0" VerticalAlignment="Top" Width="41"/>
+                <TextBox x:Name="txtName" HorizontalAlignment="Left" Height="25" Margin="72,18,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="78"/>
+                <Label Content="Age" HorizontalAlignment="Left" Height="28" Margin="26,49,0,0" VerticalAlignment="Top" Width="41"/>
+                <TextBox x:Name="txtAge" HorizontalAlignment="Left" Height="25" Margin="72,49,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="78"/>
+                <GroupBox x:Name="gbGender" Header="Gender" HorizontalAlignment="Left" Height="109" Margin="26,80,0,0" VerticalAlignment="Top" Width="124">
+                    <Grid x:Name="GenderGrid" HorizontalAlignment="Left" Height="94" Margin="0,0,0,0" VerticalAlignment="Top" Width="124">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="73*"/>
+                            <ColumnDefinition Width="51*"/>
+                        </Grid.ColumnDefinitions>
+                        <RadioButton x:Name="rdoMale" Content="Male" Height="27" Margin="10,6,0,0" HorizontalAlignment="Left" Width="78" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+                        <RadioButton x:Name="rdoFemale" Content="Female" Height="26" Margin="10,0,0,0" HorizontalAlignment="Left" Width="78" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
+                        <RadioButton x:Name="rdoUnknown" Content="Unknown" Height="27" Margin="10,0,0,7" HorizontalAlignment="Left" Width="78" VerticalAlignment="Bottom" Grid.ColumnSpan="2" IsChecked="True"/>
+                    </Grid>
+                </GroupBox>
+                <ListBox x:Name="lstCategoryType" HorizontalAlignment="Left" Height="170" Margin="239,19,0,0" VerticalAlignment="Top" Width="110" SelectionChanged="lstCategoryType_SelectionChanged"/>
+                <ListBox x:Name="lstAnimalObject" HorizontalAlignment="Left" Height="170" Margin="359,19,0,0" VerticalAlignment="Top" Width="110" SelectionChanged="lstAnimalObject_SelectionChanged"/>
+                <Label Content="Category Type" HorizontalAlignment="Left" Height="27" Margin="235,-2,0,0" VerticalAlignment="Top" Width="88"/>
+                <Label Content="Animal Object" HorizontalAlignment="Left" Height="24" Margin="355,-2,0,0" VerticalAlignment="Top" Width="97"/>
+                <Image x:Name="imgAnimal" HorizontalAlignment="Left" Height="170" Margin="491,20,0,0" VerticalAlignment="Top" Width="197">
+                    <Image.Style>
+                        <Style/>
+                    </Image.Style>
+                </Image>
+                <Label Content="Description" HorizontalAlignment="Left" Margin="152,-3,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="txtDescription" HorizontalAlignment="Left" Height="167" Margin="155,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="78" AcceptsReturn="True"/>
+                <Button x:Name="btnBrowseImage" Content="Load image" HorizontalAlignment="Left" Margin="589,189,0,0" VerticalAlignment="Top" Click="btnBrowseImage_Click"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox x:Name="grpMammalCategorySpec" Header="Category Specifications" HorizontalAlignment="Left" Height="83" Margin="20,211,0,0" VerticalAlignment="Top" Width="267" Visibility="Collapsed" Grid.Row="0" Grid.ColumnSpan="2">
+            <Grid HorizontalAlignment="Left" Height="68" VerticalAlignment="Top" Width="257">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="95"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.ColumnSpan="2" HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Top">
+                    <Label Content="Number of teeth" Height="25" Width="100"/>
+                    <TextBox x:Name="txtNumberOTeeth" Height="25" TextWrapping="Wrap" Width="50"/>
+                </StackPanel>
+                <StackPanel x:Name="stackDog" Grid.ColumnSpan="2" HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center" Visibility="Collapsed">
+                    <Label Content="Breed" Height="25" Width="100"/>
+                    <TextBox x:Name="txtDogBreed" Height="25" TextWrapping="Wrap" Width="100"/>
+                </StackPanel>
+                <StackPanel x:Name="stackCat" Grid.ColumnSpan="2" Margin="0,5,0,0" HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center" Visibility="Collapsed">
+                    <CheckBox x:Name="chkIndoor" Content="Indoor" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="100"/>
+                </StackPanel>
+                <StackPanel x:Name="stackHorse" Grid.ColumnSpan="2" HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center" Visibility="Collapsed">
+                    <Label Content="Box number" Height="25" Width="100"/>
+                    <TextBox x:Name="txtBoxNumber" Height="25" TextWrapping="Wrap" Width="50"/>
+                </StackPanel>
+                <StackPanel x:Name="stackElephant" Grid.ColumnSpan="2" HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center" Visibility="Collapsed">
+                    <Label Content="Location" Height="25" Width="100"/>
+                    <TextBox x:Name="txtLocation" Height="25" TextWrapping="Wrap" Width="100"/>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+        <GroupBox x:Name="grpBirdCategorySpec" Header="Category Specifications" HorizontalAlignment="Left" Height="83" Margin="20,211,0,0" VerticalAlignment="Top" Width="267" Visibility="Collapsed" Grid.Row="0" Grid.ColumnSpan="2">
+            <Grid HorizontalAlignment="Left" Height="68" VerticalAlignment="Top" Width="257">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="95"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.ColumnSpan="2" HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Top">
+                    <Label Content="Air-speed velocity" Height="25" Width="120"/>
+                    <TextBox x:Name="txtAirSpeedVelocity" Height="25" TextWrapping="Wrap" Width="50"/>
+                </StackPanel>
+                <StackPanel x:Name="stackSwallow" Grid.ColumnSpan="2" HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center" Visibility="Collapsed">
+                    <Label Content="Breed" Height="25" Width="120"/>
+                    <TextBox x:Name="txtBirdBreed" Height="25" TextWrapping="Wrap" Width="50"/>
+                </StackPanel>
+                <StackPanel x:Name="stackBlackbird" Grid.ColumnSpan="2" HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center" Visibility="Collapsed">
+                    <Label Content="IUNC Categorization" Height="28" Width="120"/>
+                    <TextBox x:Name="txtIUCNCategory" Height="25" TextWrapping="Wrap" Width="50"/>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+        <GroupBox x:Name="grpInsectCategorySpec" Header="Category Specifications" HorizontalAlignment="Left" Height="83" Margin="20,211,0,0" VerticalAlignment="Top" Width="267" Visibility="Collapsed" Grid.Row="0" Grid.ColumnSpan="2">
+            <Grid HorizontalAlignment="Left" Height="68" VerticalAlignment="Top" Width="257">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="95"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.ColumnSpan="2" HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Top">
+                    <Label Content="Number of wings" Height="25" Width="110"/>
+                    <TextBox x:Name="txtNumberOfWings" Height="25" TextWrapping="Wrap" Width="50"/>
+                </StackPanel>
+                <StackPanel x:Name="stackButterfly" Grid.ColumnSpan="2" HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center" Visibility="Collapsed">
+                    <Label Content="Main color" Height="25" Width="110"/>
+                    <TextBox x:Name="txtButterflyColor" Margin="0,5,0,0" Height="25" TextWrapping="Wrap" Width="50"/>
+                </StackPanel>
+                <StackPanel x:Name="stackBee" Grid.ColumnSpan="2" HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center" Visibility="Collapsed">
+                    <Label Content="Hive number" Height="28" Width="110"/>
+                    <TextBox x:Name="txtHiveNumber" Height="25" TextWrapping="Wrap" Width="50"/>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+        <GroupBox x:Name="grpReptileCategorySpec" Header="Category Specifications" HorizontalAlignment="Left" Height="83" Margin="20,211,0,0" VerticalAlignment="Top" Width="267" Visibility="Collapsed" Grid.Row="0" Grid.ColumnSpan="2">
+            <Grid HorizontalAlignment="Left" Height="68" VerticalAlignment="Top" Width="257">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="95"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.ColumnSpan="2" HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,0,0">
+                    <Label Content="Length" Height="25" Width="100"/>
+                    <TextBox x:Name="txtReptileLength" Height="25" TextWrapping="Wrap" Width="50"/>
+                </StackPanel>
+                <StackPanel x:Name="stackSnake" Grid.ColumnSpan="2" Margin="0,5,0,0" HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center" Visibility="Collapsed">
+                    <CheckBox x:Name="chkVenomous" Content="Venomous" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="100"/>
+                </StackPanel>
+                <StackPanel x:Name="stackCrocodile" Grid.ColumnSpan="2" HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center" Visibility="Collapsed">
+                    <Label Content="Farmers killed" Height="28" Width="100"/>
+                    <TextBox x:Name="txtCrodocile" Height="25" TextWrapping="Wrap" Width="50"/>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+        <CheckBox x:Name="chkListAllAnimals" Content="List all animals" HorizontalAlignment="Left" Height="17" Margin="265,216,0,0" VerticalAlignment="Top" Width="109" Grid.Column="1" Grid.ColumnSpan="2" Click="ChkListAllAnimals_Click"/>
+        <Button x:Name="btnAdd" Content="Add" HorizontalAlignment="Left" Height="22" Margin="193,238,0,0" VerticalAlignment="Top" Width="105" Click="btnAdd_Click" Grid.Column="1"/>
+        <GroupBox x:Name="groupBox2" Header="Animal details" HorizontalAlignment="Left" Height="296" Margin="10,5,0,0" VerticalAlignment="Bottom" Width="780" Grid.Row="1" Grid.ColumnSpan="4">
+            <Grid HorizontalAlignment="Left" Height="266" Margin="-2,0,0,0" VerticalAlignment="Center" Width="752">
+                <Label x:Name="lblAnimalInfo" Content="" HorizontalAlignment="Left" Height="224" Margin="10,20,0,0" VerticalAlignment="Top" Width="180" Grid.ColumnSpan="2" Background="#FFC1BBBB"/>
+                <ListView x:Name="lvAnimalList" ItemsSource="{Binding ListOfAnimals}" HorizontalAlignment="Left" Height="230" Margin="210,20,0,0" VerticalAlignment="Top" Width="284" SelectionMode="Single" RenderTransformOrigin="0.19,0.498" SelectionChanged="lvAnimalList_SelectionChanged">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Id}" Width="50">
+                                <GridViewColumnHeader Tag="ID" Click="lvAnimalList_Click">Id</GridViewColumnHeader>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Width="100">
+                                <GridViewColumnHeader Tag="Name" Click="lvAnimalList_Click">Name</GridViewColumnHeader>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Age}" Width="40">
+                                <GridViewColumnHeader Tag="Age" Click="lvAnimalList_Click">Age</GridViewColumnHeader>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Gender}" Width="70">
+                                <GridViewColumnHeader Tag="Gender" Click="lvAnimalList_Click">Gender</GridViewColumnHeader>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <ListBox x:Name="lbFoodSchedule" HorizontalAlignment="Left" Height="207" Margin="528,43,0,0" VerticalAlignment="Top" Width="200"/>
+                <Label x:Name="lblEaterType" Content="" HorizontalAlignment="Left" Margin="530,18,0,0" VerticalAlignment="Top" Height="24"/>
+            </Grid>
+        </GroupBox>
+        <Button x:Name="btnCreateAnimalsFor_Test" Content="Create Animals For Test" HorizontalAlignment="Left" Height="22" Margin="194,269,0,0" VerticalAlignment="Top" Width="141" Click="btnCreateAnimalsForTest_Click" Grid.Column="1"/>
+    </Grid>
+</Window>
