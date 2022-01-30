@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\bee.jpg" />
+    <None Remove="Assets\blackbird.jpg" />
+    <None Remove="Assets\butterfly.jpg" />
+    <None Remove="Assets\cat.jpg" />
+    <None Remove="Assets\crocodile.jpg" />
+    <None Remove="Assets\dog.jpg" />
+    <None Remove="Assets\elephant.jpg" />
+    <None Remove="Assets\horse.jpg" />
+    <None Remove="Assets\snake.jpg" />
+    <None Remove="Assets\swallow.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\bee.jpg" />
+    <Resource Include="Assets\blackbird.jpg" />
+    <Resource Include="Assets\butterfly.jpg" />
+    <Resource Include="Assets\cat.jpg" />
+    <Resource Include="Assets\crocodile.jpg" />
+    <Resource Include="Assets\dog.jpg" />
+    <Resource Include="Assets\elephant.jpg" />
+    <Resource Include="Assets\horse.jpg" />
+    <Resource Include="Assets\snake.jpg" />
+    <Resource Include="Assets\swallow.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Classes\" />
+    <Folder Include="Enums\" />
+  </ItemGroup>
+
+</Project>
