@@ -20,7 +20,7 @@ namespace Assignment1
             } 
         }
 
-        public Crocodile(int len, string name, int age, GenderType gender, string description) : base(len, name, age, gender, description)
+        public Crocodile(string name, int age, GenderType gender, string description, int len) : base(len, name, age, gender, description)
         {
             
         }

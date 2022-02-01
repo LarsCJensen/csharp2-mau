@@ -79,13 +79,13 @@ namespace Assignment1
             } 
         }
 
-        public Animal(string name, int age, GenderType gender, string description)
+        public Animal(string animalName, int animalAge, GenderType animalGender, string animalDesc)
         {
             id = getId();
-            name = name;
-            age = age;
-            gender = gender;
-            description = description;
+            name = animalName;
+            age = animalAge;
+            gender = animalGender;
+            description = animalDesc;
 
             NumberOfAnimalsCreated++;
         }

@@ -19,7 +19,7 @@ namespace Assignment1
             } 
         }
 
-        public Snake(int len, string name, int age, GenderType gender, string description) : base(len, name, age, gender, description)
+        public Snake(string name, int age, GenderType gender, string description, int len) : base(len, name, age, gender, description)
         {
 
         }

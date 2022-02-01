@@ -22,7 +22,7 @@ namespace Assignment1
             } 
         }
 
-        public Blackbird(int speed, string name, int age, GenderType gender, string description) : base(speed, name, age, gender, description)
+        public Blackbird(string name, int age, GenderType gender, string description, int speed) : base(speed, name, age, gender, description)
         {
             
         }

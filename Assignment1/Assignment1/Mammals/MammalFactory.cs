@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assignment1.Enums;
 
-namespace Assignment1.Classes.Mammal
+namespace Assignment1.Mammals
 {
     class MammalFactory
     {
-        // GetAllMammalAnimals
-        // Create Mammal
-        //
-
+        /// <summary>
+        /// Factory for mammal types, to create animal and get types
+        /// </summary>
+        /// <returns></returns>
         public Array GetAnimalObjects()
         {
             return Enum.GetValues(typeof(MammalTypes)); 

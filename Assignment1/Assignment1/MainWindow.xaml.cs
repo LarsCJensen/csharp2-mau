@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -10,10 +11,10 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Assignment1.Classes.Mammal;
-using Assignment1.Enums;
+using Assignment1.Mammals;
+using Assignment1.Birds;
+using Assignment1.Reptiles;
+using Assignment1.Insects;
 
 namespace Assignment1
 {
@@ -23,7 +24,9 @@ namespace Assignment1
     public partial class MainWindow : Window
     {
         private MammalFactory myMammalFactory = new MammalFactory();
-        //private InsectFactory insectFactory = new InsectFactory();
+        private BirdFactory myBirdFactory = new BirdFactory();
+        private ReptileFactory myReptileFactory = new ReptileFactory();
+        private InsectFactory myInsectFactory = new InsectFactory();
         private Animal animal = null;
         public MainWindow()
         {
@@ -33,26 +36,50 @@ namespace Assignment1
 
         private void InitializeGUI()
         {
-            // Fill Category Type
+            
             btnAdd.IsEnabled = false;
+            // Fill Category Type
             lstCategoryType.ItemsSource = Enum.GetValues(typeof(AnimalCategoryEnum));
         }
 
         private void lstCategoryType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // Get animals of selected type
-            // Either calling some MammalFactory.GetMammalObjects() after a switch or same below
             Array items = null;
             switch (lstCategoryType.SelectedItem)
             {
-                case AnimalCategoryEnum.Mammal:
+                case AnimalCategoryEnum.Mammals:
                     grpMammalCategorySpec.Visibility = Visibility.Visible;
+                    grpBirdCategorySpec.Visibility = Visibility.Collapsed;
+                    grpInsectCategorySpec.Visibility = Visibility.Collapsed;
+                    grpReptileCategorySpec.Visibility = Visibility.Collapsed;
                     items = myMammalFactory.GetAnimalObjects();
+                    break;
+                case AnimalCategoryEnum.Birds:
+                    grpMammalCategorySpec.Visibility = Visibility.Collapsed;
+                    grpBirdCategorySpec.Visibility = Visibility.Visible;
+                    grpInsectCategorySpec.Visibility = Visibility.Collapsed;
+                    grpReptileCategorySpec.Visibility = Visibility.Collapsed;
+                    items = myBirdFactory.GetAnimalObjects();
+                    break;
+                case AnimalCategoryEnum.Insects:
+                    grpMammalCategorySpec.Visibility = Visibility.Collapsed;
+                    grpBirdCategorySpec.Visibility = Visibility.Collapsed;
+                    grpInsectCategorySpec.Visibility = Visibility.Visible;
+                    grpReptileCategorySpec.Visibility = Visibility.Collapsed;
+                    items = myInsectFactory.GetAnimalObjects();
+                    break;
+                case AnimalCategoryEnum.Reptiles:
+                    grpMammalCategorySpec.Visibility = Visibility.Collapsed;
+                    grpBirdCategorySpec.Visibility = Visibility.Collapsed;
+                    grpInsectCategorySpec.Visibility = Visibility.Collapsed;
+                    grpReptileCategorySpec.Visibility = Visibility.Visible;
+                    items = myReptileFactory.GetAnimalObjects();
                     break;
             }
             lstAnimalObject.ItemsSource = items;            
         }
-        // Functiont for Add button click
+        // Function for Add button click
         private void btnAdd_Click(object sender, RoutedEventArgs e)        {
             
             // Check if all fields are used
@@ -61,8 +88,14 @@ namespace Assignment1
                 // TODO Is below correct spot to do it? Test without
                 // Reset animal
                 AddAnimal();
+                lblNumberOfAnimals.Content = $"Number of animals created: {Animal.NumberOfAnimalsCreated}";
                 // TODO Display result of anímal
                 DisplayAnimal();
+
+                // TODO Initialize GUI
+
+                animal = null;
+
             }            
         }
 
@@ -70,7 +103,7 @@ namespace Assignment1
         {
             switch (lstCategoryType.SelectedItem)
             {
-                case AnimalCategoryEnum.Mammal:
+                case AnimalCategoryEnum.Mammals:
                     MammalTypes mammalType = (MammalTypes)Enum.Parse(typeof(MammalTypes), lstAnimalObject.SelectedItem.ToString());
                     try
                     {
@@ -83,13 +116,83 @@ namespace Assignment1
                         // If not, catch the exception and show the message box.
                         MessageBox.Show(ex.Message, "Invalid input!", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
+                    break;
+                case AnimalCategoryEnum.Birds:
+                    BirdTypes birdType = (BirdTypes)Enum.Parse(typeof(BirdTypes), lstAnimalObject.SelectedItem.ToString());
+                    try
+                    {
+                        GenderType gender = getGender();
+                        // Here I can use just parse since the value has been validated before                        
+                        animal = myBirdFactory.CreateAnimal(birdType, txtName.Text, int.Parse(txtAge.Text), gender, txtDescription.Text, int.Parse(txtNumberOTeeth.Text));
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        // If not, catch the exception and show the message box.
+                        MessageBox.Show(ex.Message, "Invalid input!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    break;
+                case AnimalCategoryEnum.Insects:
+                    InsectTypes insectType = (InsectTypes)Enum.Parse(typeof(InsectTypes), lstAnimalObject.SelectedItem.ToString());
+                    try
+                    {
+                        GenderType gender = getGender();
+                        // Here I can use just parse since the value has been validated before                        
+                        animal = myInsectFactory.CreateAnimal(insectType, txtName.Text, int.Parse(txtAge.Text), gender, txtDescription.Text, int.Parse(txtNumberOTeeth.Text));
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        // If not, catch the exception and show the message box.
+                        MessageBox.Show(ex.Message, "Invalid input!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
 
+                    break;
+                case AnimalCategoryEnum.Reptiles:
+                    ReptileTypes reptileType = (ReptileTypes)Enum.Parse(typeof(ReptileTypes), lstAnimalObject.SelectedItem.ToString());
+                    try
+                    {
+                        GenderType gender = getGender();
+                        // Here I can use just parse since the value has been validated before                        
+                        animal = myReptileFactory.CreateAnimal(reptileType, txtName.Text, int.Parse(txtAge.Text), gender, txtDescription.Text, int.Parse(txtNumberOTeeth.Text));
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        // If not, catch the exception and show the message box.
+                        MessageBox.Show(ex.Message, "Invalid input!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                     break;
             }
             switch (animal)
             {
+                case Dog:
+                    ((Dog)animal).Breed = txtDogBreed.Text;
+                    break;
                 case Cat:
-                    // Set cat specific values
+                    ((Cat)animal).Indoor = chkIndoor.IsChecked.Value;
+                    break;
+                case Horse:
+                    ((Horse)animal).StableBoxNumber = txtBoxNumber.Text;
+                    break;
+                case Elephant:
+                    ((Elephant)animal).Location = txtLocation.Text;
+                    break;
+                case Bee:
+                    ((Bee)animal).BeeHiveNumber = txtHiveNumber.Text;
+                    break;
+                case Butterfly:
+                    ((Butterfly)animal).MainColor = txtButterflyColor.Text;
+                    break;
+                case Crocodile:
+                    // Parse is fine here since I have validated the data already
+                    ((Crocodile)animal).NumberOfFarmersEaten = int.Parse(txtCrodocile.Text);
+                    break;
+                case Snake:
+                    ((Snake)animal).Venomous = chkVenomous.IsChecked.Value;
+                    break;
+                case Blackbird:
+                    ((Blackbird)animal).IUCNCategorization = txtIUCNCategory.Text;
+                    break;
+                case Swallow:
+                    ((Swallow)animal).Breed = txtBirdBreed.Text;
                     break;
             }
         }
@@ -101,7 +204,14 @@ namespace Assignment1
         // Function to display attributes of recently added animal
         private void DisplayAnimal()
         {
+            // Clear list view of items
+            lvAnimalInfo.Items.Clear();
             // Add all attributes to list
+            foreach(PropertyInfo prop in ((Animal)animal).GetType().GetProperties())
+            {
+                lvAnimalInfo.Items.Add(new { Attribute = prop.Name, Value = prop.GetValue(animal).ToString() });
+            }
+
         }
         // Helper function to validate input.        
         private bool ValidateInput(object animalCategory, object animal)
@@ -135,7 +245,7 @@ namespace Assignment1
 
             switch(animalCategory)
             {
-                case AnimalCategoryEnum.Mammal:
+                case AnimalCategoryEnum.Mammals:
                     if (string.IsNullOrEmpty(txtNumberOTeeth.Text))
                     {
                         MessageBox.Show("You must provide the number of teeth for the animal of type mammal!", "Invalid input!", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -144,7 +254,7 @@ namespace Assignment1
                     switch(animal)
                     {
                         case MammalTypes.Dog:
-                            if (string.IsNullOrEmpty(txtBreed.Text))
+                            if (string.IsNullOrEmpty(txtDogBreed.Text))
                             {
                                 MessageBox.Show("You must provide the breed for dogs!", "Invalid input!", MessageBoxButton.OK, MessageBoxImage.Error);
                                 return false;
@@ -169,7 +279,7 @@ namespace Assignment1
                             break;
                     }
                     break;
-                case AnimalCategoryEnum.Bird:
+                case AnimalCategoryEnum.Birds:
                     if (string.IsNullOrEmpty(txtAirSpeedVelocity.Text))
                     {
                         MessageBox.Show("You must provide the air-speed velocity for the animal of type bird!", "Invalid input!", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -193,7 +303,7 @@ namespace Assignment1
                             break;
                     }
                     break;
-                case AnimalCategoryEnum.Insect:
+                case AnimalCategoryEnum.Insects:
                     if (string.IsNullOrEmpty(txtNumberOfWings.Text))
                     {
                         MessageBox.Show("You must provide the number of wings for the animal of type insect!", "Invalid input!", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -217,7 +327,7 @@ namespace Assignment1
                             break;
                     }
                     break;
-                case AnimalCategoryEnum.Reptile:
+                case AnimalCategoryEnum.Reptiles:
                     if (string.IsNullOrEmpty(txtReptileLength.Text))
                     {
                         MessageBox.Show("You must provide the length for the animal of type reptile!", "Invalid input!", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -247,50 +357,71 @@ namespace Assignment1
             switch (lstAnimalObject.SelectedItem)
             {
                 case MammalTypes.Dog:
+                    // I probably should move this to a helper function that loops through the stack panels in the containing grid
                     stackDog.Visibility = Visibility.Visible;
+                    stackCat.Visibility = Visibility.Collapsed;
+                    stackHorse.Visibility = Visibility.Collapsed;
+                    stackElephant.Visibility = Visibility.Collapsed;
                     imgAnimal.Source = new BitmapImage(new Uri(@"pack://application:,,,/assets/dog.jpg", UriKind.Absolute));
                     break;
                 case MammalTypes.Cat:
+                    stackDog.Visibility = Visibility.Collapsed;
                     stackCat.Visibility = Visibility.Visible;
+                    stackHorse.Visibility = Visibility.Collapsed;
+                    stackElephant.Visibility = Visibility.Collapsed;
                     imgAnimal.Source = new BitmapImage(new Uri(@"pack://application:,,,/assets/cat.jpg", UriKind.Absolute));
                     break;
                 case MammalTypes.Horse:
-                    stackDog.Visibility = Visibility.Visible;
+                    stackDog.Visibility = Visibility.Collapsed;
+                    stackCat.Visibility = Visibility.Collapsed;
+                    stackHorse.Visibility = Visibility.Visible;
+                    stackElephant.Visibility = Visibility.Collapsed;
                     imgAnimal.Source = new BitmapImage(new Uri(@"pack://application:,,,/assets/horse.jpg", UriKind.Absolute));
                     break;
                 case MammalTypes.Elephant:
-                    stackDog.Visibility = Visibility.Visible;
+                    stackDog.Visibility = Visibility.Collapsed;
+                    stackCat.Visibility = Visibility.Collapsed;
+                    stackHorse.Visibility = Visibility.Collapsed;
+                    stackElephant.Visibility = Visibility.Visible;
                     imgAnimal.Source = new BitmapImage(new Uri(@"pack://application:,,,/assets/elephant.jpg", UriKind.Absolute));
                     break;
                 case BirdTypes.Swallow:
-                    stackDog.Visibility = Visibility.Visible;
+                    stackSwallow.Visibility = Visibility.Visible;
+                    stackBlackbird.Visibility = Visibility.Collapsed;
                     imgAnimal.Source = new BitmapImage(new Uri(@"pack://application:,,,/assets/swallow.jpg", UriKind.Absolute));
                     break;
                 case BirdTypes.Blackbird:
-                    stackDog.Visibility = Visibility.Visible;
+                    stackSwallow.Visibility = Visibility.Collapsed;
+                    stackBlackbird.Visibility = Visibility.Visible;
                     imgAnimal.Source = new BitmapImage(new Uri(@"pack://application:,,,/assets/blackbird.jpg", UriKind.Absolute));
                     break;
                 case InsectTypes.Butterfly:
-                    stackDog.Visibility = Visibility.Visible;
+                    stackButterfly.Visibility = Visibility.Visible;
+                    stackBee.Visibility = Visibility.Collapsed;
                     imgAnimal.Source = new BitmapImage(new Uri(@"pack://application:,,,/assets/butterfly.jpg", UriKind.Absolute));
                     break;
                 case InsectTypes.Bee:
-                    stackDog.Visibility = Visibility.Visible;
+                    stackButterfly.Visibility = Visibility.Collapsed;
+                    stackBee.Visibility = Visibility.Visible;
                     imgAnimal.Source = new BitmapImage(new Uri(@"pack://application:,,,/assets/bee.jpg", UriKind.Absolute));
                     break;
                 case ReptileTypes.Crocodile:
-                    stackDog.Visibility = Visibility.Visible;
-                    imgAnimal.Source = new BitmapImage(new Uri(@"pack://application:,,,/assets/dog.jpg", UriKind.Absolute));
+                    stackCrocodile.Visibility = Visibility.Visible;
+                    stackSnake.Visibility = Visibility.Collapsed;
+                    imgAnimal.Source = new BitmapImage(new Uri(@"pack://application:,,,/assets/crocodile.jpg", UriKind.Absolute));
                     break;
                 case ReptileTypes.Snake:
-                    stackDog.Visibility = Visibility.Visible;
-                    imgAnimal.Source = new BitmapImage(new Uri(@"pack://application:,,,/assets/dog.jpg", UriKind.Absolute));
+                    stackCrocodile.Visibility = Visibility.Collapsed;
+                    stackSnake.Visibility = Visibility.Visible;                    
+                    imgAnimal.Source = new BitmapImage(new Uri(@"pack://application:,,,/assets/snake.jpg", UriKind.Absolute));
                     break;
-            }
-            // Switch case to show correct images
+            }            
             btnAdd.IsEnabled = true;
-            // Show animal image
-            
+        }
+
+        private void collapseAllAnimalStacks(string groupName)
+        {
+
         }
 
         private void chkListAllAnimals_Checked(object sender, RoutedEventArgs e)
