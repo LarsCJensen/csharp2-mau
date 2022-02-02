@@ -41,6 +41,7 @@
                 </Image>
                 <Label Content="Description" HorizontalAlignment="Left" Margin="152,-3,0,0" VerticalAlignment="Top"/>
                 <TextBox x:Name="txtDescription" HorizontalAlignment="Left" Height="167" Margin="155,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="78" AcceptsReturn="True"/>
+                <Button x:Name="btnBrowseImage" Content="Load image" HorizontalAlignment="Left" Margin="589,189,0,0" VerticalAlignment="Top" Click="btnBrowseImage_Click"/>
             </Grid>
         </GroupBox>
         <GroupBox x:Name="grpMammalCategorySpec" Header="Category Specifications" HorizontalAlignment="Left" Height="83" Margin="20,211,0,0" VerticalAlignment="Top" Width="267" Visibility="Collapsed" Grid.ColumnSpan="2">
@@ -129,9 +130,9 @@
                 </StackPanel>
             </Grid>
         </GroupBox>
-        <CheckBox x:Name="chkListAllAnimals" Content="List all animals" HorizontalAlignment="Left" Height="17" Margin="265,216,0,0" VerticalAlignment="Top" Width="109" Grid.Column="1" Grid.ColumnSpan="2" Checked="chkListAllAnimals_Checked"/>
+        <CheckBox x:Name="chkListAllAnimals" Content="List all animals" HorizontalAlignment="Left" Height="17" Margin="265,216,0,0" VerticalAlignment="Top" Width="109" Grid.Column="1" Grid.ColumnSpan="2" Click="ChkListAllAnimals_Click"/>
         <Button x:Name="btnAdd" Content="Add" HorizontalAlignment="Left" Height="22" Margin="193,268,0,0" VerticalAlignment="Top" Width="105" Click="btnAdd_Click" Grid.Column="1"/>
-        <ListView x:Name="lvAnimalInfo" HorizontalAlignment="Left" Height="230" Margin="16,310,0,0" VerticalAlignment="Top" Width="240" Grid.ColumnSpan="2">
+        <ListView x:Name="lvAnimalInfo" HorizontalAlignment="Left" Height="230" Margin="16,310,0,0" VerticalAlignment="Top" Width="240" Grid.ColumnSpan="2" SelectionMode="Single">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Attribute" DisplayMemberBinding="{Binding Path=Attribute}" Width="130"/>
@@ -139,6 +140,6 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Label x:Name="lblNumberOfAnimals" Content="Number of animals created: " Grid.Column="1" HorizontalAlignment="Left" Margin="305,262,0,0" VerticalAlignment="Top" Height="39" Width="200" Grid.ColumnSpan="3"/>
+        <Label x:Name="lblNumberOfAnimals" Content="Number of animals created: " Grid.Column="1" HorizontalAlignment="Left" Margin="302,266,0,0" VerticalAlignment="Top" Height="25" Width="200" Grid.ColumnSpan="3"/>
     </Grid>
 </Window>

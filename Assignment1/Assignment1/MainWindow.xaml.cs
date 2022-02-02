@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+
 using Assignment1.Mammals;
 using Assignment1.Birds;
 using Assignment1.Reptiles;
@@ -87,19 +89,22 @@ namespace Assignment1
             {
                 // TODO Is below correct spot to do it? Test without
                 // Reset animal
-                AddAnimal();
-                lblNumberOfAnimals.Content = $"Number of animals created: {Animal.NumberOfAnimalsCreated}";
-                // TODO Display result of anímal
-                DisplayAnimal();
+                if (AddAnimal()) 
+                {
+                    lblNumberOfAnimals.Content = $"Number of animals created: {Animal.NumberOfAnimalsCreated}";
+                    
+                    DisplayAnimal();
 
-                // TODO Initialize GUI
+                    // TODO Initialize GUI
 
-                animal = null;
+                    animal = null;
+                }
+                
 
             }            
         }
 
-        private void AddAnimal()
+        private bool AddAnimal()
         {
             switch (lstCategoryType.SelectedItem)
             {
@@ -115,6 +120,7 @@ namespace Assignment1
                     {
                         // If not, catch the exception and show the message box.
                         MessageBox.Show(ex.Message, "Invalid input!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return false;
                     }
                     break;
                 case AnimalCategoryEnum.Birds:
@@ -123,12 +129,13 @@ namespace Assignment1
                     {
                         GenderType gender = getGender();
                         // Here I can use just parse since the value has been validated before                        
-                        animal = myBirdFactory.CreateAnimal(birdType, txtName.Text, int.Parse(txtAge.Text), gender, txtDescription.Text, int.Parse(txtNumberOTeeth.Text));
+                        animal = myBirdFactory.CreateAnimal(birdType, txtName.Text, int.Parse(txtAge.Text), gender, txtDescription.Text, int.Parse(txtAirSpeedVelocity.Text));
                     }
                     catch (ArgumentException ex)
                     {
                         // If not, catch the exception and show the message box.
                         MessageBox.Show(ex.Message, "Invalid input!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return false;
                     }
                     break;
                 case AnimalCategoryEnum.Insects:
@@ -137,12 +144,13 @@ namespace Assignment1
                     {
                         GenderType gender = getGender();
                         // Here I can use just parse since the value has been validated before                        
-                        animal = myInsectFactory.CreateAnimal(insectType, txtName.Text, int.Parse(txtAge.Text), gender, txtDescription.Text, int.Parse(txtNumberOTeeth.Text));
+                        animal = myInsectFactory.CreateAnimal(insectType, txtName.Text, int.Parse(txtAge.Text), gender, txtDescription.Text, int.Parse(txtNumberOfWings.Text));
                     }
                     catch (ArgumentException ex)
                     {
                         // If not, catch the exception and show the message box.
                         MessageBox.Show(ex.Message, "Invalid input!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return false;
                     }
 
                     break;
@@ -152,12 +160,13 @@ namespace Assignment1
                     {
                         GenderType gender = getGender();
                         // Here I can use just parse since the value has been validated before                        
-                        animal = myReptileFactory.CreateAnimal(reptileType, txtName.Text, int.Parse(txtAge.Text), gender, txtDescription.Text, int.Parse(txtNumberOTeeth.Text));
+                        animal = myReptileFactory.CreateAnimal(reptileType, txtName.Text, int.Parse(txtAge.Text), gender, txtDescription.Text, int.Parse(txtReptileLength.Text));
                     }
                     catch (ArgumentException ex)
                     {
                         // If not, catch the exception and show the message box.
                         MessageBox.Show(ex.Message, "Invalid input!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return false;
                     }
                     break;
             }
@@ -195,6 +204,7 @@ namespace Assignment1
                     ((Swallow)animal).Breed = txtBirdBreed.Text;
                     break;
             }
+            return true;
         }
         private GenderType getGender()
         {
@@ -202,6 +212,7 @@ namespace Assignment1
             return GenderType.Male;
         }
         // Function to display attributes of recently added animal
+        // Perhaps not a better solution than to have a ToString overload in each class but a solution I wanted to try
         private void DisplayAnimal()
         {
             // Clear list view of items
@@ -211,7 +222,6 @@ namespace Assignment1
             {
                 lvAnimalInfo.Items.Add(new { Attribute = prop.Name, Value = prop.GetValue(animal).ToString() });
             }
-
         }
         // Helper function to validate input.        
         private bool ValidateInput(object animalCategory, object animal)
@@ -418,21 +428,42 @@ namespace Assignment1
             }            
             btnAdd.IsEnabled = true;
         }
-
-        private void collapseAllAnimalStacks(string groupName)
+        // Function which listens to click events. 
+        private void ChkListAllAnimals_Click(object sender, RoutedEventArgs e)
         {
-
+            lstAnimalObject.Items.Clear();
+            // Checks if the click checked or un-checked the box.
+            if ((bool)(sender as CheckBox).IsChecked) {
+                lstCategoryType.IsEnabled = false;
+                btnAdd.IsEnabled = false;
+                AddItemsToAnimalListbox(myMammalFactory.GetAnimalObjects());
+                AddItemsToAnimalListbox(myBirdFactory.GetAnimalObjects());
+                AddItemsToAnimalListbox(myInsectFactory.GetAnimalObjects());
+                AddItemsToAnimalListbox(myReptileFactory.GetAnimalObjects());
+            } else
+            {
+                btnAdd.IsEnabled = true;
+                lstCategoryType.IsEnabled = true;                
+            }            
+        }
+        private void AddItemsToAnimalListbox(Array items)
+        {
+            foreach (var item in items)
+            {
+                lstAnimalObject.Items.Add(item);
+            }
         }
 
-        private void chkListAllAnimals_Checked(object sender, RoutedEventArgs e)
+        private void btnBrowseImage_Click(object sender, RoutedEventArgs e)
         {
-            // List all animals through Animal.List_AllAnimals?
-
-
-            // Gray categories
-            //Unchecked = everything back to normal
+            // TODO
+            var dialog = new OpenFileDialog();
+            dialog.Filter = "BMP|*.bmp|JPG|*.jpg|PNG|*.png|All files (*.*)|*.*";
+            bool? result = dialog.ShowDialog();
+            if(result == true)
+            {
+                imgAnimal.Source = new BitmapImage(new Uri(dialog.FileName, UriKind.Absolute));
+            }
         }
-
-
     }
 }
