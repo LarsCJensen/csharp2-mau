@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Assignment1
 {
+    /// <summary>
+    /// Enums for mammals
+    /// </summary>
     public enum MammalTypes
     {
         Cat,

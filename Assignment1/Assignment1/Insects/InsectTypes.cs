@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Assignment1
 {
+    /// <summary>
+    /// Class for insect enums
+    /// </summary>
     public enum InsectTypes
     {
         Butterfly,

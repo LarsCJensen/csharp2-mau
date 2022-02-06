@@ -1,16 +1,13 @@
-﻿using Microsoft.Win32;
+﻿/**
+ * Lars Jensen 2022-02-05
+ */
+
+using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 using Assignment1.Mammals;
@@ -36,14 +33,60 @@ namespace Assignment1
             InitializeGUI();           
         }
 
+        // Function to initialize GUI
         private void InitializeGUI()
         {
             
             btnAdd.IsEnabled = false;
             // Fill Category Type
             lstCategoryType.ItemsSource = Enum.GetValues(typeof(AnimalCategoryEnum));
+            lstCategoryType.SelectedItem = null;
+            grpMammalCategorySpec.Visibility = Visibility.Collapsed;
+            grpBirdCategorySpec.Visibility = Visibility.Collapsed;
+            grpInsectCategorySpec.Visibility = Visibility.Collapsed;
+            grpReptileCategorySpec.Visibility = Visibility.Collapsed;
+            stackDog.Visibility = Visibility.Collapsed;
+            stackCat.Visibility = Visibility.Collapsed;
+            stackHorse.Visibility = Visibility.Collapsed;
+            stackElephant.Visibility = Visibility.Collapsed;
+            stackCrocodile.Visibility = Visibility.Collapsed;
+            stackSnake.Visibility = Visibility.Collapsed;
+            stackButterfly.Visibility = Visibility.Collapsed;
+            stackBee.Visibility = Visibility.Collapsed;
+            stackSwallow.Visibility = Visibility.Collapsed;
+            stackBlackbird.Visibility = Visibility.Collapsed;
+            // This should be done in a loop over all children of mainGrid, but chose this quick and dirty way
+            txtName.Text = String.Empty;
+            txtAge.Text = String.Empty;
+            rdoUnknown.IsChecked = true;
+            txtDescription.Text = String.Empty;
+            lstAnimalObject.ItemsSource = null;
+            lstAnimalObject.Items.Clear();
+            imgAnimal.Source = null;
+            txtNumberOTeeth.Text = String.Empty;
+            txtDogBreed.Text = String.Empty;
+            chkIndoor.IsChecked = false;
+            txtBoxNumber.Text = String.Empty;
+            txtLocation.Text = String.Empty;
+            txtAirSpeedVelocity.Text = String.Empty;
+            txtBirdBreed.Text = String.Empty;
+            txtIUCNCategory.Text = String.Empty;
+            txtNumberOfWings.Text = String.Empty;
+            txtButterflyColor.Text = String.Empty;
+            txtHiveNumber.Text = String.Empty;
+            txtReptileLength.Text = String.Empty;
+            chkVenomous.IsChecked = false;
+            txtCrodocile.Text = String.Empty;
+
+
+
+
+
+
+
         }
 
+        // Function for category change event
         private void lstCategoryType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // Get animals of selected type
@@ -87,23 +130,20 @@ namespace Assignment1
             // Check if all fields are used
             if(ValidateInput(lstCategoryType.SelectedItem, lstAnimalObject.SelectedItem))
             {
-                // TODO Is below correct spot to do it? Test without
-                // Reset animal
                 if (AddAnimal()) 
                 {
                     lblNumberOfAnimals.Content = $"Number of animals created: {Animal.NumberOfAnimalsCreated}";
                     
-                    DisplayAnimal();
+                    DisplayAnimalInfo();
 
-                    // TODO Initialize GUI
+                    InitializeGUI();
 
                     animal = null;
                 }
-                
-
             }            
         }
 
+        // Helper function to add animal
         private bool AddAnimal()
         {
             switch (lstCategoryType.SelectedItem)
@@ -112,7 +152,7 @@ namespace Assignment1
                     MammalTypes mammalType = (MammalTypes)Enum.Parse(typeof(MammalTypes), lstAnimalObject.SelectedItem.ToString());
                     try
                     {
-                        GenderType gender = getGender();
+                        GenderType gender = GetGender();
                         // Here I can use just parse since the value has been validated before                        
                         animal = myMammalFactory.CreateAnimal(mammalType, txtName.Text, int.Parse(txtAge.Text), gender, txtDescription.Text, int.Parse(txtNumberOTeeth.Text));
                     }
@@ -127,7 +167,7 @@ namespace Assignment1
                     BirdTypes birdType = (BirdTypes)Enum.Parse(typeof(BirdTypes), lstAnimalObject.SelectedItem.ToString());
                     try
                     {
-                        GenderType gender = getGender();
+                        GenderType gender = GetGender();
                         // Here I can use just parse since the value has been validated before                        
                         animal = myBirdFactory.CreateAnimal(birdType, txtName.Text, int.Parse(txtAge.Text), gender, txtDescription.Text, int.Parse(txtAirSpeedVelocity.Text));
                     }
@@ -142,7 +182,7 @@ namespace Assignment1
                     InsectTypes insectType = (InsectTypes)Enum.Parse(typeof(InsectTypes), lstAnimalObject.SelectedItem.ToString());
                     try
                     {
-                        GenderType gender = getGender();
+                        GenderType gender = GetGender();
                         // Here I can use just parse since the value has been validated before                        
                         animal = myInsectFactory.CreateAnimal(insectType, txtName.Text, int.Parse(txtAge.Text), gender, txtDescription.Text, int.Parse(txtNumberOfWings.Text));
                     }
@@ -158,7 +198,7 @@ namespace Assignment1
                     ReptileTypes reptileType = (ReptileTypes)Enum.Parse(typeof(ReptileTypes), lstAnimalObject.SelectedItem.ToString());
                     try
                     {
-                        GenderType gender = getGender();
+                        GenderType gender = GetGender();
                         // Here I can use just parse since the value has been validated before                        
                         animal = myReptileFactory.CreateAnimal(reptileType, txtName.Text, int.Parse(txtAge.Text), gender, txtDescription.Text, int.Parse(txtReptileLength.Text));
                     }
@@ -170,6 +210,7 @@ namespace Assignment1
                     }
                     break;
             }
+            // Switch to set animal specific attributes
             switch (animal)
             {
                 case Dog:
@@ -206,14 +247,25 @@ namespace Assignment1
             }
             return true;
         }
-        private GenderType getGender()
+        // Helper function for get Gender
+        private GenderType GetGender()
         {
-            var test = GenderGrid.Children.OfType<RadioButton>().FirstOrDefault(x => (bool)x.IsChecked);
-            return GenderType.Male;
+            var selectedRdo = GenderGrid.Children.OfType<RadioButton>().FirstOrDefault(x => (bool)x.IsChecked);
+            switch(selectedRdo.Name)
+            {
+                case "rdoMale":
+                    return GenderType.Male;
+                case "rdoFemale":
+                    return GenderType.Female;
+                default:
+                    return GenderType.Unknown;
+            }
+                
+
         }
         // Function to display attributes of recently added animal
         // Perhaps not a better solution than to have a ToString overload in each class but a solution I wanted to try
-        private void DisplayAnimal()
+        private void DisplayAnimalInfo()
         {
             // Clear list view of items
             lvAnimalInfo.Items.Clear();
@@ -223,7 +275,7 @@ namespace Assignment1
                 lvAnimalInfo.Items.Add(new { Attribute = prop.Name, Value = prop.GetValue(animal).ToString() });
             }
         }
-        // Helper function to validate input.        
+        // Helper function to validate input. Not sure if having it in the view is best, but it is easier to have it here so we can provide user with good message        
         private bool ValidateInput(object animalCategory, object animal)
         {
             // Validate common attributes
@@ -359,9 +411,9 @@ namespace Assignment1
                     break;
             }        
             return true;
-
         }
 
+        // Function to handle animal selection change.
         private void lstAnimalObject_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             switch (lstAnimalObject.SelectedItem)
@@ -372,6 +424,7 @@ namespace Assignment1
                     stackCat.Visibility = Visibility.Collapsed;
                     stackHorse.Visibility = Visibility.Collapsed;
                     stackElephant.Visibility = Visibility.Collapsed;
+                    // Set default image per animal
                     imgAnimal.Source = new BitmapImage(new Uri(@"pack://application:,,,/assets/dog.jpg", UriKind.Absolute));
                     break;
                 case MammalTypes.Cat:
@@ -424,28 +477,46 @@ namespace Assignment1
                     stackCrocodile.Visibility = Visibility.Collapsed;
                     stackSnake.Visibility = Visibility.Visible;                    
                     imgAnimal.Source = new BitmapImage(new Uri(@"pack://application:,,,/assets/snake.jpg", UriKind.Absolute));
-                    break;
+                    break;                
             }            
             btnAdd.IsEnabled = true;
         }
         // Function which listens to click events. 
         private void ChkListAllAnimals_Click(object sender, RoutedEventArgs e)
         {
+            lstAnimalObject.ItemsSource = null;
             lstAnimalObject.Items.Clear();
             // Checks if the click checked or un-checked the box.
             if ((bool)(sender as CheckBox).IsChecked) {
                 lstCategoryType.IsEnabled = false;
                 btnAdd.IsEnabled = false;
+                grpMammalCategorySpec.Visibility = Visibility.Collapsed;
+                grpBirdCategorySpec.Visibility = Visibility.Collapsed;
+                grpInsectCategorySpec.Visibility = Visibility.Collapsed;
+                grpReptileCategorySpec.Visibility = Visibility.Collapsed;
+                stackDog.Visibility = Visibility.Collapsed;
+                stackCat.Visibility = Visibility.Collapsed;
+                stackHorse.Visibility = Visibility.Collapsed;
+                stackElephant.Visibility = Visibility.Collapsed;
+                stackCrocodile.Visibility = Visibility.Collapsed;
+                stackSnake.Visibility = Visibility.Collapsed;
+                stackButterfly.Visibility = Visibility.Collapsed;
+                stackBee.Visibility = Visibility.Collapsed;
+                stackSwallow.Visibility = Visibility.Collapsed;
+                stackBlackbird.Visibility = Visibility.Collapsed;
+                imgAnimal.Source = null;
                 AddItemsToAnimalListbox(myMammalFactory.GetAnimalObjects());
                 AddItemsToAnimalListbox(myBirdFactory.GetAnimalObjects());
                 AddItemsToAnimalListbox(myInsectFactory.GetAnimalObjects());
                 AddItemsToAnimalListbox(myReptileFactory.GetAnimalObjects());
             } else
             {
+                lstCategoryType.SelectedItem = null;
                 btnAdd.IsEnabled = true;
-                lstCategoryType.IsEnabled = true;                
+                lstCategoryType.IsEnabled = true;
             }            
         }
+        // Helper function to add enum items to listbox
         private void AddItemsToAnimalListbox(Array items)
         {
             foreach (var item in items)
@@ -454,15 +525,28 @@ namespace Assignment1
             }
         }
 
+        // Function to choose an image for your animal
         private void btnBrowseImage_Click(object sender, RoutedEventArgs e)
-        {
-            // TODO
+        {            
             var dialog = new OpenFileDialog();
             dialog.Filter = "BMP|*.bmp|JPG|*.jpg|PNG|*.png|All files (*.*)|*.*";
             bool? result = dialog.ShowDialog();
             if(result == true)
             {
                 imgAnimal.Source = new BitmapImage(new Uri(dialog.FileName, UriKind.Absolute));
+            }
+        }
+        // Function to clear all controls of input
+        private void ClearControls()
+        {
+            foreach (Control ctl in mainGrid.Children)
+            {
+                if (ctl.GetType() == typeof(CheckBox))
+                    ((CheckBox)ctl).IsChecked = false;
+                if (ctl.GetType() == typeof(TextBox))
+                    ((TextBox)ctl).Text = String.Empty;
+                if (ctl.GetType() == typeof(RadioButton))
+                    ((RadioButton)ctl).IsChecked = false;
             }
         }
     }

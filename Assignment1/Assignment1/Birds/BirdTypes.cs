@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Assignment1
 {
+    /// <summary>
+    /// Enumgs or Birds
+    /// </summary>
     public enum BirdTypes
     {
         Swallow,

@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Assignment1
 {
+    /// <summary>
+    /// Class for Butterfly
+    /// </summary>
     public class Butterfly : Insect
     {
         private string mainColor = "";
@@ -21,7 +24,14 @@ namespace Assignment1
                 }
             }         
         }
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="name">Name of animal</param>
+        /// <param name="age">Age of animal</param>
+        /// <param name="gender">Gender of animal</param>
+        /// <param name="description">Description of animal</param>
+        /// <param name="numberOfWings">Number of wings of insect</param>
         public Butterfly(string name, int age, GenderType gender, string description, int numberOfWings) : base(numberOfWings, name, age, gender, description)
         {
 

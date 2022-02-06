@@ -78,7 +78,13 @@ namespace Assignment1
                 }
             } 
         }
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="animalName">Name of animal</param>
+        /// <param name="animalAge">Age of animal</param>
+        /// <param name="animalGender">Gender of animal</param>
+        /// <param name="animalDesc">Description of animal</param>
         public Animal(string animalName, int animalAge, GenderType animalGender, string animalDesc)
         {
             id = getId();
@@ -89,15 +95,8 @@ namespace Assignment1
 
             NumberOfAnimalsCreated++;
         }
-        public List<string> ListAllAnimals()
-        {
-            // How to get all animals??
-            List<string> animals = new List<string>();
-            animals.Add("Test");
-            return animals;
-        }
         /// <summary>
-        /// Perhaps overkill with a helper method for this, but it gives an abstraction in case we want to change how id's are set.
+        /// Helper method calculating id.
         /// </summary>
         /// <returns></returns>
         private int getId()

@@ -11,7 +11,7 @@ namespace Assignment1.Mammals
         /// <summary>
         /// Method to return all enums of Mammal types
         /// </summary>
-        /// <returns></returns>        
+        /// <returns>Array of mammal types</returns>        
         public Array GetAnimalObjects()
         {
             return Enum.GetValues(typeof(MammalTypes)); 
@@ -26,7 +26,6 @@ namespace Assignment1.Mammals
         /// <param name="description">Description of mammal</param>
         /// <param name="teeth">Number of teeth of mammal</param>
         /// <returns>An instance of mammal</returns>
-
         public Animal CreateAnimal(MammalTypes mammalType, string name, int age, GenderType gender, string description, int teeth)
         {
             switch(mammalType)

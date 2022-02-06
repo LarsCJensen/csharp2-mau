@@ -11,12 +11,22 @@ namespace Assignment1.Birds
         /// <summary>
         /// Factory for birds to create animals and also to return the bird types
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Array of bird enums</returns>
         public Array GetAnimalObjects()
         {
             return Enum.GetValues(typeof(BirdTypes));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="birdType">Type of bird</param>
+        /// <param name="name">Name of animal</param>
+        /// <param name="age">Age of animal</param>
+        /// <param name="gender">Gender of animal</param>
+        /// <param name="description">Description of animal</param>
+        /// <param name="speed">Air-speed velocity of bird</param>
+        /// <returns>Instance of bird</returns>
         public Animal CreateAnimal(BirdTypes birdType, string name, int age, GenderType gender, string description, int speed)
         {
             switch (birdType)
