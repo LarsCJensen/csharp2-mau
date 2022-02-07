@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Classes\**" />
+    <Compile Remove="Enums\**" />
+    <EmbeddedResource Remove="Classes\**" />
+    <EmbeddedResource Remove="Enums\**" />
+    <None Remove="Classes\**" />
+    <None Remove="Enums\**" />
+    <Page Remove="Classes\**" />
+    <Page Remove="Enums\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Assets\bee.jpg" />
     <None Remove="Assets\blackbird.jpg" />
     <None Remove="Assets\butterfly.jpg" />
@@ -30,11 +41,6 @@
     <Resource Include="Assets\horse.jpg" />
     <Resource Include="Assets\snake.jpg" />
     <Resource Include="Assets\swallow.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Classes\" />
-    <Folder Include="Enums\" />
   </ItemGroup>
 
 </Project>

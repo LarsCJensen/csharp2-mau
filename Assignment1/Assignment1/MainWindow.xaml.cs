@@ -154,7 +154,7 @@ namespace Assignment1
                     {
                         GenderType gender = GetGender();
                         // Here I can use just parse since the value has been validated before                        
-                        animal = myMammalFactory.CreateAnimal(mammalType, txtName.Text, int.Parse(txtAge.Text), gender, txtDescription.Text, int.Parse(txtNumberOTeeth.Text));
+                        animal = myMammalFactory.CreateAnimal(mammalType, txtName.Text, int.Parse(txtAge.Text), gender, AnimalCategoryEnum.Mammals, txtDescription.Text, int.Parse(txtNumberOTeeth.Text));
                     }
                     catch (ArgumentException ex)
                     {
@@ -169,7 +169,7 @@ namespace Assignment1
                     {
                         GenderType gender = GetGender();
                         // Here I can use just parse since the value has been validated before                        
-                        animal = myBirdFactory.CreateAnimal(birdType, txtName.Text, int.Parse(txtAge.Text), gender, txtDescription.Text, int.Parse(txtAirSpeedVelocity.Text));
+                        animal = myBirdFactory.CreateAnimal(birdType, txtName.Text, int.Parse(txtAge.Text), gender, AnimalCategoryEnum.Birds, txtDescription.Text, int.Parse(txtAirSpeedVelocity.Text));
                     }
                     catch (ArgumentException ex)
                     {
@@ -184,7 +184,7 @@ namespace Assignment1
                     {
                         GenderType gender = GetGender();
                         // Here I can use just parse since the value has been validated before                        
-                        animal = myInsectFactory.CreateAnimal(insectType, txtName.Text, int.Parse(txtAge.Text), gender, txtDescription.Text, int.Parse(txtNumberOfWings.Text));
+                        animal = myInsectFactory.CreateAnimal(insectType, txtName.Text, int.Parse(txtAge.Text), gender, AnimalCategoryEnum.Insects, txtDescription.Text, int.Parse(txtNumberOfWings.Text));
                     }
                     catch (ArgumentException ex)
                     {
@@ -200,7 +200,7 @@ namespace Assignment1
                     {
                         GenderType gender = GetGender();
                         // Here I can use just parse since the value has been validated before                        
-                        animal = myReptileFactory.CreateAnimal(reptileType, txtName.Text, int.Parse(txtAge.Text), gender, txtDescription.Text, int.Parse(txtReptileLength.Text));
+                        animal = myReptileFactory.CreateAnimal(reptileType, txtName.Text, int.Parse(txtAge.Text), gender, AnimalCategoryEnum.Reptiles, txtDescription.Text, int.Parse(txtReptileLength.Text));
                     }
                     catch (ArgumentException ex)
                     {
@@ -274,6 +274,7 @@ namespace Assignment1
             {
                 lvAnimalInfo.Items.Add(new { Attribute = prop.Name, Value = prop.GetValue(animal).ToString() });
             }
+            lblAnimalInfo.Content = animal.ToString();
         }
         // Helper function to validate input. Not sure if having it in the view is best, but it is easier to have it here so we can provide user with good message        
         private bool ValidateInput(object animalCategory, object animal)
@@ -342,9 +343,10 @@ namespace Assignment1
                     }
                     break;
                 case AnimalCategoryEnum.Birds:
-                    if (string.IsNullOrEmpty(txtAirSpeedVelocity.Text))
+                    validInt = int.TryParse(txtAirSpeedVelocity.Text, out _);
+                    if (string.IsNullOrEmpty(txtAirSpeedVelocity.Text) || !validInt)                        
                     {
-                        MessageBox.Show("You must provide the air-speed velocity for the animal of type bird!", "Invalid input!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("You must provide a proper value for air-speed velocity for the animal of type bird!", "Invalid input!", MessageBoxButton.OK, MessageBoxImage.Error);
                         return false;
                     }
                     switch (animal)
@@ -366,7 +368,8 @@ namespace Assignment1
                     }
                     break;
                 case AnimalCategoryEnum.Insects:
-                    if (string.IsNullOrEmpty(txtNumberOfWings.Text))
+                    validInt = int.TryParse(txtNumberOfWings.Text, out _);
+                    if (string.IsNullOrEmpty(txtNumberOfWings.Text) || !validInt)
                     {
                         MessageBox.Show("You must provide the number of wings for the animal of type insect!", "Invalid input!", MessageBoxButton.OK, MessageBoxImage.Error);
                         return false;
@@ -390,7 +393,8 @@ namespace Assignment1
                     }
                     break;
                 case AnimalCategoryEnum.Reptiles:
-                    if (string.IsNullOrEmpty(txtReptileLength.Text))
+                    validInt = int.TryParse(txtReptileLength.Text, out _);
+                    if (string.IsNullOrEmpty(txtReptileLength.Text) || !validInt)
                     {
                         MessageBox.Show("You must provide the length for the animal of type reptile!", "Invalid input!", MessageBoxButton.OK, MessageBoxImage.Error);
                         return false;
@@ -398,7 +402,8 @@ namespace Assignment1
                     switch (animal)
                     {
                         case ReptileTypes.Crocodile:
-                            if (string.IsNullOrEmpty(txtCrodocile.Text))
+                            validInt = int.TryParse(txtCrodocile.Text, out _);
+                            if (string.IsNullOrEmpty(txtCrodocile.Text) || !validInt)
                             {
                                 MessageBox.Show("You must provide the number of killed farmers for crocodiles!", "Invalid input!", MessageBoxButton.OK, MessageBoxImage.Error);
                                 return false;

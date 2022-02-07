@@ -20,15 +20,16 @@ namespace Assignment1.Reptiles
         /// <param name="name">Name if reptile</param>
         /// <param name="age">Age if reptile</param>
         /// <param name="gender">Gender of reptile</param>
+        /// <param name="category">Category of animal</param>
         /// <param name="description">Description of reptile</param>
         /// <param name="len">Length of reptile</param>
         /// <returns>An instance of reptile</returns>
-        public Animal CreateAnimal(ReptileTypes reptileType, string name, int age, GenderType gender, string description, int len)
+        public Animal CreateAnimal(ReptileTypes reptileType, string name, int age, GenderType gender, AnimalCategoryEnum category, string description, int len)
         {
             switch (reptileType)
             {
-                case ReptileTypes.Crocodile: return new Bee(name, age, gender, description, len);
-                case ReptileTypes.Snake: return new Butterfly(name, age, gender, description, len);
+                case ReptileTypes.Crocodile: return new Crocodile(name, age, gender, category, description, len);
+                case ReptileTypes.Snake: return new Snake(name, age, gender, category, description, len);
                 default:
                     // If ReptileTypes is not found throw error
                     throw new ArgumentException("Reptile type not found!");

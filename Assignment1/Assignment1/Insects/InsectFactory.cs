@@ -19,15 +19,16 @@ namespace Assignment1.Insects
         /// <param name="name">Name of animal</param>
         /// <param name="age">Age of animal</param>
         /// <param name="gender">Gender of animal</param>
+        /// <param name="category">Category of animal</param>
         /// <param name="description">Description of animal</param>
         /// <param name="numberOfWings">Number of wings (insect)</param>
         /// <returns>An instance of insect</returns>
-        public Animal CreateAnimal(InsectTypes insectType, string name, int age, GenderType gender, string description, int numberOfWings)
+        public Animal CreateAnimal(InsectTypes insectType, string name, int age, GenderType gender, AnimalCategoryEnum category, string description, int numberOfWings)
         {
             switch (insectType)
             {
-                case InsectTypes.Bee: return new Bee(name, age, gender, description, numberOfWings);
-                case InsectTypes.Butterfly: return new Butterfly(name, age, gender, description, numberOfWings);
+                case InsectTypes.Bee: return new Bee(name, age, gender, category, description, numberOfWings);
+                case InsectTypes.Butterfly: return new Butterfly(name, age, gender, category, description, numberOfWings);
                 default:
                     // If InsectTypes is not found throw error
                     throw new ArgumentException("Insect type not found!");

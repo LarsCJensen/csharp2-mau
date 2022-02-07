@@ -64,6 +64,17 @@ namespace Assignment1
                 gender = value;
             } 
         }
+
+        private AnimalCategoryEnum category;
+        public AnimalCategoryEnum Category
+        {
+            get { 
+                return category; 
+            }
+            set { 
+                category = value; 
+            }
+        }
         private string description = "";
         public string Description {
             get 
@@ -84,13 +95,15 @@ namespace Assignment1
         /// <param name="animalName">Name of animal</param>
         /// <param name="animalAge">Age of animal</param>
         /// <param name="animalGender">Gender of animal</param>
+        /// <param name="animalCategory">Category of animal</param>
         /// <param name="animalDesc">Description of animal</param>
-        public Animal(string animalName, int animalAge, GenderType animalGender, string animalDesc)
+        public Animal(string animalName, int animalAge, GenderType animalGender, AnimalCategoryEnum animalCategory, string animalDesc)
         {
             id = getId();
             name = animalName;
             age = animalAge;
             gender = animalGender;
+            category = animalCategory;
             description = animalDesc;
 
             NumberOfAnimalsCreated++;
@@ -103,6 +116,19 @@ namespace Assignment1
         {
             idCounter = idCounter += 1;
             return idCounter;
+        }
+
+        /// <summary>
+        /// Method to print out animal information
+        /// </summary>
+        /// <returns>String of information</returns>
+        public override string ToString()
+        {
+            string strOut = string.Format("{0, -15} {1, 6}\n{2, -15} {3, 6}\n{4, -15} {5,6}\n",
+                "ID", id, "Name: ", name, "Age", age);
+            strOut += string.Format("{0, -15} {1, 6}\n{2, -15} {3, 6}\n{4, -15} {5,6}\n",
+                "Gender: ", gender.ToString(), "Category: ", category.ToString(), "Description: ", description);
+            return strOut;
         }
     }
 }

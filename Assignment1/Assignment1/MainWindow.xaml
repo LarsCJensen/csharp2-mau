@@ -141,5 +141,6 @@
             </ListView.View>
         </ListView>
         <Label x:Name="lblNumberOfAnimals" Content="Number of animals created: " Grid.Column="1" HorizontalAlignment="Left" Margin="302,266,0,0" VerticalAlignment="Top" Height="25" Width="200" Grid.ColumnSpan="3"/>
+        <Label x:Name="lblAnimalInfo" Content="Label" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Left" Height="224" Margin="209,314,0,0" VerticalAlignment="Top" Width="181"/>
     </Grid>
 </Window>
