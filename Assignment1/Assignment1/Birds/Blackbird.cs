@@ -27,13 +27,13 @@ namespace Assignment1
         /// <summary>
         /// Constructor
         /// </summary>
+        /// <param name="speed">Air-speed velocity of animal(bird)</param>
         /// <param name="name">Name of animal</param>
         /// <param name="age">Age of animal</param>
         /// <param name="gender">Gender of animal</param>
         /// <param name="category">Category of animal</param>
         /// <param name="description">Description of animal</param>
-        /// <param name="speed">Air-speed velocity of animal(bird)</param>
-        public Blackbird(string name, int age, GenderType gender, AnimalCategoryEnum category, string description, int speed) : base(speed, name, age, gender, category, description)
+        public Blackbird(int speed, string name, int age, GenderType gender, AnimalCategoryEnum category, string description) : base(speed, name, age, gender, category, description)
         {            
         }
         /// <summary>
