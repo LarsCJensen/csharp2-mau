@@ -32,8 +32,8 @@ namespace Assignment1.Birds
         {
             switch (birdType)
             {
-                case BirdTypes.Blackbird: return new Bee(name, age, gender, category, description, speed);
-                case BirdTypes.Swallow: return new Butterfly(name, age, gender, category, description, speed);
+                case BirdTypes.Blackbird: return new Blackbird(speed, name, age, gender, category, description);
+                case BirdTypes.Swallow: return new Swallow(speed, name, age, gender, category, description);
                 default:
                     // If InsectTypes is not found throw error
                     throw new ArgumentException("Bird type not found!");
