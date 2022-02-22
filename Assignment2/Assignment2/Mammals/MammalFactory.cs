@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Assignment2.Mammals
+namespace Assignment2
 {
     /// <summary>
     /// Factory for mammal types, to create animal and get types
@@ -27,14 +27,14 @@ namespace Assignment2.Mammals
         /// <param name="description">Description of mammal</param>
         /// <param name="teeth">Number of teeth of mammal</param>
         /// <returns>An instance of mammal</returns>
-        public Animal CreateAnimal(MammalTypes mammalType, string name, int age, GenderType gender, AnimalCategoryEnum category, string description, int teeth)
+        public Animal CreateAnimal(MammalTypes mammalType, string id, string name, int age, GenderType gender, AnimalCategoryEnum category, string description, int teeth)
         {
             switch(mammalType)
             {
-                case MammalTypes.Cat: return new Cat(name, age, gender, category, description, teeth);                    
-                case MammalTypes.Dog: return new Dog(name, age, gender, category, description, teeth);                    
-                case MammalTypes.Horse: return new Horse(name, age, gender, category, description, teeth);
-                case MammalTypes.Elephant: return new Elephant(name, age, gender, category, description, teeth);
+                case MammalTypes.Cat: return new Cat(id, name, age, gender, category, description, teeth);                    
+                case MammalTypes.Dog: return new Dog(id, name, age, gender, category, description, teeth);                    
+                case MammalTypes.Horse: return new Horse(id, name, age, gender, category, description, teeth);
+                case MammalTypes.Elephant: return new Elephant(id, name, age, gender, category, description, teeth);
                 default:
                     // If mammalType is not found throw error
                     throw new ArgumentException("Mammal type not found!");

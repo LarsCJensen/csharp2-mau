@@ -24,17 +24,20 @@ namespace Assignment2
                 }
             }         
         }
+        private FoodSchedule foodSchedule;
         /// <summary>
         /// Constructor
         /// </summary>
+        /// <param name="numberOfWings">Number of wings of insect</param>
+        /// <param name="id">Id of animal</param>
         /// <param name="name">Name of animal</param>
         /// <param name="age">Age of animal</param>
         /// <param name="gender">Gender of animal</param>
         /// <param name="category">Category of animal</param>
         /// <param name="description">Description of animal</param>
-        /// <param name="numberOfWings">Number of wings of insect</param>
-        public Butterfly(string name, int age, GenderType gender, AnimalCategoryEnum category, string description, int numberOfWings) : base(numberOfWings, name, age, gender, category, description)
+        public Butterfly(string id, string name, int age, GenderType gender, AnimalCategoryEnum category, string description, int numberOfWings) : base(id, name, age, gender, category, description, numberOfWings)
         {
+            SetFoodSchedule();
         }
         /// <summary>
         /// Method to print out mammal information
@@ -46,6 +49,26 @@ namespace Assignment2
             string strOut = base.ToString();
             strOut += string.Format("{0, -15} {1, 6}",
                 "Main color: ", mainColor);
+            return strOut;
+        }
+        public override FoodSchedule GetFoodSchedule()
+        {
+            return foodSchedule;
+        }
+
+        private void SetFoodSchedule()
+        {
+            foodSchedule = new FoodSchedule();
+            foodSchedule.EaterType = EaterTypeEnum.Herbivore;
+            foodSchedule.Add("Morning: Nectar");
+            foodSchedule.Add("Lunch: Nectar");
+            foodSchedule.Add("Evening: Nectar");
+        }
+        public override string GetExtraInfo()
+        {
+            string strOut = "Butterfly\n\n" + base.GetExtraInfo();
+            strOut += string.Format("{0, -15} {1, 6}",
+                "\nMain color: ", mainColor);
             return strOut;
         }
     }

@@ -22,6 +22,7 @@ namespace Assignment2
                 numberOfFarmersEaten = value;
             } 
         }
+        private FoodSchedule foodSchedule;
         /// <summary>
         /// Constructor
         /// </summary>
@@ -31,8 +32,9 @@ namespace Assignment2
         /// <param name="category">Category of animal</param>
         /// <param name="description">Description of animal</param>
         /// <param name="len">Length of animal(reptile)</param>
-        public Crocodile(string name, int age, GenderType gender, AnimalCategoryEnum category, string description, int len) : base(len, name, age, gender, category, description)
-        {            
+        public Crocodile(string id, string name, int age, GenderType gender, AnimalCategoryEnum category, string description, int len) : base(id, name, age, gender, category, description, len)
+        {
+            SetFoodSchedule();
         }
 
         /// <summary>
@@ -45,6 +47,26 @@ namespace Assignment2
             string strOut = base.ToString();
             strOut += string.Format("{0, -15} {1, 6}",
                 "Farmers eaten: ", numberOfFarmersEaten);
+            return strOut;
+        }
+        public override FoodSchedule GetFoodSchedule()
+        {
+            return foodSchedule;
+        }
+
+        private void SetFoodSchedule()
+        {
+            foodSchedule = new FoodSchedule();
+            foodSchedule.EaterType = EaterTypeEnum.Carnivore;
+            foodSchedule.Add("Morning: Farmer");
+            foodSchedule.Add("Lunch: Farmers wife");
+            foodSchedule.Add("Evening: Giraffe");
+        }
+        public override string GetExtraInfo()
+        {
+            string strOut = "Crocodile\n\n" + base.GetExtraInfo();
+            strOut += string.Format("{0, -15} {1, 6}",
+                "\nFarmers eaten: ", numberOfFarmersEaten);
             return strOut;
         }
     }

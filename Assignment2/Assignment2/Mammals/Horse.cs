@@ -22,17 +22,20 @@ namespace Assignment2
                 stableBoxNumber = value;
             }
         }
+        private FoodSchedule foodSchedule;
         /// <summary>
         /// Constructor
         /// </summary>
+        /// <param name="id">Id of animal</param>
         /// <param name="name">Name of animal</param>
         /// <param name="age">Age of animal</param>
         /// <param name="gender">Gender of animal</param>
         /// <param name="category">Category of animal</param>
         /// <param name="description">Description of animal</param>
         /// <param name="teeth">Teeth of animal(mammal)</param>
-        public Horse(string name, int age, GenderType gender, AnimalCategoryEnum category, string description, int teeth) : base(teeth, name, age, gender, category, description)
-        {         
+        public Horse(string id, string name, int age, GenderType gender, AnimalCategoryEnum category, string description, int teeth) : base(id, name, age, gender, category, description, teeth)
+        {
+            SetFoodSchedule();
         }
         /// <summary>
         /// Method to print out mammal information
@@ -45,6 +48,28 @@ namespace Assignment2
             strOut += string.Format("{0, -15} {1, 6}",
                 "Box number: ", stableBoxNumber);
             return strOut;
+        }
+
+        public override string GetExtraInfo()
+        {
+            string strOut = "Horse\n\n" + base.GetExtraInfo();
+            strOut += string.Format("{0, -15} {1, 6}",
+                "\nBox number: ", stableBoxNumber);
+            return strOut;
+        }
+        public override FoodSchedule GetFoodSchedule()
+        {
+            return foodSchedule;
+        }
+
+
+        private void SetFoodSchedule()
+        {
+            foodSchedule = new FoodSchedule();
+            foodSchedule.EaterType = EaterTypeEnum.Herbivore;
+            foodSchedule.Add("Morning: Grass");
+            foodSchedule.Add("Lunch: Hay");
+            foodSchedule.Add("Evening: Sugar");
         }
     }
 }

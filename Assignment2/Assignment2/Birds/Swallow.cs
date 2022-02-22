@@ -24,17 +24,20 @@ namespace Assignment2
                 }
             } 
         }
+        private FoodSchedule foodSchedule;
         /// <summary>
         /// Constructor
         /// </summary>
+        /// <param name="speed">Air-speed velocity of animal(bird)</param>
+        /// <param name="id">Id of animal</param>
         /// <param name="name">Name of animal</param>
         /// <param name="age">Age of animal</param>
         /// <param name="gender">Gender of animal</param>
         /// <param name="category">Category of animal</param>
         /// <param name="description">Description of animal</param>
-        /// <param name="speed">Air-speed velocity of animal(bird)</param>
-        public Swallow(int speed, string name, int age, GenderType gender, AnimalCategoryEnum category, string description) : base(speed, name, age, gender, category, description)
+        public Swallow(int speed, string id, string name, int age, GenderType gender, AnimalCategoryEnum category, string description) : base(speed, id, name, age, gender, category, description)
         {
+            SetFoodSchedule();
         }
         /// <summary>
         /// Method to print out mammal information
@@ -46,6 +49,26 @@ namespace Assignment2
             string strOut = base.ToString();
             strOut += string.Format("{0, -15} {1, 6}",
                 "Breed: ", breed);
+            return strOut;
+        }
+        public override FoodSchedule GetFoodSchedule()
+        {
+            return foodSchedule;
+        }
+
+        private void SetFoodSchedule()
+        {
+            foodSchedule = new FoodSchedule();
+            foodSchedule.EaterType = EaterTypeEnum.Herbivore;
+            foodSchedule.Add("Morning: Seeds");
+            foodSchedule.Add("Lunch: Fruit");
+            foodSchedule.Add("Evening: Coconut");
+        }
+        public override string GetExtraInfo()
+        {
+            string strOut = "Swallow\n\n" + base.GetExtraInfo();
+            strOut += string.Format("{0, -15} {1, 6}",
+                "\nBreed: ", breed);
             return strOut;
         }
     }

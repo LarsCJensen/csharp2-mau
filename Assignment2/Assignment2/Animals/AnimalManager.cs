@@ -1,26 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assignment2.Animals
+namespace Assignment2
 {
     /// <summary>
     /// Class to manage animal objects
     /// </summary>
-    class AnimalManager
+    public class AnimalManager
     {
-        public List<Animal> animalList;
-        private static int idCounter = 1000;
-        public int startId;
+        private List<Animal> animalList = new List<Animal>();
+        public List<Animal> AnimalList
+        {
+            get
+            {
+                return animalList;
+            }            
+        }
+
+        public int startId = 1000;
         public AnimalManager()
         {
 
         }
         public bool Add(Animal animal)
         {
-            return false;
+            if (animal != null)
+            {
+                animalList.Add(animal);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         public int Count()
         {
@@ -28,7 +44,7 @@ namespace Assignment2.Animals
         }
         public Animal GetAnimalAt(int index)
         {
-            return null;
+            return animalList[index];
         }
         public string GetAnimalInfoStrings()
         {
@@ -36,7 +52,6 @@ namespace Assignment2.Animals
             //by calling the ToString() method of every element of the list.
             return "None";
         }
-
         public string GetNewId(AnimalCategoryEnum category)
         {
             startId = startId += 1;
@@ -54,6 +69,9 @@ namespace Assignment2.Animals
                     return $"{startId}";
             }
         }
-
+        //public List<Animal> GetSortedList(string sortBy)
+        //{
+        //    return List<Animal>.Sort(animalList);
+        //}
     }
 }

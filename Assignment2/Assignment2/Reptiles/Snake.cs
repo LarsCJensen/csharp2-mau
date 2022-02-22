@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+
 namespace Assignment2
 {
     /// <summary>
@@ -21,17 +22,20 @@ namespace Assignment2
                 venomous = value;
             } 
         }
+        private FoodSchedule foodSchedule;
         /// <summary>
         /// Constructor
         /// </summary>
+        /// <param name="id">Id of animal</param>
         /// <param name="name">Name of animal</param>
         /// <param name="age">Age of animal</param>
         /// <param name="gender">Gender of animal</param>
         /// <param name="category">Category of animal</param>
         /// <param name="description">Description of animal</param>
         /// <param name="len">Length of animal(reptile)</param>
-        public Snake(string name, int age, GenderType gender, AnimalCategoryEnum category, string description, int len) : base(len, name, age, gender, category, description)
+        public Snake(string id, string name, int age, GenderType gender, AnimalCategoryEnum category, string description, int len) : base(id, name, age, gender, category, description, len)
         {
+            SetFoodSchedule();
         }
 
         /// <summary>
@@ -44,6 +48,26 @@ namespace Assignment2
             string strOut = base.ToString();
             strOut += string.Format("{0, -15} {1, 6}",
                 "Venomous: ", venomous.ToString());
+            return strOut;
+        }
+        public override FoodSchedule GetFoodSchedule()
+        {
+            return foodSchedule;
+        }
+
+        private void SetFoodSchedule()
+        {
+            foodSchedule = new FoodSchedule();
+            foodSchedule.EaterType = EaterTypeEnum.Carnivore;
+            foodSchedule.Add("Morning: Man");
+            foodSchedule.Add("Lunch: Nothing (digesting)");
+            foodSchedule.Add("Evening: Nothing (digesting)");
+        }
+        public override string GetExtraInfo()
+        {
+            string strOut = "Snake\n\n" + base.GetExtraInfo();
+            strOut += string.Format("{0, -15} {1, 6}",
+                "\nVenomous: ", venomous.ToString());
             return strOut;
         }
     }

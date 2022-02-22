@@ -22,30 +22,57 @@ namespace Assignment2
                 indoor = value;
             }
         }
+        private FoodSchedule foodSchedule;
+
         /// <summary>
         /// Constructor
         /// </summary>
+        /// <param name="id">Id of animal</param>
         /// <param name="name">Name of animal</param>
         /// <param name="age">Age of animal</param>
         /// <param name="gender">Gender of animal</param>
         /// <param name="category">Category of animal</param>
         /// <param name="description">Description of animal</param>
         /// <param name="teeth">Teeth of animal(mammal)</param>
-        public Cat(string name, int age, GenderType gender, AnimalCategoryEnum category, string description, int teeth) : base(teeth, name, age, gender, category, description)
+        public Cat(string id, string name, int age, GenderType gender, AnimalCategoryEnum category, string description, int teeth) : base(id, name, age, gender, category, description, teeth)
         {
+            SetFoodSchedule();
         }
 
         /// <summary>
         /// Method to print out mammal information
         /// </summary>
         /// <returns>String of information</returns>
-        public override string ToString()
+        //public override string ToString()
+        //{
+        //    // First gets base class ToString information
+        //    string strOut = base.ToString();
+        //    strOut += string.Format("{0, -15} {1, 6}",
+        //        "Indoor: ", indoor.ToString());
+        //    return strOut;
+        //}
+
+        public override string GetExtraInfo()
         {
-            // First gets base class ToString information
-            string strOut = base.ToString();
+            string strOut = "Cat\n\n" + base.GetExtraInfo();
             strOut += string.Format("{0, -15} {1, 6}",
-                "Indoor: ", indoor.ToString());
+                "\nIndoor: ", indoor.ToString());
             return strOut;
+        }
+
+        public override FoodSchedule GetFoodSchedule()
+        {
+            return foodSchedule;
+        }
+
+        
+        private void SetFoodSchedule()
+        {
+            foodSchedule = new FoodSchedule();
+            foodSchedule.EaterType = EaterTypeEnum.Carnivore;
+            foodSchedule.Add("Morning: Tuna");
+            foodSchedule.Add("Lunch: Chicken");
+            foodSchedule.Add("Evening: Cucumber");
         }
     }
 }

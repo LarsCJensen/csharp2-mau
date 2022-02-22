@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Assignment2.Animals
+namespace Assignment2
 {
-    public abstract class Animal: IAnimal
+    public abstract class Animal: IAnimal, IComparable<Animal>
     {
         /// <summary>
         /// Class which holds general fields and methods for all animals
@@ -27,8 +27,7 @@ namespace Assignment2.Animals
                 if(value != string.Empty)
                 {
                     id = value;
-                }
-                    
+                }                    
             }
         }
 
@@ -86,7 +85,7 @@ namespace Assignment2.Animals
         public string Description { 
             get
             {
-                return description
+                return description;
             }
             set
             {
@@ -97,7 +96,15 @@ namespace Assignment2.Animals
             }
         }
         public abstract FoodSchedule GetFoodSchedule();
-        // The abstract method GetFoodSchedule()  needs not  be implemented  in  the  base  classes(Mammal, etc.), but it must be implemented in the sub classes thereof, e.g.Dog, Cat, Falcon, etc.
+        /// <summary>
+        /// Default sort method
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public int CompareTo(Animal other)
+        {
+            return String.Compare(this.name, other.name);
+        }
 
         /// <summary>
         /// Constructor
@@ -124,14 +131,14 @@ namespace Assignment2.Animals
         /// Method to print out animal information
         /// </summary>
         /// <returns>String of information</returns>
-        public override string ToString()
-        {
-            string strOut = string.Format("{0, -15} {1, 6}\n{2, -15} {3, 6}\n{4, -15} {5,6}\n",
-                "ID", id, "Name: ", name, "Age", age);
-            strOut += string.Format("{0, -15} {1, 6}\n{2, -15} {3, 6}\n{4, -15} {5,6}\n",
-                "Gender: ", gender.ToString(), "Category: ", category.ToString(), "Description: ", description);
-            return strOut;
-        }
+        //public override string ToString()
+        //{
+        //    string strOut = string.Format("{0, -15} {1, 6}\n{2, -15} {3, 6}\n{4, -15} {5,6}\n",
+        //        "ID", id, "Name: ", name, "Age", age);
+        //    strOut += string.Format("{0, -15} {1, 6}\n{2, -15} {3, 6}\n{4, -15} {5,6}\n",
+        //        "Gender: ", gender.ToString(), "Category: ", category.ToString(), "Description: ", description);
+        //    return strOut;
+        //}
 
         public virtual string GetExtraInfo() {
             // The virtual method GetExraInfo is intended to contain a string with values from the
@@ -139,10 +146,16 @@ namespace Assignment2.Animals
             // about the instances variables defined in the Dog class (e.g.Breed) as well as data in the
             // Mammal class.  (numOfTeeth, tailLength).  This method can be overridden in a concrete
             // class such as the Dog class. 
-            string strOut = string.Empty; 
-            strOut = string.Format("{0,-15} {1, 10}\n", "Category:", category.ToString()); 
+            string strOut = string.Format("{0, -15} {1, 6}\n",
+                "Category: ", category);
+            strOut += string.Format("{0, -15}\n",
+                "Description: ");
+            strOut += string.Format("{0, -15}\n\n",
+                description);
+
             return strOut; 
         }
+
         
     }
 }

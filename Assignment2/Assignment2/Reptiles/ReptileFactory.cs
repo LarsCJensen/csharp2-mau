@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Assignment2.Reptiles
+namespace Assignment2
 {
     class ReptileFactory
     {
@@ -24,12 +24,12 @@ namespace Assignment2.Reptiles
         /// <param name="description">Description of reptile</param>
         /// <param name="len">Length of reptile</param>
         /// <returns>An instance of reptile</returns>
-        public Animal CreateAnimal(ReptileTypes reptileType, string name, int age, GenderType gender, AnimalCategoryEnum category, string description, int len)
+        public Animal CreateAnimal(ReptileTypes reptileType, string id, string name, int age, GenderType gender, AnimalCategoryEnum category, string description, int len)
         {
             switch (reptileType)
             {
-                case ReptileTypes.Crocodile: return new Crocodile(name, age, gender, category, description, len);
-                case ReptileTypes.Snake: return new Snake(name, age, gender, category, description, len);
+                case ReptileTypes.Crocodile: return new Crocodile(id, name, age, gender, category, description, len);
+                case ReptileTypes.Snake: return new Snake(id, name, age, gender, category, description, len);
                 default:
                     // If ReptileTypes is not found throw error
                     throw new ArgumentException("Reptile type not found!");
