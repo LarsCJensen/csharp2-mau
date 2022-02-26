@@ -28,6 +28,9 @@ namespace Assignment2
         private ReptileFactory myReptileFactory = new ReptileFactory();
         private InsectFactory myInsectFactory = new InsectFactory();
         private Animal animal = null;
+        private string sortColumn;
+        private bool sortDescending = false;
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -578,11 +581,118 @@ namespace Assignment2
         }
         private void lvAnimalList_Click(object sender, RoutedEventArgs e)
         {
-
+            
             GridViewColumnHeader column = (sender as GridViewColumnHeader);
-            string sortBy = column.Tag.ToString();
-            animalManager.AnimalList.Sort();
+            // If sorting is done on the same columt, sort by descending                        
+            if (sortDescending && sortColumn == column.Tag.ToString())
+            {
+                sortDescending = false;
+            } else if (!sortDescending && sortColumn == column.Tag.ToString()) 
+            {
+                sortDescending = true;
+            }
+            else
+            {
+                sortDescending = false;
+            }
+            sortColumn = column.Tag.ToString();
+            switch (sortColumn)
+            {
+                case "Age":
+                    if(sortDescending)
+                    {
+                        animalManager.AnimalList.Sort((Animal x, Animal y) =>
+                        y.Age.CompareTo(x.Age));
+                    } else
+                    {
+                        animalManager.AnimalList.Sort((Animal x, Animal y) =>
+                        x.Age.CompareTo(y.Age));
+                    }
+                    
+                    break;
+                case "ID":
+                    if (sortDescending)
+                    {
+                        animalManager.AnimalList.Sort((Animal x, Animal y) =>
+                            y.Id.CompareTo(x.Id));
+                    }
+                    else
+                    {
+                        animalManager.AnimalList.Sort((Animal x, Animal y) =>
+                        x.Id.CompareTo(y.Id));
+                    }
+                        
+                    break;
+                case "Gender":
+                    if (sortDescending)
+                    {
+                        animalManager.AnimalList.Sort((Animal x, Animal y) =>
+                        y.Gender.ToString().CompareTo(x.Gender.ToString()));
+                    } else
+                    {
+                        animalManager.AnimalList.Sort((Animal x, Animal y) =>
+                        x.Gender.ToString().CompareTo(y.Gender.ToString()));
+                    }
+                        
+                    break;
+                default:
+                    if (sortDescending)
+                    {
+                        animalManager.AnimalList.Sort((Animal x, Animal y) =>
+                        y.Name.CompareTo(x.Name));
+                    }
+                    else
+                    {
+                        animalManager.AnimalList.Sort();
+                    }
+                    break;
+            }
+            
             ListOfAnimals = new ObservableCollection<Animal>(animalManager.AnimalList);            
+        }
+
+        private void btnCreateAnimalsForTest_Click(object sender, RoutedEventArgs e)
+        {
+            
+            for (int i = 0; i < 3; i++)
+            {
+                AnimalCategoryEnum animalCat;
+                Animal animal = null;
+                if (i==0)
+                {
+                    MammalFactory mammalFactory = new MammalFactory();
+                    animalCat = (AnimalCategoryEnum)i;
+                    MammalTypes mammalType = MammalTypes.Dog;
+                    string id = animalManager.GetNewId(animalCat);
+                    GenderType gender = (GenderType)i;
+                    animal = mammalFactory.CreateAnimal(mammalType, id, "Name" + i.ToString(), 14, gender, animalCat, "Description " + i.ToString(), 24);
+                    ((Dog)animal).Breed = "Samojed";
+                    animalManager.Add(animal);
+                }
+                if(i == 1)
+                {
+                    InsectFactory insectFactory = new InsectFactory();
+                    animalCat = (AnimalCategoryEnum)i;
+                    InsectTypes insectType = InsectTypes.Butterfly;
+                    string id = animalManager.GetNewId(animalCat);
+                    GenderType gender = (GenderType)i;
+                    animal = insectFactory.CreateAnimal(insectType, id, "Name" + i.ToString(), 4, gender, animalCat, "Description " + i.ToString(), 2);
+                    ((Butterfly)animal).MainColor = "Blue";
+                    animalManager.Add(animal);
+                }
+                if (i == 2)
+                {
+                    ReptileFactory reptileFactory = new ReptileFactory();
+                    animalCat = (AnimalCategoryEnum)i;
+                    ReptileTypes reptileType = ReptileTypes.Crocodile;
+                    string id = animalManager.GetNewId(animalCat);
+                    GenderType gender = (GenderType)i;
+                    animal = reptileFactory.CreateAnimal(reptileType, id, "Name" + i.ToString(), 10, gender, animalCat, "Description " + i.ToString(), 120);
+                    ((Crocodile)animal).NumberOfFarmersEaten = 12;
+                    animalManager.Add(animal);
+                }
+            }
+            ListOfAnimals = new ObservableCollection<Animal>(animalManager.AnimalList);
         }
     }
 }

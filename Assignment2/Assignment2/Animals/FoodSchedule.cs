@@ -10,39 +10,23 @@ namespace Assignment2
     {
         private List<string> foodList = new List<string>();
 
-        private EaterTypeEnum eaterType;
-        public EaterTypeEnum EaterType
-        {
-            get
-            {
-                return eaterType;
-            }
-            set
-            {
-                eaterType = value;
-            }
-        }
-        private int count;
-        public int Count
-        {
-            get
-            {
-                return count;
-            }
-        }
+        public EaterTypeEnum EaterType { get; set; }
+
+        public int Count { get; private set; }
         public FoodSchedule() { }
         public void Add(string item)
         {
             foodList.Add(item);
+            Count += 1;
         }
         /// <summary>
         /// Edit schedule
         /// </summary>
-        /// <param name="index">index of schedule to edit</param>
+        /// <param index="index">index of schedule to edit</param>
         /// <param name="foodSchedule">food schedule to edit</param>
-        public void EditRecipe(int index, FoodSchedule foodSchedule)
+        public void EditFoodSchedule(int index, FoodSchedule foodSchedule)
         {
-            //recipes[index] = recipe;
+            //foodList[index] = foodSchedule;
         }
         public bool CheckIndex(int index)
         {
@@ -52,7 +36,7 @@ namespace Assignment2
         /// Delete food schedule
         /// </summary>
         /// <param name="index">Index of food schedule to delete</param>
-        public void DeleteRecipe(int index)
+        public void DeleteFoodSchedule(int index)
         {
             //recipes[recipeIndex] = null;
             //ArrangeRecipes(recipeIndex);
