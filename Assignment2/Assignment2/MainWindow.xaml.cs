@@ -5,10 +5,10 @@
 using Microsoft.Win32;
 using System;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -649,6 +649,13 @@ namespace Assignment2
         /// <param name="e"></param>
         private void lvAnimalList_Click(object sender, RoutedEventArgs e)
         {
+            // If animalManager.AnimalList wasn't public we could do like this
+            //List<Animal> animalList = new List<Animal>();
+            //for(int i = 0; i < animalManager.Count(); i++)
+            //{
+            //    // Fill list with animals and use that to sort instead.
+            //    animalList.Add(animalManager.GetAnimalAt(i));
+            //}
             
             GridViewColumnHeader column = (sender as GridViewColumnHeader);
             // If sorting is done on the same column, sort by descending                        

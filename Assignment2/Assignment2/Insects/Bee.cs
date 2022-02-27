@@ -49,7 +49,7 @@ namespace Assignment2
             // First gets base class ToString information
             string strOut = base.ToString();
             strOut += string.Format("{0, -15} {1, 6}",
-                "Hive number: ", beeHiveNumber);
+                "\nHive number: ", beeHiveNumber);
             return strOut;
         }
         public override FoodSchedule GetFoodSchedule()

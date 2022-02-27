@@ -46,7 +46,7 @@ namespace Assignment2
             // First gets base class ToString information
             string strOut = base.ToString();
             strOut += string.Format("{0, -15} {1, 6}",
-                "Box number: ", stableBoxNumber);
+                "\nBox number: ", stableBoxNumber);
             return strOut;
         }
         /// <summary>

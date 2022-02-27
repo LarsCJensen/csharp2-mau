@@ -66,8 +66,6 @@ namespace Assignment2
         /// <returns></returns>
         public string[] GetAnimalInfoStrings()
         {
-            //The method GetAnimalInfoStrings returns  an array(string[])
-            //by calling the ToString() method of every element of the list.
             string[] infoStrings = new string[Count()];
             for(int i = 0; i < Count(); i++)
             {
