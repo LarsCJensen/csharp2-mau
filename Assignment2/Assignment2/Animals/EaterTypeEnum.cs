@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Assignment2
 {
+    /// <summary>
+    /// Enum for eater type
+    /// </summary>
     public enum EaterTypeEnum
     {
         Carnivore,

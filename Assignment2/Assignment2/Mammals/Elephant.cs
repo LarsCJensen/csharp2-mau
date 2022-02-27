@@ -49,7 +49,10 @@ namespace Assignment2
                 "Location: ", location);
             return strOut;
         }
-
+        /// <summary>
+        /// Method to return information about animal
+        /// </summary>
+        /// <returns>String of information</returns>
         public override string GetExtraInfo()
         {
             string strOut = "Elephant\n\n" + base.GetExtraInfo();
@@ -62,14 +65,16 @@ namespace Assignment2
             return foodSchedule;
         }
 
-
+        /// <summary>
+        /// Method to set food schedule
+        /// </summary>
         private void SetFoodSchedule()
         {
             foodSchedule = new FoodSchedule();
             foodSchedule.EaterType = EaterTypeEnum.Carnivore;
-            foodSchedule.Add("Morning: Tuna");
-            foodSchedule.Add("Lunch: Chicken");
-            foodSchedule.Add("Evening: Cucumber");
+            foodSchedule.Add("Morning: Grass");
+            foodSchedule.Add("Lunch: Grass");
+            foodSchedule.Add("Evening: Icecream");
         }
     }
 }

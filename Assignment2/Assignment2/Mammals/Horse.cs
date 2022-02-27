@@ -49,7 +49,10 @@ namespace Assignment2
                 "Box number: ", stableBoxNumber);
             return strOut;
         }
-
+        /// <summary>
+        /// Method to return information about animal
+        /// </summary>
+        /// <returns>String of information</returns>
         public override string GetExtraInfo()
         {
             string strOut = "Horse\n\n" + base.GetExtraInfo();
@@ -57,11 +60,14 @@ namespace Assignment2
                 "\nBox number: ", stableBoxNumber);
             return strOut;
         }
+
         public override FoodSchedule GetFoodSchedule()
         {
             return foodSchedule;
         }
-
+        /// <summary>
+        /// Method to set food schedule
+        /// </summary>
 
         private void SetFoodSchedule()
         {

@@ -52,7 +52,10 @@ namespace Assignment2
                 "Breed: ", breed);
             return strOut;
         }
-
+        /// <summary>
+        /// Method to print out information
+        /// </summary>
+        /// <returns>String of information</returns>
         public override string GetExtraInfo()
         {
             string strOut = "Dog\n\n" + base.GetExtraInfo();
@@ -64,6 +67,9 @@ namespace Assignment2
         {
             return foodSchedule;
         }
+        /// <summary>
+        /// Method to set food schedule
+        /// </summary>
         private void SetFoodSchedule()
         {
             foodSchedule = new FoodSchedule();

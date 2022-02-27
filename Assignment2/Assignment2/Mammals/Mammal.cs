@@ -43,19 +43,22 @@ namespace Assignment2
         /// Method to print out mammal information
         /// </summary>
         /// <returns>String of information</returns>
-        //public override string ToString()
-        //{
-        //    // First gets base class ToString information
-        //    string strOut = base.ToString();
-        //    strOut += string.Format("{0, -15} {1, 6}",
-        //        "\nNumber of teeth: ", numberOfTeeth);
-        //    return strOut;
-        //}
-
+        public override string ToString()
+        {
+            // First gets base class ToString information
+            string strOut = base.ToString();
+            strOut += string.Format("{0, -15} {1, 6}",
+                "\nNumber of teeth: ", numberOfTeeth);
+            return strOut;
+        }
+        /// <summary>
+        /// Method to return information about animal
+        /// </summary>
+        /// <returns>String of information</returns>
         public override string GetExtraInfo()
         {
             string strOut = base.GetExtraInfo();
-            strOut += string.Format("{0, -15} {1, 6}\n",
+            strOut += string.Format("{0, -15} {1, 6}",
                 "Number of teeth: ", numberOfTeeth);
             return strOut;
         }

@@ -52,5 +52,16 @@ namespace Assignment2
                 "Length: ", length);
             return strOut;
         }
+        /// <summary>
+        /// Method to return information about animal
+        /// </summary>
+        /// <returns>String of information</returns>
+        public override string GetExtraInfo()
+        {
+            string strOut = base.GetExtraInfo();
+            strOut += string.Format("{0, -15} {1, 6}",
+                "Length: ", length);
+            return strOut;
+        }
     }
 }

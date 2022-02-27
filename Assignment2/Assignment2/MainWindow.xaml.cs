@@ -1,5 +1,5 @@
 ﻿/**
- * Lars Jensen 2022-02-05
+ * Lars Jensen 2022-02-27
  */
 
 using Microsoft.Win32;
@@ -57,6 +57,7 @@ namespace Assignment2
         public MainWindow()
         {
             InitializeComponent();
+            // To make it possible to bind ListOf
             DataContext = this;
             InitializeGUI();
         }
@@ -104,13 +105,19 @@ namespace Assignment2
             txtReptileLength.Text = String.Empty;
             chkVenomous.IsChecked = false;
             txtCrodocile.Text = String.Empty;
+            chkListAllAnimals.IsChecked = false;
+            lstCategoryType.IsEnabled = true;
         }
 
 
         // Function for category change event
         private void lstCategoryType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // Get animals of selected type
+            // Get animals of selected type if not List all animals is checked
+            if(chkListAllAnimals.IsChecked == true)
+            {
+                return;
+            }
             Array items = null;
             switch (lstCategoryType.SelectedItem)
             {
@@ -441,7 +448,12 @@ namespace Assignment2
             switch (lstAnimalObject.SelectedItem)
             {
                 case MammalTypes.Dog:
+                    lstCategoryType.SelectedItem = AnimalCategoryEnum.Mammals;
                     // I probably should move this to a helper function that loops through the stack panels in the containing grid
+                    grpMammalCategorySpec.Visibility = Visibility.Visible;
+                    grpBirdCategorySpec.Visibility = Visibility.Collapsed;
+                    grpInsectCategorySpec.Visibility = Visibility.Collapsed;
+                    grpReptileCategorySpec.Visibility = Visibility.Collapsed;
                     stackDog.Visibility = Visibility.Visible;
                     stackCat.Visibility = Visibility.Collapsed;
                     stackHorse.Visibility = Visibility.Collapsed;
@@ -450,6 +462,11 @@ namespace Assignment2
                     imgAnimal.Source = new BitmapImage(new Uri(@"pack://application:,,,/assets/dog.jpg", UriKind.Absolute));
                     break;
                 case MammalTypes.Cat:
+                    lstCategoryType.SelectedItem = AnimalCategoryEnum.Mammals;
+                    grpMammalCategorySpec.Visibility = Visibility.Visible;
+                    grpBirdCategorySpec.Visibility = Visibility.Collapsed;
+                    grpInsectCategorySpec.Visibility = Visibility.Collapsed;
+                    grpReptileCategorySpec.Visibility = Visibility.Collapsed;
                     stackDog.Visibility = Visibility.Collapsed;
                     stackCat.Visibility = Visibility.Visible;
                     stackHorse.Visibility = Visibility.Collapsed;
@@ -457,6 +474,11 @@ namespace Assignment2
                     imgAnimal.Source = new BitmapImage(new Uri(@"pack://application:,,,/assets/cat.jpg", UriKind.Absolute));
                     break;
                 case MammalTypes.Horse:
+                    lstCategoryType.SelectedItem = AnimalCategoryEnum.Mammals;
+                    grpMammalCategorySpec.Visibility = Visibility.Visible;
+                    grpBirdCategorySpec.Visibility = Visibility.Collapsed;
+                    grpInsectCategorySpec.Visibility = Visibility.Collapsed;
+                    grpReptileCategorySpec.Visibility = Visibility.Collapsed;
                     stackDog.Visibility = Visibility.Collapsed;
                     stackCat.Visibility = Visibility.Collapsed;
                     stackHorse.Visibility = Visibility.Visible;
@@ -464,6 +486,11 @@ namespace Assignment2
                     imgAnimal.Source = new BitmapImage(new Uri(@"pack://application:,,,/assets/horse.jpg", UriKind.Absolute));
                     break;
                 case MammalTypes.Elephant:
+                    lstCategoryType.SelectedItem = AnimalCategoryEnum.Mammals;
+                    grpMammalCategorySpec.Visibility = Visibility.Visible;
+                    grpBirdCategorySpec.Visibility = Visibility.Collapsed;
+                    grpInsectCategorySpec.Visibility = Visibility.Collapsed;
+                    grpReptileCategorySpec.Visibility = Visibility.Collapsed;
                     stackDog.Visibility = Visibility.Collapsed;
                     stackCat.Visibility = Visibility.Collapsed;
                     stackHorse.Visibility = Visibility.Collapsed;
@@ -471,31 +498,61 @@ namespace Assignment2
                     imgAnimal.Source = new BitmapImage(new Uri(@"pack://application:,,,/assets/elephant.jpg", UriKind.Absolute));
                     break;
                 case BirdTypes.Swallow:
+                    lstCategoryType.SelectedItem = AnimalCategoryEnum.Birds;
+                    grpMammalCategorySpec.Visibility = Visibility.Collapsed;
+                    grpBirdCategorySpec.Visibility = Visibility.Visible;
+                    grpInsectCategorySpec.Visibility = Visibility.Collapsed;
+                    grpReptileCategorySpec.Visibility = Visibility.Collapsed;
                     stackSwallow.Visibility = Visibility.Visible;
                     stackBlackbird.Visibility = Visibility.Collapsed;
                     imgAnimal.Source = new BitmapImage(new Uri(@"pack://application:,,,/assets/swallow.jpg", UriKind.Absolute));
                     break;
                 case BirdTypes.Blackbird:
+                    lstCategoryType.SelectedItem = AnimalCategoryEnum.Birds;
+                    grpMammalCategorySpec.Visibility = Visibility.Collapsed;
+                    grpBirdCategorySpec.Visibility = Visibility.Visible;
+                    grpInsectCategorySpec.Visibility = Visibility.Collapsed;
+                    grpReptileCategorySpec.Visibility = Visibility.Collapsed;
                     stackSwallow.Visibility = Visibility.Collapsed;
                     stackBlackbird.Visibility = Visibility.Visible;
                     imgAnimal.Source = new BitmapImage(new Uri(@"pack://application:,,,/assets/blackbird.jpg", UriKind.Absolute));
                     break;
                 case InsectTypes.Butterfly:
+                    lstCategoryType.SelectedItem = AnimalCategoryEnum.Insects;
+                    grpMammalCategorySpec.Visibility = Visibility.Collapsed;
+                    grpBirdCategorySpec.Visibility = Visibility.Collapsed;
+                    grpInsectCategorySpec.Visibility = Visibility.Visible;
+                    grpReptileCategorySpec.Visibility = Visibility.Collapsed;
                     stackButterfly.Visibility = Visibility.Visible;
                     stackBee.Visibility = Visibility.Collapsed;
                     imgAnimal.Source = new BitmapImage(new Uri(@"pack://application:,,,/assets/butterfly.jpg", UriKind.Absolute));
                     break;
                 case InsectTypes.Bee:
+                    lstCategoryType.SelectedItem = AnimalCategoryEnum.Insects;
+                    grpMammalCategorySpec.Visibility = Visibility.Collapsed;
+                    grpBirdCategorySpec.Visibility = Visibility.Collapsed;
+                    grpInsectCategorySpec.Visibility = Visibility.Visible;
+                    grpReptileCategorySpec.Visibility = Visibility.Collapsed;
                     stackButterfly.Visibility = Visibility.Collapsed;
                     stackBee.Visibility = Visibility.Visible;
                     imgAnimal.Source = new BitmapImage(new Uri(@"pack://application:,,,/assets/bee.jpg", UriKind.Absolute));
                     break;
                 case ReptileTypes.Crocodile:
+                    lstCategoryType.SelectedItem = AnimalCategoryEnum.Reptiles;
+                    grpMammalCategorySpec.Visibility = Visibility.Collapsed;
+                    grpBirdCategorySpec.Visibility = Visibility.Collapsed;
+                    grpInsectCategorySpec.Visibility = Visibility.Collapsed;
+                    grpReptileCategorySpec.Visibility = Visibility.Visible;
                     stackCrocodile.Visibility = Visibility.Visible;
                     stackSnake.Visibility = Visibility.Collapsed;
                     imgAnimal.Source = new BitmapImage(new Uri(@"pack://application:,,,/assets/crocodile.jpg", UriKind.Absolute));
                     break;
                 case ReptileTypes.Snake:
+                    lstCategoryType.SelectedItem = AnimalCategoryEnum.Reptiles;
+                    grpMammalCategorySpec.Visibility = Visibility.Collapsed;
+                    grpBirdCategorySpec.Visibility = Visibility.Collapsed;
+                    grpInsectCategorySpec.Visibility = Visibility.Collapsed;
+                    grpReptileCategorySpec.Visibility = Visibility.Visible;
                     stackCrocodile.Visibility = Visibility.Collapsed;
                     stackSnake.Visibility = Visibility.Visible;
                     imgAnimal.Source = new BitmapImage(new Uri(@"pack://application:,,,/assets/snake.jpg", UriKind.Absolute));
@@ -512,21 +569,21 @@ namespace Assignment2
             if ((bool)(sender as CheckBox).IsChecked)
             {
                 lstCategoryType.IsEnabled = false;
-                btnAdd.IsEnabled = false;
-                grpMammalCategorySpec.Visibility = Visibility.Collapsed;
-                grpBirdCategorySpec.Visibility = Visibility.Collapsed;
-                grpInsectCategorySpec.Visibility = Visibility.Collapsed;
-                grpReptileCategorySpec.Visibility = Visibility.Collapsed;
-                stackDog.Visibility = Visibility.Collapsed;
-                stackCat.Visibility = Visibility.Collapsed;
-                stackHorse.Visibility = Visibility.Collapsed;
-                stackElephant.Visibility = Visibility.Collapsed;
-                stackCrocodile.Visibility = Visibility.Collapsed;
-                stackSnake.Visibility = Visibility.Collapsed;
-                stackButterfly.Visibility = Visibility.Collapsed;
-                stackBee.Visibility = Visibility.Collapsed;
-                stackSwallow.Visibility = Visibility.Collapsed;
-                stackBlackbird.Visibility = Visibility.Collapsed;
+                //btnAdd.IsEnabled = false;
+                //grpMammalCategorySpec.Visibility = Visibility.Collapsed;
+                //grpBirdCategorySpec.Visibility = Visibility.Collapsed;
+                //grpInsectCategorySpec.Visibility = Visibility.Collapsed;
+                //grpReptileCategorySpec.Visibility = Visibility.Collapsed;
+                //stackDog.Visibility = Visibility.Collapsed;
+                //stackCat.Visibility = Visibility.Collapsed;
+                //stackHorse.Visibility = Visibility.Collapsed;
+                //stackElephant.Visibility = Visibility.Collapsed;
+                //stackCrocodile.Visibility = Visibility.Collapsed;
+                //stackSnake.Visibility = Visibility.Collapsed;
+                //stackButterfly.Visibility = Visibility.Collapsed;
+                //stackBee.Visibility = Visibility.Collapsed;
+                //stackSwallow.Visibility = Visibility.Collapsed;
+                //stackBlackbird.Visibility = Visibility.Collapsed;
                 imgAnimal.Source = null;
                 AddItemsToAnimalListbox(myMammalFactory.GetAnimalObjects());
                 AddItemsToAnimalListbox(myBirdFactory.GetAnimalObjects());
@@ -560,7 +617,9 @@ namespace Assignment2
                 imgAnimal.Source = new BitmapImage(new Uri(dialog.FileName, UriKind.Absolute));
             }
         }
+        
         // Function to clear all controls of input
+        // Not used
         private void ClearControls()
         {
             foreach (Control ctl in mainGrid.Children)
@@ -573,17 +632,26 @@ namespace Assignment2
                     ((RadioButton)ctl).IsChecked = false;
             }
         }
-
+        /// <summary>
+        /// Function which are called upon selection changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void lvAnimalList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int index = lvAnimalList.SelectedIndex;
             DisplayAnimalInfo(index);
         }
+        /// <summary>
+        /// Method for sorting upon click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void lvAnimalList_Click(object sender, RoutedEventArgs e)
         {
             
             GridViewColumnHeader column = (sender as GridViewColumnHeader);
-            // If sorting is done on the same columt, sort by descending                        
+            // If sorting is done on the same column, sort by descending                        
             if (sortDescending && sortColumn == column.Tag.ToString())
             {
                 sortDescending = false;
@@ -599,6 +667,7 @@ namespace Assignment2
             switch (sortColumn)
             {
                 case "Age":
+                    // Sort by age
                     if(sortDescending)
                     {
                         animalManager.AnimalList.Sort((Animal x, Animal y) =>
@@ -611,6 +680,7 @@ namespace Assignment2
                     
                     break;
                 case "ID":
+                    // Sort by id
                     if (sortDescending)
                     {
                         animalManager.AnimalList.Sort((Animal x, Animal y) =>
@@ -624,6 +694,7 @@ namespace Assignment2
                         
                     break;
                 case "Gender":
+                    // Sort by gender
                     if (sortDescending)
                     {
                         animalManager.AnimalList.Sort((Animal x, Animal y) =>
@@ -636,6 +707,7 @@ namespace Assignment2
                         
                     break;
                 default:
+                    // Sort by name
                     if (sortDescending)
                     {
                         animalManager.AnimalList.Sort((Animal x, Animal y) =>
@@ -647,10 +719,14 @@ namespace Assignment2
                     }
                     break;
             }
-            
+            // Recreate ListOfAnimals from the newly sorted list
             ListOfAnimals = new ObservableCollection<Animal>(animalManager.AnimalList);            
         }
-
+        /// <summary>
+        /// Just a helper method to create animal objects
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnCreateAnimalsForTest_Click(object sender, RoutedEventArgs e)
         {
             

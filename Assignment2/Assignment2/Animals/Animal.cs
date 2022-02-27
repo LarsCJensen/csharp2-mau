@@ -22,8 +22,6 @@ namespace Assignment2
             }
             set
             {
-                // TODO
-                // Should we set id here with prefix?
                 if(value != string.Empty)
                 {
                     id = value;
@@ -126,26 +124,25 @@ namespace Assignment2
             NumberOfAnimalsCreated++;
         }
 
-        
+
         /// <summary>
         /// Method to print out animal information
         /// </summary>
         /// <returns>String of information</returns>
-        //public override string ToString()
-        //{
-        //    string strOut = string.Format("{0, -15} {1, 6}\n{2, -15} {3, 6}\n{4, -15} {5,6}\n",
-        //        "ID", id, "Name: ", name, "Age", age);
-        //    strOut += string.Format("{0, -15} {1, 6}\n{2, -15} {3, 6}\n{4, -15} {5,6}\n",
-        //        "Gender: ", gender.ToString(), "Category: ", category.ToString(), "Description: ", description);
-        //    return strOut;
-        //}
+        public override string ToString()
+        {
+            string strOut = string.Format("{0, -15} {1, 6}\n{2, -15} {3, 6}\n{4, -15} {5,6}\n",
+                "ID", id, "Name: ", name, "Age", age);
+            strOut += string.Format("{0, -15} {1, 6}\n{2, -15} {3, 6}\n{4, -15} {5,6}\n",
+                "Gender: ", gender.ToString(), "Category: ", category.ToString(), "Description: ", description);
+            return strOut;
+        }
 
+        /// <summary>
+        /// Method to return information about animal
+        /// </summary>
+        /// <returns>String of information</returns>
         public virtual string GetExtraInfo() {
-            // The virtual method GetExraInfo is intended to contain a string with values from the
-            // category-level classes(Mammals, etc.).  For example, a  Dog class must  give information
-            // about the instances variables defined in the Dog class (e.g.Breed) as well as data in the
-            // Mammal class.  (numOfTeeth, tailLength).  This method can be overridden in a concrete
-            // class such as the Dog class. 
             string strOut = string.Format("{0, -15} {1, 6}\n",
                 "Category: ", category);
             strOut += string.Format("{0, -15}\n",

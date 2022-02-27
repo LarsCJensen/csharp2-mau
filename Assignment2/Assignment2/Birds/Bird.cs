@@ -46,7 +46,18 @@ namespace Assignment2
         {
             // First gets base class ToString information
             string strOut = base.ToString();
-            strOut += string.Format("{0, -15} {1, 6}\n",
+            strOut += string.Format("{0, -15} {1, 6}",
+                "Air-speed velocity", airSpeedVelocity);
+            return strOut;
+        }
+        /// <summary>
+        /// Method to return information about animal
+        /// </summary>
+        /// <returns>String of information</returns>
+        public override string GetExtraInfo()
+        {
+            string strOut = base.GetExtraInfo();
+            strOut += string.Format("{0, -15} {1, 6}",
                 "Air-speed velocity", airSpeedVelocity);
             return strOut;
         }

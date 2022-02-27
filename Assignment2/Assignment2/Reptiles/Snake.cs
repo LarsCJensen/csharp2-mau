@@ -54,7 +54,9 @@ namespace Assignment2
         {
             return foodSchedule;
         }
-
+        /// <summary>
+        /// Method to set food schedule
+        /// </summary>
         private void SetFoodSchedule()
         {
             foodSchedule = new FoodSchedule();
@@ -63,6 +65,10 @@ namespace Assignment2
             foodSchedule.Add("Lunch: Nothing (digesting)");
             foodSchedule.Add("Evening: Nothing (digesting)");
         }
+        /// <summary>
+        /// Method to return information about animal
+        /// </summary>
+        /// <returns>String of information</returns>
         public override string GetExtraInfo()
         {
             string strOut = "Snake\n\n" + base.GetExtraInfo();

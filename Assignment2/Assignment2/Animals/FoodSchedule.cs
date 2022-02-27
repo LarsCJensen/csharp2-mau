@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+
 
 namespace Assignment2
 {
+    /// <summary>
+    /// Class for food schedule
+    /// </summary>
     public class FoodSchedule
     {
         private List<string> foodList = new List<string>();
@@ -26,10 +26,12 @@ namespace Assignment2
         /// <param name="foodSchedule">food schedule to edit</param>
         public void EditFoodSchedule(int index, FoodSchedule foodSchedule)
         {
+            // Not yet implemented
             //foodList[index] = foodSchedule;
         }
         public bool CheckIndex(int index)
         {
+            // Not yet implemted
             return false;
         }
         /// <summary>
@@ -38,10 +40,14 @@ namespace Assignment2
         /// <param name="index">Index of food schedule to delete</param>
         public void DeleteFoodSchedule(int index)
         {
-            //recipes[recipeIndex] = null;
-            //ArrangeRecipes(recipeIndex);
+            // Not yet implemented
+            //foodList[index] = null;
+            //ArrangeFoodSchedule(index);            
         }
-
+        /// <summary>
+        /// Return food list as array of strings
+        /// </summary>
+        /// <returns>Array of strings with food schedule</returns>
         public string[] GetFoodListInfoStrings()
         {
             return foodList.ToArray();

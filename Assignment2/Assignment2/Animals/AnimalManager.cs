@@ -18,14 +18,19 @@ namespace Assignment2
             get
             {
                 return animalList;
-            }            
+            }
         }
 
-        public int startId = 1000;
+        private int startId = 1000;
         public AnimalManager()
         {
 
         }
+        /// <summary>
+        /// Add an animal to list
+        /// </summary>
+        /// <param name="animal">Animal to add</param>
+        /// <returns>If succeeded</returns>
         public bool Add(Animal animal)
         {
             if (animal != null)
@@ -38,20 +43,43 @@ namespace Assignment2
                 return false;
             }
         }
+        /// <summary>
+        /// Number of animals in list
+        /// </summary>
+        /// <returns>Number of animals in list</returns>
         public int Count()
         {
-            return 0;
+            return animalList.Count();
         }
+        /// <summary>
+        /// Get animal at a certain index
+        /// </summary>
+        /// <param name="index">Index number</param>
+        /// <returns>Animal at intex</returns>
         public Animal GetAnimalAt(int index)
         {
             return animalList[index];
         }
-        public string GetAnimalInfoStrings()
+        /// <summary>
+        /// Gets all strings for animal
+        /// </summary>
+        /// <returns></returns>
+        public string[] GetAnimalInfoStrings()
         {
             //The method GetAnimalInfoStrings returns  an array(string[])
             //by calling the ToString() method of every element of the list.
-            return "None";
+            string[] infoStrings = new string[Count()];
+            for(int i = 0; i < Count(); i++)
+            {
+                infoStrings[i] = GetAnimalAt(i).ToString();
+            }
+            return infoStrings;
         }
+        /// <summary>
+        /// Method to create an id for an animal
+        /// </summary>
+        /// <param name="category">Which category to create ID for</param>
+        /// <returns>String with prefixed id</returns>
         public string GetNewId(AnimalCategoryEnum category)
         {
             startId = startId += 1;
@@ -69,9 +97,5 @@ namespace Assignment2
                     return $"{startId}";
             }
         }
-        //public List<Animal> GetSortedList(string sortBy)
-        //{
-        //    return List<Animal>.Sort(animalList);
-        //}
     }
 }

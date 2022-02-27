@@ -43,14 +43,14 @@ namespace Assignment2
         /// Method to print out mammal information
         /// </summary>
         /// <returns>String of information</returns>
-        //public override string ToString()
-        //{
-        //    // First gets base class ToString information
-        //    string strOut = base.ToString();
-        //    strOut += string.Format("{0, -15} {1, 6}",
-        //        "Indoor: ", indoor.ToString());
-        //    return strOut;
-        //}
+        public override string ToString()
+        {
+            // First gets base class ToString information
+            string strOut = base.ToString();
+            strOut += string.Format("{0, -15} {1, 6}",
+                "Indoor: ", indoor.ToString());
+            return strOut;
+        }
 
         public override string GetExtraInfo()
         {
@@ -64,8 +64,9 @@ namespace Assignment2
         {
             return foodSchedule;
         }
-
-        
+        /// <summary>
+        /// Method to set food schedule
+        /// </summary>
         private void SetFoodSchedule()
         {
             foodSchedule = new FoodSchedule();

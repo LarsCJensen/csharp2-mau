@@ -55,7 +55,9 @@ namespace Assignment2
         {
             return foodSchedule;
         }
-
+        /// <summary>
+        /// Method to set food schedule
+        /// </summary>
         private void SetFoodSchedule()
         {
             foodSchedule = new FoodSchedule();

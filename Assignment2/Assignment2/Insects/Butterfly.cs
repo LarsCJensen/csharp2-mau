@@ -55,7 +55,9 @@ namespace Assignment2
         {
             return foodSchedule;
         }
-
+        /// <summary>
+        /// Method to set food schedule
+        /// </summary>
         private void SetFoodSchedule()
         {
             foodSchedule = new FoodSchedule();
@@ -64,11 +66,15 @@ namespace Assignment2
             foodSchedule.Add("Lunch: Nectar");
             foodSchedule.Add("Evening: Nectar");
         }
+        /// <summary>
+        /// Method to return information about animal
+        /// </summary>
+        /// <returns>String of information</returns>
         public override string GetExtraInfo()
         {
             string strOut = "Butterfly\n\n" + base.GetExtraInfo();
-            strOut += string.Format("{0, -15} {1, 6}",
-                "\nMain color: ", mainColor);
+            strOut += string.Format("{0, -15} {1, 6}\n",
+                "Main color: ", mainColor);
             return strOut;
         }
     }
