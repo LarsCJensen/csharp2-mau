@@ -34,7 +34,7 @@ namespace Assignment2
         /// <param name="gender">Gender of animal</param>
         /// <param name="category">Category of animal</param>
         /// <param name="description">Description of animal</param>
-        public Blackbird(int speed, string id, string name, int age, GenderType gender, AnimalCategoryEnum category, string description) : base(speed, id, name, age, gender, category, description)
+        public Blackbird(int speed, string name, int age, GenderType gender, AnimalCategoryEnum category, string description) : base(speed, name, age, gender, category, description)
         {
             SetFoodSchedule();
         }

@@ -34,7 +34,6 @@ namespace Assignment2
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        // TODO Make it use animalManager.AnimalList instead
         private ObservableCollection<Animal> listOfAnimals = new ObservableCollection<Animal>();
         public ObservableCollection<Animal> ListOfAnimals { 
             get {
@@ -160,7 +159,6 @@ namespace Assignment2
             {
                 if (AddAnimal())
                 {
-                    // TODO Make this use animalManager.AnimalList instead
                     listOfAnimals.Add(animal);
                     InitializeGUI();
                     animal = null;
@@ -171,7 +169,6 @@ namespace Assignment2
         // Helper function to add animal
         private bool AddAnimal()
         {
-            string id = animalManager.GetNewId((AnimalCategoryEnum)lstCategoryType.SelectedItem);
             switch (lstCategoryType.SelectedItem)
             {
                 case AnimalCategoryEnum.Mammals:
@@ -180,7 +177,7 @@ namespace Assignment2
                     {
                         GenderType gender = GetGender();
                         // Here I can use just parse since the value has been validated before                        
-                        animal = myMammalFactory.CreateAnimal(mammalType, id, txtName.Text, int.Parse(txtAge.Text), gender, AnimalCategoryEnum.Mammals, txtDescription.Text, int.Parse(txtNumberOTeeth.Text));
+                        animal = myMammalFactory.CreateAnimal(mammalType, txtName.Text, int.Parse(txtAge.Text), gender, AnimalCategoryEnum.Mammals, txtDescription.Text, int.Parse(txtNumberOTeeth.Text));
                     }
                     catch (ArgumentException ex)
                     {
@@ -195,7 +192,7 @@ namespace Assignment2
                     {
                         GenderType gender = GetGender();
                         // Here I can use just parse since the value has been validated before                        
-                        animal = myBirdFactory.CreateAnimal(birdType, id, txtName.Text, int.Parse(txtAge.Text), gender, AnimalCategoryEnum.Birds, txtDescription.Text, int.Parse(txtAirSpeedVelocity.Text));
+                        animal = myBirdFactory.CreateAnimal(birdType, txtName.Text, int.Parse(txtAge.Text), gender, AnimalCategoryEnum.Birds, txtDescription.Text, int.Parse(txtAirSpeedVelocity.Text));
                     }
                     catch (ArgumentException ex)
                     {
@@ -210,7 +207,7 @@ namespace Assignment2
                     {
                         GenderType gender = GetGender();
                         // Here I can use just parse since the value has been validated before                        
-                        animal = myInsectFactory.CreateAnimal(insectType, id, txtName.Text, int.Parse(txtAge.Text), gender, AnimalCategoryEnum.Insects, txtDescription.Text, int.Parse(txtNumberOfWings.Text));
+                        animal = myInsectFactory.CreateAnimal(insectType, txtName.Text, int.Parse(txtAge.Text), gender, AnimalCategoryEnum.Insects, txtDescription.Text, int.Parse(txtNumberOfWings.Text));
                     }
                     catch (ArgumentException ex)
                     {
@@ -226,7 +223,7 @@ namespace Assignment2
                     {
                         GenderType gender = GetGender();
                         // Here I can use just parse since the value has been validated before                        
-                        animal = myReptileFactory.CreateAnimal(reptileType, id, txtName.Text, int.Parse(txtAge.Text), gender, AnimalCategoryEnum.Reptiles, txtDescription.Text, int.Parse(txtReptileLength.Text));
+                        animal = myReptileFactory.CreateAnimal(reptileType, txtName.Text, int.Parse(txtAge.Text), gender, AnimalCategoryEnum.Reptiles, txtDescription.Text, int.Parse(txtReptileLength.Text));
                     }
                     catch (ArgumentException ex)
                     {
@@ -569,21 +566,6 @@ namespace Assignment2
             if ((bool)(sender as CheckBox).IsChecked)
             {
                 lstCategoryType.IsEnabled = false;
-                //btnAdd.IsEnabled = false;
-                //grpMammalCategorySpec.Visibility = Visibility.Collapsed;
-                //grpBirdCategorySpec.Visibility = Visibility.Collapsed;
-                //grpInsectCategorySpec.Visibility = Visibility.Collapsed;
-                //grpReptileCategorySpec.Visibility = Visibility.Collapsed;
-                //stackDog.Visibility = Visibility.Collapsed;
-                //stackCat.Visibility = Visibility.Collapsed;
-                //stackHorse.Visibility = Visibility.Collapsed;
-                //stackElephant.Visibility = Visibility.Collapsed;
-                //stackCrocodile.Visibility = Visibility.Collapsed;
-                //stackSnake.Visibility = Visibility.Collapsed;
-                //stackButterfly.Visibility = Visibility.Collapsed;
-                //stackBee.Visibility = Visibility.Collapsed;
-                //stackSwallow.Visibility = Visibility.Collapsed;
-                //stackBlackbird.Visibility = Visibility.Collapsed;
                 imgAnimal.Source = null;
                 AddItemsToAnimalListbox(myMammalFactory.GetAnimalObjects());
                 AddItemsToAnimalListbox(myBirdFactory.GetAnimalObjects());
@@ -649,14 +631,6 @@ namespace Assignment2
         /// <param name="e"></param>
         private void lvAnimalList_Click(object sender, RoutedEventArgs e)
         {
-            // If animalManager.AnimalList wasn't public we could do like this
-            //List<Animal> animalList = new List<Animal>();
-            //for(int i = 0; i < animalManager.Count(); i++)
-            //{
-            //    // Fill list with animals and use that to sort instead.
-            //    animalList.Add(animalManager.GetAnimalAt(i));
-            //}
-            
             GridViewColumnHeader column = (sender as GridViewColumnHeader);
             // If sorting is done on the same column, sort by descending                        
             if (sortDescending && sortColumn == column.Tag.ToString())
@@ -671,63 +645,15 @@ namespace Assignment2
                 sortDescending = false;
             }
             sortColumn = column.Tag.ToString();
-            switch (sortColumn)
-            {
-                case "Age":
-                    // Sort by age
-                    if(sortDescending)
-                    {
-                        animalManager.AnimalList.Sort((Animal x, Animal y) =>
-                        y.Age.CompareTo(x.Age));
-                    } else
-                    {
-                        animalManager.AnimalList.Sort((Animal x, Animal y) =>
-                        x.Age.CompareTo(y.Age));
-                    }
-                    
-                    break;
-                case "ID":
-                    // Sort by id
-                    if (sortDescending)
-                    {
-                        animalManager.AnimalList.Sort((Animal x, Animal y) =>
-                            y.Id.CompareTo(x.Id));
-                    }
-                    else
-                    {
-                        animalManager.AnimalList.Sort((Animal x, Animal y) =>
-                        x.Id.CompareTo(y.Id));
-                    }
-                        
-                    break;
-                case "Gender":
-                    // Sort by gender
-                    if (sortDescending)
-                    {
-                        animalManager.AnimalList.Sort((Animal x, Animal y) =>
-                        y.Gender.ToString().CompareTo(x.Gender.ToString()));
-                    } else
-                    {
-                        animalManager.AnimalList.Sort((Animal x, Animal y) =>
-                        x.Gender.ToString().CompareTo(y.Gender.ToString()));
-                    }
-                        
-                    break;
-                default:
-                    // Sort by name
-                    if (sortDescending)
-                    {
-                        animalManager.AnimalList.Sort((Animal x, Animal y) =>
-                        y.Name.CompareTo(x.Name));
-                    }
-                    else
-                    {
-                        animalManager.AnimalList.Sort();
-                    }
-                    break;
-            }
+            
+            // Sort list of animals
+            animalManager.SortAnimalList(sortColumn, sortDescending);
             // Recreate ListOfAnimals from the newly sorted list
-            ListOfAnimals = new ObservableCollection<Animal>(animalManager.AnimalList);            
+            ListOfAnimals = new ObservableCollection<Animal>();
+            for (int i = 0; i < animalManager.Count(); i++)
+            {
+                ListOfAnimals.Add(animalManager.GetAnimalAt(i));
+            }
         }
         /// <summary>
         /// Just a helper method to create animal objects
@@ -735,8 +661,7 @@ namespace Assignment2
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void btnCreateAnimalsForTest_Click(object sender, RoutedEventArgs e)
-        {
-            
+        {            
             for (int i = 0; i < 3; i++)
             {
                 AnimalCategoryEnum animalCat;
@@ -746,9 +671,10 @@ namespace Assignment2
                     MammalFactory mammalFactory = new MammalFactory();
                     animalCat = (AnimalCategoryEnum)i;
                     MammalTypes mammalType = MammalTypes.Dog;
-                    string id = animalManager.GetNewId(animalCat);
+                    // TODO TA bort
+                    //string id = animalManager.GetNewId(animalCat);
                     GenderType gender = (GenderType)i;
-                    animal = mammalFactory.CreateAnimal(mammalType, id, "Name" + i.ToString(), 14, gender, animalCat, "Description " + i.ToString(), 24);
+                    animal = mammalFactory.CreateAnimal(mammalType, "Name" + i.ToString(), 14, gender, animalCat, "Description " + i.ToString(), 24);
                     ((Dog)animal).Breed = "Samojed";
                     animalManager.Add(animal);
                 }
@@ -757,9 +683,10 @@ namespace Assignment2
                     InsectFactory insectFactory = new InsectFactory();
                     animalCat = (AnimalCategoryEnum)i;
                     InsectTypes insectType = InsectTypes.Butterfly;
-                    string id = animalManager.GetNewId(animalCat);
+                    // TODO TA bort
+                    //string id = animalManager.GetNewId(animalCat);
                     GenderType gender = (GenderType)i;
-                    animal = insectFactory.CreateAnimal(insectType, id, "Name" + i.ToString(), 4, gender, animalCat, "Description " + i.ToString(), 2);
+                    animal = insectFactory.CreateAnimal(insectType, "Name" + i.ToString(), 4, gender, animalCat, "Description " + i.ToString(), 2);
                     ((Butterfly)animal).MainColor = "Blue";
                     animalManager.Add(animal);
                 }
@@ -768,14 +695,19 @@ namespace Assignment2
                     ReptileFactory reptileFactory = new ReptileFactory();
                     animalCat = (AnimalCategoryEnum)i;
                     ReptileTypes reptileType = ReptileTypes.Crocodile;
-                    string id = animalManager.GetNewId(animalCat);
+                    // TODO TA bort
+                    //string id = animalManager.GetNewId(animalCat);
                     GenderType gender = (GenderType)i;
-                    animal = reptileFactory.CreateAnimal(reptileType, id, "Name" + i.ToString(), 10, gender, animalCat, "Description " + i.ToString(), 120);
+                    animal = reptileFactory.CreateAnimal(reptileType, "Name" + i.ToString(), 10, gender, animalCat, "Description " + i.ToString(), 120);
                     ((Crocodile)animal).NumberOfFarmersEaten = 12;
                     animalManager.Add(animal);
                 }
             }
-            ListOfAnimals = new ObservableCollection<Animal>(animalManager.AnimalList);
+            ListOfAnimals = new ObservableCollection<Animal>();
+            for(int i = 0; i < animalManager.Count(); i++)
+            {
+                ListOfAnimals.Add(animalManager.GetAnimalAt(i));
+            }
         }
     }
 }
