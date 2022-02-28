@@ -13,13 +13,13 @@ namespace Assignment2
     public class AnimalManager
     {
         private List<Animal> animalList = new List<Animal>();
-        public List<Animal> AnimalList
-        {
-            get
-            {
-                return animalList;
-            }
-        }
+        //public List<Animal> AnimalList
+        //{
+        //    get
+        //    {
+        //        return animalList;
+        //    }
+        //}
 
         private int startId = 1000;
         public AnimalManager()
@@ -35,6 +35,25 @@ namespace Assignment2
         {
             if (animal != null)
             {
+                startId = startId += 1;
+                switch (animal.Category)
+                {
+                    case AnimalCategoryEnum.Mammals:
+                        animal.Id = $"M{startId}";
+                        break;
+                    case AnimalCategoryEnum.Birds:
+                        animal.Id = $"B{startId}";
+                        break;
+                    case AnimalCategoryEnum.Insects:
+                        animal.Id = $"I{startId}";
+                        break;
+                    case AnimalCategoryEnum.Reptiles:
+                        animal.Id = $"R{startId}";
+                        break;
+                    default:
+                        animal.Id = $"{startId}";
+                        break;
+                }
                 animalList.Add(animal);
                 return true;
             }
@@ -72,28 +91,66 @@ namespace Assignment2
                 infoStrings[i] = GetAnimalAt(i).ToString();
             }
             return infoStrings;
-        }
-        /// <summary>
-        /// Method to create an id for an animal
-        /// </summary>
-        /// <param name="category">Which category to create ID for</param>
-        /// <returns>String with prefixed id</returns>
-        public string GetNewId(AnimalCategoryEnum category)
+        }        
+        public void SortAnimalList(string sortColumn, bool sortDescending)
         {
-            startId = startId += 1;
-            switch(category)
+            switch (sortColumn)
             {
-                case AnimalCategoryEnum.Mammals:
-                    return $"M{startId}";
-                case AnimalCategoryEnum.Birds:
-                    return $"B{startId}";
-                case AnimalCategoryEnum.Insects:
-                    return $"I{startId}";
-                case AnimalCategoryEnum.Reptiles:
-                    return $"R{startId}";
+                case "Age":
+                    // Sort by age
+                    if (sortDescending)
+                    {
+                        animalList.Sort((Animal x, Animal y) =>
+                        y.Age.CompareTo(x.Age));
+                    }
+                    else
+                    {
+                        animalList.Sort((Animal x, Animal y) =>
+                        x.Age.CompareTo(y.Age));
+                    }
+
+                    break;
+                case "ID":
+                    // Sort by id
+                    if (sortDescending)
+                    {
+                        animalList.Sort((Animal x, Animal y) =>
+                            y.Id.CompareTo(x.Id));
+                    }
+                    else
+                    {
+                        animalList.Sort((Animal x, Animal y) =>
+                        x.Id.CompareTo(y.Id));
+                    }
+
+                    break;
+                case "Gender":
+                    // Sort by gender
+                    if (sortDescending)
+                    {
+                        animalList.Sort((Animal x, Animal y) =>
+                        y.Gender.ToString().CompareTo(x.Gender.ToString()));
+                    }
+                    else
+                    {
+                        animalList.Sort((Animal x, Animal y) =>
+                        x.Gender.ToString().CompareTo(y.Gender.ToString()));
+                    }
+
+                    break;
                 default:
-                    return $"{startId}";
-            }
+                    // Sort by name
+                    if (sortDescending)
+                    {
+                        animalList.Sort((Animal x, Animal y) =>
+                        y.Name.CompareTo(x.Name));
+                    }
+                    else
+                    {
+                        animalList.Sort();
+                    }
+                    break;
+            }            
         }
     }
 }

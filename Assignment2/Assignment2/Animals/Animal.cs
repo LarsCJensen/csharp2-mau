@@ -112,9 +112,8 @@ namespace Assignment2
         /// <param name="animalGender">Gender of animal</param>
         /// <param name="animalCategory">Category of animal</param>
         /// <param name="animalDesc">Description of animal</param>
-        public Animal(string newId, string animalName, int animalAge, GenderType animalGender, AnimalCategoryEnum animalCategory, string animalDesc)
+        public Animal(string animalName, int animalAge, GenderType animalGender, AnimalCategoryEnum animalCategory, string animalDesc)
         {
-            id = newId;
             name = animalName;
             age = animalAge;
             gender = animalGender;

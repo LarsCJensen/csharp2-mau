@@ -27,14 +27,13 @@ namespace Assignment2
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="id">Id of teeth</param>
         /// <param name="name">Name of animal</param>
         /// <param name="age">Age of animal</param>
         /// <param name="gender">Gender of animal</param>
         /// <param name="category">Category of animal</param>
         /// <param name="description">Description of animal</param>
         /// <param name="teeth">Number of teeth</param>
-        public Mammal(string id, string name, int age, GenderType gender, AnimalCategoryEnum category, string description, int teeth) : base(id, name, age, gender, category, description)
+        public Mammal(string name, int age, GenderType gender, AnimalCategoryEnum category, string description, int teeth) : base(name, age, gender, category, description)
         {
             numberOfTeeth = teeth;
         }

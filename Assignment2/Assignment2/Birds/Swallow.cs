@@ -29,13 +29,12 @@ namespace Assignment2
         /// Constructor
         /// </summary>
         /// <param name="speed">Air-speed velocity of animal(bird)</param>
-        /// <param name="id">Id of animal</param>
         /// <param name="name">Name of animal</param>
         /// <param name="age">Age of animal</param>
         /// <param name="gender">Gender of animal</param>
         /// <param name="category">Category of animal</param>
         /// <param name="description">Description of animal</param>
-        public Swallow(int speed, string id, string name, int age, GenderType gender, AnimalCategoryEnum category, string description) : base(speed, id, name, age, gender, category, description)
+        public Swallow(int speed, string name, int age, GenderType gender, AnimalCategoryEnum category, string description) : base(speed, name, age, gender, category, description)
         {
             SetFoodSchedule();
         }

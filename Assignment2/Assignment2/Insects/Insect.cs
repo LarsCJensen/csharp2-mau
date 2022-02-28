@@ -25,15 +25,15 @@ namespace Assignment2
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="numWings">Number of wings of animal(insect)</param>
-        /// <param name="id">Id of animal</param>
         /// <param name="name">Name of animal</param>
         /// <param name="age">Age of animal</param>
         /// <param name="gender">Gender of animal</param>
         /// <param name="category">Category of animal</param>
         /// <param name="description">Description of animal</param>
+        /// <param name="numWings">Number of wings of animal(insect)</param>
 
-        public Insect(string id, string name, int age, GenderType gender, AnimalCategoryEnum category, string description, int numWings) : base(id, name, age, gender, category, description)
+
+        public Insect(string name, int age, GenderType gender, AnimalCategoryEnum category, string description, int numWings) : base(name, age, gender, category, description)
         {
             numberOfWings = numWings;
         }

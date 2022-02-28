@@ -32,7 +32,7 @@ namespace Assignment2
         /// <param name="category">Category of animal</param>
         /// <param name="description">Description of animal</param>
         /// <param name="len">Length of animal(reptile)</param>
-        public Crocodile(string id, string name, int age, GenderType gender, AnimalCategoryEnum category, string description, int len) : base(id, name, age, gender, category, description, len)
+        public Crocodile(string name, int age, GenderType gender, AnimalCategoryEnum category, string description, int len) : base(name, age, gender, category, description, len)
         {
             SetFoodSchedule();
         }
