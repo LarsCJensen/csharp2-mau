@@ -1,4 +1,4 @@
-﻿namespace Assignment2
+﻿namespace Assignment2.Animals
 {
     /// <summary>
     /// Interface for animal

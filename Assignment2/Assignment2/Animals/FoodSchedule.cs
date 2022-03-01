@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 
-namespace Assignment2
+namespace Assignment2.Animals
 {
     /// <summary>
     /// Class for food schedule

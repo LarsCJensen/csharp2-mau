@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace Assignment2.Animals
 {
-    /// <summary>
-    /// Enum for eater type
-    /// </summary>
-    public enum EaterTypeEnum
+    class SorterId : IComparer<Animal>
     {
-        Carnivore,
-        Herbivore,
-        Omnivorous           
+        public int Compare(Animal x, Animal y)
+        {
+            return x.Id.CompareTo(y.Id);
+        }
     }
 }
