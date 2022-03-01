@@ -1,6 +1,7 @@
 ﻿using System;
+using Assignment2.Animals;
 
-namespace Assignment2
+namespace Assignment2.Mammals
 {
     /// <summary>
     /// Factory for mammal types, to create animal and get types

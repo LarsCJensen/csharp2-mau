@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Assignment2.Animals;
 
-namespace Assignment2
+namespace Assignment2.Birds
 {
     /// <summary>
     /// Class of Swallow

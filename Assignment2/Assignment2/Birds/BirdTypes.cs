@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace Assignment2
+namespace Assignment2.Birds
 {
     /// <summary>
     /// Enumgs or Birds

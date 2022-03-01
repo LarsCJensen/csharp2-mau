@@ -8,10 +8,14 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Assignment2.Animals;
+using Assignment2.Birds;
+using Assignment2.Insects;
+using Assignment2.Mammals;
+using Assignment2.Reptiles;
 
 namespace Assignment2
 {
@@ -645,9 +649,28 @@ namespace Assignment2
                 sortDescending = false;
             }
             sortColumn = column.Tag.ToString();
-            
+
             // Sort list of animals
-            animalManager.SortAnimalList(sortColumn, sortDescending);
+            //animalManager.SortAnimalList(sortColumn, sortDescending);
+            switch (sortColumn)
+            {
+                case "Age":
+                    // Sort by age
+                    animalManager.SortAnimalList(new SorterAge(), sortDescending);
+                    break;
+                case "ID":
+                    // Sort by id
+                    animalManager.SortAnimalList(new SorterId(), sortDescending);
+                    break;
+                case "Gender":
+                    animalManager.SortAnimalList(new SorterGender(), sortDescending);
+                    break;
+                default:
+                    
+                    animalManager.SortAnimalList(new SorterName(), sortDescending);
+                    break;
+            }
+            
             // Recreate ListOfAnimals from the newly sorted list
             ListOfAnimals = new ObservableCollection<Animal>();
             for (int i = 0; i < animalManager.Count(); i++)

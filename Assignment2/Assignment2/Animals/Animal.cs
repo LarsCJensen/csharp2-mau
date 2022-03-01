@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Assignment2
+namespace Assignment2.Animals
 {
-    public abstract class Animal: IAnimal, IComparable<Animal>
+    public abstract class Animal: IAnimal
     {
         /// <summary>
         /// Class which holds general fields and methods for all animals
@@ -99,10 +99,10 @@ namespace Assignment2
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public int CompareTo(Animal other)
-        {
-            return String.Compare(this.name, other.name);
-        }
+        //public int CompareTo(Animal other)
+        //{
+        //    return String.Compare(this.name, other.name);
+        //}
 
         /// <summary>
         /// Constructor

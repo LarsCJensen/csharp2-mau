@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assignment2
+namespace Assignment2.Animals
 {
     /// <summary>
     /// Class to manage animal objects
@@ -91,66 +91,17 @@ namespace Assignment2
                 infoStrings[i] = GetAnimalAt(i).ToString();
             }
             return infoStrings;
-        }        
-        public void SortAnimalList(string sortColumn, bool sortDescending)
+        }
+        //public void SortAnimalList(string sortColumn, bool sortDescending)
+        public void SortAnimalList(IComparer<Animal> sorter, bool desc)
         {
-            switch (sortColumn)
+            if(desc)
             {
-                case "Age":
-                    // Sort by age
-                    if (sortDescending)
-                    {
-                        animalList.Sort((Animal x, Animal y) =>
-                        y.Age.CompareTo(x.Age));
-                    }
-                    else
-                    {
-                        animalList.Sort((Animal x, Animal y) =>
-                        x.Age.CompareTo(y.Age));
-                    }
-
-                    break;
-                case "ID":
-                    // Sort by id
-                    if (sortDescending)
-                    {
-                        animalList.Sort((Animal x, Animal y) =>
-                            y.Id.CompareTo(x.Id));
-                    }
-                    else
-                    {
-                        animalList.Sort((Animal x, Animal y) =>
-                        x.Id.CompareTo(y.Id));
-                    }
-
-                    break;
-                case "Gender":
-                    // Sort by gender
-                    if (sortDescending)
-                    {
-                        animalList.Sort((Animal x, Animal y) =>
-                        y.Gender.ToString().CompareTo(x.Gender.ToString()));
-                    }
-                    else
-                    {
-                        animalList.Sort((Animal x, Animal y) =>
-                        x.Gender.ToString().CompareTo(y.Gender.ToString()));
-                    }
-
-                    break;
-                default:
-                    // Sort by name
-                    if (sortDescending)
-                    {
-                        animalList.Sort((Animal x, Animal y) =>
-                        y.Name.CompareTo(x.Name));
-                    }
-                    else
-                    {
-                        animalList.Sort();
-                    }
-                    break;
-            }            
+                animalList.Sort(new SorterReverse<Animal>(sorter));
+            } else
+            {
+                animalList.Sort(sorter);
+            }                   
         }
     }
 }
