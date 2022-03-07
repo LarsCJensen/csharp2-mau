@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assignment2.Animals
+namespace Assignment3.Animals
 {
     /// <summary>
     /// Generic class for sorting in reverse order
