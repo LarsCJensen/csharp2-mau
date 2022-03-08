@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Assignment2"
         mc:Ignorable="d"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
-        Title="Animal Creator" Width="800" SizeToContent="Manual" WindowStartupLocation="CenterScreen" Height="680">
+        Title="Animal Creator" Width="1024" SizeToContent="Manual" WindowStartupLocation="CenterScreen" Height="680">
     <Grid x:Name="mainGrid" Margin="0,0,0,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="109*"/>
@@ -18,8 +18,8 @@
             <RowDefinition Height="300"/>
             <RowDefinition Height="300"/>
         </Grid.RowDefinitions>
-        <GroupBox x:Name="groupBox" Header="Animal Specification" HorizontalAlignment="Left" Height="296" Margin="10,10,0,0" VerticalAlignment="Top" Width="780" Grid.Row="0" Grid.ColumnSpan="4">
-            <Grid HorizontalAlignment="Left" Height="284" Margin="-2,0,0,0" VerticalAlignment="Center" Width="752">
+        <GroupBox x:Name="groupBox" Header="Animal Specification" HorizontalAlignment="Left" Height="296" Margin="10,10,0,0" VerticalAlignment="Top" Width="980" Grid.Row="0" Grid.ColumnSpan="4">
+            <Grid HorizontalAlignment="Left" Height="284" Margin="-2,0,0,0" VerticalAlignment="Center" Width="952">
                 <Label Content="Name" HorizontalAlignment="Left" Height="28" Margin="26,18,0,0" VerticalAlignment="Top" Width="41"/>
                 <TextBox x:Name="txtName" HorizontalAlignment="Left" Height="25" Margin="72,18,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="78"/>
                 <Label Content="Age" HorizontalAlignment="Left" Height="28" Margin="26,49,0,0" VerticalAlignment="Top" Width="41"/>
@@ -47,6 +47,11 @@
                 <Label Content="Description" HorizontalAlignment="Left" Margin="152,-3,0,0" VerticalAlignment="Top"/>
                 <TextBox x:Name="txtDescription" HorizontalAlignment="Left" Height="167" Margin="155,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="78" AcceptsReturn="True"/>
                 <Button x:Name="btnBrowseImage" Content="Load image" HorizontalAlignment="Left" Margin="589,189,0,0" VerticalAlignment="Top" Click="btnBrowseImage_Click"/>
+                <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="3" Margin="719,38,0,0" VerticalAlignment="Top" Width="3"/>
+                <ListBox x:Name="lbFoodItems" HorizontalAlignment="Left" Height="143" Margin="708,40,0,0" VerticalAlignment="Top" Width="225"/>
+                <Label x:Name="lblFoodName" Content="Name" HorizontalAlignment="Left" Margin="711,14,0,0" VerticalAlignment="Top" Height="24"/>
+                <Label x:Name="lblFoodIngredients" Content="Ingredients" HorizontalAlignment="Left" Margin="807,14,0,0" VerticalAlignment="Top" Height="25"/>
+                <Button x:Name="btnAddFoodItem" Content="Add food" HorizontalAlignment="Left" Height="23" Margin="711,188,0,0" VerticalAlignment="Top" Width="63" Click="btnAddFoodItem_Click"/>
             </Grid>
         </GroupBox>
         <GroupBox x:Name="grpMammalCategorySpec" Header="Category Specifications" HorizontalAlignment="Left" Height="83" Margin="20,211,0,0" VerticalAlignment="Top" Width="267" Visibility="Collapsed" Grid.Row="0" Grid.ColumnSpan="2">
@@ -137,8 +142,8 @@
         </GroupBox>
         <CheckBox x:Name="chkListAllAnimals" Content="List all animals" HorizontalAlignment="Left" Height="17" Margin="265,216,0,0" VerticalAlignment="Top" Width="109" Grid.Column="1" Grid.ColumnSpan="2" Click="ChkListAllAnimals_Click"/>
         <Button x:Name="btnAdd" Content="Add" HorizontalAlignment="Left" Height="22" Margin="193,238,0,0" VerticalAlignment="Top" Width="105" Click="btnAdd_Click" Grid.Column="1"/>
-        <GroupBox x:Name="groupBox2" Header="Animal details" HorizontalAlignment="Left" Height="305" Margin="10,0,0,-9" VerticalAlignment="Bottom" Width="780" Grid.Row="1" Grid.ColumnSpan="4">
-            <Grid HorizontalAlignment="Left" Height="266" Margin="-2,0,0,0" VerticalAlignment="Center" Width="752">
+        <GroupBox x:Name="groupBox2" Header="Animal details" HorizontalAlignment="Left" Height="305" Margin="10,0,0,-9" VerticalAlignment="Bottom" Width="980" Grid.Row="1" Grid.ColumnSpan="4">
+            <Grid HorizontalAlignment="Left" Height="266" Margin="-2,0,0,0" VerticalAlignment="Top" Width="952">
                 <Label x:Name="lblAnimalInfo" Content="" HorizontalAlignment="Left" Height="224" Margin="10,20,0,0" VerticalAlignment="Top" Width="180" Grid.ColumnSpan="2" Background="#FFC1BBBB"/>
                 <ListView x:Name="lvAnimalList" ItemsSource="{Binding ListOfAnimals}" HorizontalAlignment="Left" Height="230" Margin="210,20,0,0" VerticalAlignment="Top" Width="284" SelectionMode="Single" RenderTransformOrigin="0.19,0.498" SelectionChanged="lvAnimalList_SelectionChanged">
                     <ListView.View>

@@ -11,6 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 using Assignment3.Animals;
 using Assignment3.Birds;
 using Assignment3.Insects;
@@ -34,6 +35,7 @@ namespace Assignment3
         private Animal animal = null;
         private string sortColumn;
         private bool sortDescending = false;
+        private List<string> lstFoodItems = new List<string>();
 
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -71,6 +73,7 @@ namespace Assignment3
             btnAdd.IsEnabled = false;
             // Fill Category Type
             lstCategoryType.ItemsSource = Enum.GetValues(typeof(AnimalCategoryEnum));
+            lbFoodItems.ItemsSource = lstFoodItems;
             SetGui();
             //lstCategoryType.SelectedItem = null;
             //grpMammalCategorySpec.Visibility = Visibility.Collapsed;
@@ -165,8 +168,9 @@ namespace Assignment3
                 if (AddAnimal())
                 {
                     listOfAnimals.Add(animal);
-                    InitializeGUI();
                     animal = null;
+                    InitializeGUI();
+                    
                 }
             }
         }
@@ -197,7 +201,7 @@ namespace Assignment3
                     {
                         GenderType gender = GetGender();
                         // Here I can use just parse since the value has been validated before                        
-                        animal = myBirdFactory.CreateAnimal(birdType, txtName.Text, int.Parse(txtAge.Text), gender, AnimalCategoryEnum.Birds, txtDescription.Text, int.Parse(txtAirSpeedVelocity.Text));
+                        animal = myBirdFactory.CreateAnimal(birdType, txtName.Text, int.Parse(txtAge.Text), gender, AnimalCategoryEnum.Birds, txtDescription.Text, int.Parse(txtAirSpeedVelocity.Text), lstFoodItems);
                     }
                     catch (ArgumentException ex)
                     {
@@ -857,6 +861,8 @@ namespace Assignment3
                 lblAnimalInfo.Content = "";
                 lbFoodSchedule.ItemsSource = null;
                 lbFoodSchedule.Items.Clear();
+                lbFoodItems.ItemsSource = null;
+                lbFoodItems.Items.Clear();
             } else
             {
                 lstCategoryType.SelectedItem = animal.Category;
@@ -1003,6 +1009,23 @@ namespace Assignment3
             animal.Gender = GetGender();
             animal.Description = txtDescription.Text;            
             SetAnimalAttributes();
+        }
+
+        private void btnAddFoodItem_Click(object sender, RoutedEventArgs e)
+        {
+            AddFood addFoodWindow = new AddFood();
+            if(addFoodWindow.ShowDialog() == true)
+            {
+                // Add ingredients through addFoodWindow.foodItem.ToString();
+                lbFoodItems.ItemsSource = lstFoodItems;
+                lstFoodItems.Add(addFoodWindow.FoodItem.ToString());
+                lbFoodItems.Items.Refresh();
+
+            } else
+            {
+                // Cancel was clicked
+            }
+
         }
     }
 }

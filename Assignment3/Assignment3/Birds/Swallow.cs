@@ -1,4 +1,5 @@
-﻿using Assignment3.Animals;
+﻿using System.Collections.Generic;
+using Assignment3.Animals;
 
 namespace Assignment3.Birds
 {
@@ -31,9 +32,9 @@ namespace Assignment3.Birds
         /// <param name="gender">Gender of animal</param>
         /// <param name="category">Category of animal</param>
         /// <param name="description">Description of animal</param>
-        public Swallow(int speed, string name, int age, GenderType gender, AnimalCategoryEnum category, string description) : base(speed, name, age, gender, category, description)
+        public Swallow(int speed, List<string> foodSchedule, string name, int age, GenderType gender, AnimalCategoryEnum category, string description) : base(speed, name, age, gender, category, description)
         {
-            SetFoodSchedule();
+            SetFoodSchedule(foodSchedule);
         }
         /// <summary>
         /// Method to print out mammal information
@@ -54,13 +55,17 @@ namespace Assignment3.Birds
         /// <summary>
         /// Method to set food schedule
         /// </summary>
-        private void SetFoodSchedule()
+        private void SetFoodSchedule(List<string> foodItems)
         {
             foodSchedule = new FoodSchedule();
             foodSchedule.EaterType = EaterTypeEnum.Herbivore;
-            foodSchedule.Add("Morning: Seeds");
-            foodSchedule.Add("Lunch: Fruit");
-            foodSchedule.Add("Evening: Coconut");
+            foreach(string item in foodItems)
+            {
+                foodSchedule.Add(item);
+            }
+            //foodSchedule.Add("Morning: Seeds");
+            //foodSchedule.Add("Lunch: Fruit");
+            //foodSchedule.Add("Evening: Coconut");
         }
         public override string GetExtraInfo()
         {

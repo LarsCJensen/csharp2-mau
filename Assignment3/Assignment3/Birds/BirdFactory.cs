@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Assignment3.Animals;
 
 namespace Assignment3.Birds
@@ -28,12 +26,12 @@ namespace Assignment3.Birds
         /// <param name="description">Description of animal</param>
         /// <param name="speed">Air-speed velocity of bird</param>
         /// <returns>Instance of bird</returns>
-        public Animal CreateAnimal(BirdTypes birdType, string name, int age, GenderType gender, AnimalCategoryEnum category, string description, int speed)
+        public Animal CreateAnimal(BirdTypes birdType, string name, int age, GenderType gender, AnimalCategoryEnum category, string description, int speed, List<string> foodItems)
         {
             switch (birdType)
             {
                 case BirdTypes.Blackbird: return new Blackbird(speed, name, age, gender, category, description);
-                case BirdTypes.Swallow: return new Swallow(speed, name, age, gender, category, description);
+                case BirdTypes.Swallow: return new Swallow(speed, foodItems, name, age, gender, category, description);
                 default:
                     // If InsectTypes is not found throw error
                     throw new ArgumentException("Bird type not found!");
