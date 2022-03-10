@@ -29,14 +29,16 @@ namespace Assignment3.Birds
         /// Constructor
         /// </summary>
         /// <param name="speed">Air-speed velocity of animal(bird)</param>
+        /// <param name="foodItems">List of food items</param>
         /// <param name="name">Name of animal</param>
         /// <param name="age">Age of animal</param>
         /// <param name="gender">Gender of animal</param>
+        /// <param name="eaterType">Eater type</param>
         /// <param name="category">Category of animal</param>
         /// <param name="description">Description of animal</param>
-        public Blackbird(int speed, string name, int age, GenderType gender, AnimalCategoryEnum category, string description) : base(speed, name, age, gender, category, description)
+        public Blackbird(int speed, List<FoodItem> foodItems, string name, int age, GenderType gender, EaterTypeEnum eaterType, AnimalCategoryEnum category, string description) : base(speed, name, age, gender, eaterType, category, description)
         {
-            SetFoodSchedule();
+            SetFoodSchedule(foodItems);
         }
         /// <summary>
         /// Method to print out mammal information
@@ -58,13 +60,15 @@ namespace Assignment3.Birds
         /// <summary>
         /// Method to set food schedule
         /// </summary>
-        private void SetFoodSchedule()
+        private void SetFoodSchedule(List<FoodItem> foodItems)
         {
             foodSchedule = new FoodSchedule();
             foodSchedule.EaterType = EaterTypeEnum.Omnivorous;
-            foodSchedule.Add("Morning: Seeds");
-            foodSchedule.Add("Lunch: Worm");
-            foodSchedule.Add("Evening: Banana");
+            foreach (FoodItem item in foodItems)
+            {
+                // TODO Use dict instead
+                //foodSchedule.Add(item);
+            }
         }
         public override string GetExtraInfo()
         {

@@ -93,6 +93,18 @@ namespace Assignment3.Animals
                 }
             }
         }
+        private EaterTypeEnum eaterType;
+        public EaterTypeEnum EaterType
+        {
+            get
+            {
+                return eaterType;
+            }
+            set
+            {
+                eaterType = value;
+            }
+        }
         public abstract FoodSchedule GetFoodSchedule();
         /// <summary>
         /// Default sort method
@@ -112,11 +124,12 @@ namespace Assignment3.Animals
         /// <param name="animalGender">Gender of animal</param>
         /// <param name="animalCategory">Category of animal</param>
         /// <param name="animalDesc">Description of animal</param>
-        public Animal(string animalName, int animalAge, GenderType animalGender, AnimalCategoryEnum animalCategory, string animalDesc)
+        public Animal(string animalName, int animalAge, GenderType animalGender, EaterTypeEnum animalEaterType, AnimalCategoryEnum animalCategory, string animalDesc)
         {
             name = animalName;
             age = animalAge;
             gender = animalGender;
+            eaterType = animalEaterType;
             category = animalCategory;
             description = animalDesc;
 

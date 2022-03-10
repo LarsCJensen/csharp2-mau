@@ -31,10 +31,11 @@ namespace Assignment3.Reptiles
         /// <param name="name">Name of animal</param>
         /// <param name="age">Age of animal</param>
         /// <param name="gender">Gender of animal</param>
+        /// <param name="eaterType">Eater type</param>
         /// <param name="category">Category of animal</param>
         /// <param name="description">Description of animal</param>
         /// <param name="len">Length of animal(reptile)</param>
-        public Reptile(string name, int age, GenderType gender, AnimalCategoryEnum category, string description, int len) : base(name, age, gender, category, description)
+        public Reptile(string name, int age, GenderType gender, EaterTypeEnum eaterType, AnimalCategoryEnum category, string description, int len) : base(name, age, gender, eaterType, category, description)
         {
             length = len;
         }

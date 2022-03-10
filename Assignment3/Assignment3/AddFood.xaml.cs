@@ -39,7 +39,7 @@ namespace Assignment3
         private void InitializeGUI()
         {
             txtName.Text = String.Empty;
-            txtIngredient.Text = String.Empty;
+            txtIngredient.Text = String.Empty;            
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
@@ -74,7 +74,7 @@ namespace Assignment3
         {
             if (lbIngredients.SelectedIndex >= 0)
             {
-                foodItem.Ingredients.Delete(lbIngredients.SelectedIndex);
+                lbIngredients.Items.RemoveAt(lbIngredients.SelectedIndex);
             }
         }
 
@@ -86,7 +86,7 @@ namespace Assignment3
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             foodItem.Name = txtName.Text;
-            foreach(string item in lbIngredients.Items)
+            foreach (string item in lbIngredients.Items)
             {
                 foodItem.Ingredients.Add(item);
             }

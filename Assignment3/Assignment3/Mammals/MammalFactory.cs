@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Assignment3.Animals;
 
 namespace Assignment3.Mammals
@@ -24,18 +25,20 @@ namespace Assignment3.Mammals
         /// <param name="name">Name of mammal</param>
         /// <param name="age">Age of mammal</param>
         /// <param name="gender">Gender of mammal</param>
+        /// <param name="eaterType">Eater type</param>
         /// <param name="category">Category of animal</param>
         /// <param name="description">Description of mammal</param>
         /// <param name="teeth">Number of teeth of mammal</param>
+        /// <param name="foodItems">List of  food items</param>
         /// <returns>An instance of mammal</returns>
-        public Animal CreateAnimal(MammalTypes mammalType, string name, int age, GenderType gender, AnimalCategoryEnum category, string description, int teeth)
+        public Animal CreateAnimal(MammalTypes mammalType, string name, int age, GenderType gender, EaterTypeEnum eaterType, AnimalCategoryEnum category, string description, int teeth, List<FoodItem> foodItems)
         {
             switch(mammalType)
             {
-                case MammalTypes.Cat: return new Cat(name, age, gender, category, description, teeth);                    
-                case MammalTypes.Dog: return new Dog(name, age, gender, category, description, teeth);                    
-                case MammalTypes.Horse: return new Horse(name, age, gender, category, description, teeth);
-                case MammalTypes.Elephant: return new Elephant(name, age, gender, category, description, teeth);
+                case MammalTypes.Cat: return new Cat(name, age, gender, eaterType, category, description, teeth, foodItems);                    
+                case MammalTypes.Dog: return new Dog(name, age, gender, eaterType, category, description, teeth, foodItems);                    
+                case MammalTypes.Horse: return new Horse(name, age, gender, eaterType, category, description, teeth, foodItems);
+                case MammalTypes.Elephant: return new Elephant(name, age, gender, eaterType, category, description, teeth, foodItems);
                 default:
                     // If mammalType is not found throw error
                     throw new ArgumentException("Mammal type not found!");

@@ -32,12 +32,14 @@ namespace Assignment3.Insects
         /// <param name="name">Name of animal</param>
         /// <param name="age">Age of animal</param>
         /// <param name="gender">Gender of animal</param>
+        /// <param name="eaterType">Eater type</param>
         /// <param name="category">Category of animal</param>
         /// <param name="description">Description of animal</param>
         /// <param name="numberOfWings">Number of wings of animal(insect)</param>
-        public Bee(string name, int age, GenderType gender, AnimalCategoryEnum category, string description, int numberOfWings) : base(name, age, gender, category, description, numberOfWings)
+        /// <param name="foodItems">List of food items</param>
+        public Bee(string name, int age, GenderType gender, EaterTypeEnum eaterType, AnimalCategoryEnum category, string description, int numberOfWings, List<FoodItem> foodItems) : base(name, age, gender, eaterType, category, description, numberOfWings)
         {
-            SetFoodSchedule();
+            SetFoodSchedule(foodItems);
         }
         /// <summary>
         /// Method to print out mammal information
@@ -58,13 +60,14 @@ namespace Assignment3.Insects
         /// <summary>
         /// Method to set food schedule
         /// </summary>
-        private void SetFoodSchedule()
+        private void SetFoodSchedule(List<FoodItem> foodItems)
         {
             foodSchedule = new FoodSchedule();
-            foodSchedule.EaterType = EaterTypeEnum.Herbivore;
-            foodSchedule.Add("Morning: Nectar");
-            foodSchedule.Add("Lunch: Nectar");
-            foodSchedule.Add("Evening: Wood");
+            foodSchedule.EaterType = EaterTypeEnum.Omnivorous;
+            foreach (FoodItem item in foodItems)
+            {
+                //foodSchedule.Add(item);
+            }
         }
         /// <summary>
         /// Method to return information about animal

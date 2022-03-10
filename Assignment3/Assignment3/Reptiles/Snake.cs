@@ -29,12 +29,14 @@ namespace Assignment3.Reptiles
         /// <param name="name">Name of animal</param>
         /// <param name="age">Age of animal</param>
         /// <param name="gender">Gender of animal</param>
+        /// <param name="eaterType">Eater type of mammal</param>
         /// <param name="category">Category of animal</param>
         /// <param name="description">Description of animal</param>
         /// <param name="len">Length of animal(reptile)</param>
-        public Snake(string name, int age, GenderType gender, AnimalCategoryEnum category, string description, int len) : base(name, age, gender, category, description, len)
+        /// <param name="foodItems">List of food items</param>
+        public Snake(string name, int age, GenderType gender, EaterTypeEnum eaterType, AnimalCategoryEnum category, string description, int len, List<FoodItem> foodItems) : base(name, age, gender, eaterType, category, description, len)
         {
-            SetFoodSchedule();
+            //SetFoodSchedule(foodItems);
         }
 
         /// <summary>
@@ -56,13 +58,14 @@ namespace Assignment3.Reptiles
         /// <summary>
         /// Method to set food schedule
         /// </summary>
-        private void SetFoodSchedule()
+        private void SetFoodSchedule(List<FoodItem> foodItems)
         {
             foodSchedule = new FoodSchedule();
             foodSchedule.EaterType = EaterTypeEnum.Carnivore;
-            foodSchedule.Add("Morning: Man");
-            foodSchedule.Add("Lunch: Nothing (digesting)");
-            foodSchedule.Add("Evening: Nothing (digesting)");
+            foreach (FoodItem item in foodItems)
+            {
+                //foodSchedule.Add(item);
+            }
         }
         /// <summary>
         /// Method to return information about animal

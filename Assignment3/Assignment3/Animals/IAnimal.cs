@@ -12,5 +12,6 @@
         AnimalCategoryEnum Category { get; set; }
         string Description { get; set; }
         string GetExtraInfo();
+        EaterTypeEnum EaterType { get; set; }
     }
 }

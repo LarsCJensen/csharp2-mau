@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Assignment3.Animals;
 
 namespace Assignment3.Mammals
@@ -30,12 +28,14 @@ namespace Assignment3.Mammals
         /// <param name="name">Name of animal</param>
         /// <param name="age">Age of animal</param>
         /// <param name="gender">Gender of animal</param>
+        /// <param name="eaterType">Eater type</param>
         /// <param name="category">Category of animal</param>
         /// <param name="description">Description of animal</param>
         /// <param name="teeth">Teeth of animal(mammal)</param>
-        public Cat(string name, int age, GenderType gender, AnimalCategoryEnum category, string description, int teeth) : base(name, age, gender, category, description, teeth)
+        /// <param name="foodItems">List of food items</param>
+        public Cat(string name, int age, GenderType gender, EaterTypeEnum eaterType, AnimalCategoryEnum category, string description, int teeth, List<FoodItem> foodItems) : base(name, age, gender, eaterType, category, description, teeth)
         {
-            SetFoodSchedule();
+            //SetFoodSchedule(foodItems);
         }
 
         /// <summary>
@@ -66,13 +66,14 @@ namespace Assignment3.Mammals
         /// <summary>
         /// Method to set food schedule
         /// </summary>
-        private void SetFoodSchedule()
+        private void SetFoodSchedule(List<FoodItem> foodItems)
         {
             foodSchedule = new FoodSchedule();
             foodSchedule.EaterType = EaterTypeEnum.Carnivore;
-            foodSchedule.Add("Morning: Tuna");
-            foodSchedule.Add("Lunch: Chicken");
-            foodSchedule.Add("Evening: Cucumber");
+            foreach (FoodItem item in foodItems)
+            {
+                //foodSchedule.Add(item);
+            }
         }
     }
 }

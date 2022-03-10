@@ -27,14 +27,16 @@ namespace Assignment3.Birds
         /// Constructor
         /// </summary>
         /// <param name="speed">Air-speed velocity of animal(bird)</param>
+        /// <param name="foodItems">List of strings with food items</param>
         /// <param name="name">Name of animal</param>
         /// <param name="age">Age of animal</param>
         /// <param name="gender">Gender of animal</param>
+        /// <param name="eaterType">Eater type</param>
         /// <param name="category">Category of animal</param>
         /// <param name="description">Description of animal</param>
-        public Swallow(int speed, List<string> foodSchedule, string name, int age, GenderType gender, AnimalCategoryEnum category, string description) : base(speed, name, age, gender, category, description)
+        public Swallow(int speed, List<FoodItem> foodItems, string name, int age, GenderType gender, EaterTypeEnum eaterType, AnimalCategoryEnum category, string description) : base(speed, name, age, gender, eaterType, category, description)
         {
-            SetFoodSchedule(foodSchedule);
+            SetFoodSchedule(foodItems);
         }
         /// <summary>
         /// Method to print out mammal information
@@ -55,14 +57,15 @@ namespace Assignment3.Birds
         /// <summary>
         /// Method to set food schedule
         /// </summary>
-        private void SetFoodSchedule(List<string> foodItems)
+        private void SetFoodSchedule(List<FoodItem> foodItems)
         {
             foodSchedule = new FoodSchedule();
             foodSchedule.EaterType = EaterTypeEnum.Herbivore;
-            foreach(string item in foodItems)
+            foreach(FoodItem item in foodItems)
             {
-                foodSchedule.Add(item);
+                //foodSchedule.Add(item);
             }
+            // TODO Ta bort
             //foodSchedule.Add("Morning: Seeds");
             //foodSchedule.Add("Lunch: Fruit");
             //foodSchedule.Add("Evening: Coconut");

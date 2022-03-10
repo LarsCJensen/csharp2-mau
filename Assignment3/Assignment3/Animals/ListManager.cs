@@ -95,6 +95,8 @@ namespace Assignment3.Animals
             }
             return infoStrings;
         }
+
+
         // TODO REMOVE
         private void ArrangeObjects(int removedIndex)
         {
@@ -105,6 +107,18 @@ namespace Assignment3.Animals
             {
                 m_List[i - 1] = m_List[i];
                 m_List[i] = default(T);
+            }
+        }
+
+        public void SortList(IComparer<T> sorter, bool desc)
+        {
+            if (desc)
+            {
+                m_List.Sort(new SorterReverse<T>(sorter));
+            }
+            else
+            {
+                m_List.Sort(sorter);
             }
         }
     }

@@ -14,7 +14,17 @@ namespace Assignment3.Animals
             get
             {
                 return ingredients;
-            }
+            } 
+
+        }
+        private static int startId = 1000;
+        private int id;
+        public int Id
+        {
+            get
+            {
+                return id;
+            }            
         }
         private string name;
         public string Name
@@ -30,12 +40,13 @@ namespace Assignment3.Animals
                     name = value;
                 }
             }
-        }
+        }    
         public FoodItem()
         {
-
+            startId = startId += 1;
+            id = startId;
         }
-
+        
         public override string ToString()
         {
             string strIngredients = "";

@@ -35,7 +35,9 @@ namespace Assignment3
         private Animal animal = null;
         private string sortColumn;
         private bool sortDescending = false;
-        private List<string> lstFoodItems = new List<string>();
+        // TODO Ta bort nedan
+        private List<FoodItem> foodItems = new List<FoodItem>();
+        private FoodManager foodManager = new FoodManager();
 
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -73,7 +75,10 @@ namespace Assignment3
             btnAdd.IsEnabled = false;
             // Fill Category Type
             lstCategoryType.ItemsSource = Enum.GetValues(typeof(AnimalCategoryEnum));
-            lbFoodItems.ItemsSource = lstFoodItems;
+            cboEaterType.ItemsSource = Enum.GetValues(typeof(EaterTypeEnum));
+            cboEaterType.SelectedItem = null;
+            lbFoodItems.ItemsSource = foodManager.FoodItems;
+            lbFoodItems.SelectedItems.Clear();
             SetGui();
             //lstCategoryType.SelectedItem = null;
             //grpMammalCategorySpec.Visibility = Visibility.Collapsed;
@@ -178,6 +183,12 @@ namespace Assignment3
         // Helper function to add animal
         private bool AddAnimal()
         {
+            List<FoodItem> chosenFoodItems = new List<FoodItem>();
+            // For each selected food items add them to 
+            foreach(FoodItem item in lbFoodItems.SelectedItems)
+            {
+                chosenFoodItems.Add(item);
+            }
             switch (lstCategoryType.SelectedItem)
             {
                 case AnimalCategoryEnum.Mammals:
@@ -186,7 +197,7 @@ namespace Assignment3
                     {
                         GenderType gender = GetGender();
                         // Here I can use just parse since the value has been validated before                        
-                        animal = myMammalFactory.CreateAnimal(mammalType, txtName.Text, int.Parse(txtAge.Text), gender, AnimalCategoryEnum.Mammals, txtDescription.Text, int.Parse(txtNumberOTeeth.Text));
+                        animal = myMammalFactory.CreateAnimal(mammalType, txtName.Text, int.Parse(txtAge.Text), gender, (EaterTypeEnum)cboEaterType.SelectedItem, AnimalCategoryEnum.Mammals, txtDescription.Text, int.Parse(txtNumberOTeeth.Text), foodItems);
                     }
                     catch (ArgumentException ex)
                     {
@@ -201,7 +212,7 @@ namespace Assignment3
                     {
                         GenderType gender = GetGender();
                         // Here I can use just parse since the value has been validated before                        
-                        animal = myBirdFactory.CreateAnimal(birdType, txtName.Text, int.Parse(txtAge.Text), gender, AnimalCategoryEnum.Birds, txtDescription.Text, int.Parse(txtAirSpeedVelocity.Text), lstFoodItems);
+                        animal = myBirdFactory.CreateAnimal(birdType, txtName.Text, int.Parse(txtAge.Text), gender, (EaterTypeEnum)cboEaterType.SelectedItem, AnimalCategoryEnum.Birds, txtDescription.Text, int.Parse(txtAirSpeedVelocity.Text), foodItems);
                     }
                     catch (ArgumentException ex)
                     {
@@ -216,7 +227,7 @@ namespace Assignment3
                     {
                         GenderType gender = GetGender();
                         // Here I can use just parse since the value has been validated before                        
-                        animal = myInsectFactory.CreateAnimal(insectType, txtName.Text, int.Parse(txtAge.Text), gender, AnimalCategoryEnum.Insects, txtDescription.Text, int.Parse(txtNumberOfWings.Text));
+                        animal = myInsectFactory.CreateAnimal(insectType, txtName.Text, int.Parse(txtAge.Text), gender, (EaterTypeEnum)cboEaterType.SelectedItem, AnimalCategoryEnum.Insects, txtDescription.Text, int.Parse(txtNumberOfWings.Text), foodItems);
                     }
                     catch (ArgumentException ex)
                     {
@@ -232,7 +243,7 @@ namespace Assignment3
                     {
                         GenderType gender = GetGender();
                         // Here I can use just parse since the value has been validated before                        
-                        animal = myReptileFactory.CreateAnimal(reptileType, txtName.Text, int.Parse(txtAge.Text), gender, AnimalCategoryEnum.Reptiles, txtDescription.Text, int.Parse(txtReptileLength.Text));
+                        animal = myReptileFactory.CreateAnimal(reptileType, txtName.Text, int.Parse(txtAge.Text), gender, (EaterTypeEnum)cboEaterType.SelectedItem, AnimalCategoryEnum.Reptiles, txtDescription.Text, int.Parse(txtReptileLength.Text), foodItems);
                     }
                     catch (ArgumentException ex)
                     {
@@ -279,7 +290,7 @@ namespace Assignment3
             //        ((Swallow)animal).Breed = txtBirdBreed.Text;
             //        break;
             //}
-            return animalManager.AddAnimal(animal);
+            return animalManager.AddAnimal(animal, chosenFoodItems);
         }
         // Helper function for get Gender
         private GenderType GetGender()
@@ -318,16 +329,26 @@ namespace Assignment3
         private void DisplayAnimalInfo(int index)
         {
             // If selection was cleared, index is -1
-            if(index < 0)
+            if (index < 0)
             {
                 return;
             }
             Animal selectedAnimal = animalManager.GetAt(index);
 
             lblAnimalInfo.Content = selectedAnimal.GetExtraInfo();
-            FoodSchedule foodSchedule = selectedAnimal.GetFoodSchedule();
-            lblEaterType.Content = foodSchedule.EaterType;
-            lbFoodSchedule.ItemsSource = foodSchedule.GetFoodListInfoStrings();
+            // TODO TA BORT
+            //FoodSchedule foodSchedule = selectedAnimal.GetFoodSchedule();
+            lblEaterType.Content = selectedAnimal.EaterType;
+            // TODO DELETE            
+            //lbFoodSchedule.ItemsSource = foodSchedule.GetFoodListInfoStrings();
+            int[] foodItemIds = animalManager.GetFoodSchedule(selectedAnimal.Id);
+            string[] foodSchedule = new string[foodItemIds.Length];
+            for(int i = 0; i < foodItemIds.Length; i++)
+            {
+                foodSchedule[i] = foodManager.GetFoodItem(foodItemIds[i]).ToString();
+            }
+            lbFoodSchedule.ItemsSource = foodSchedule;
+
         }
         // Helper function to validate input. Not sure if having it in the view is best, but it is easier to have it here so we can provide user with good message        
         private bool ValidateInput(object animalCategory, object animal)
@@ -358,7 +379,14 @@ namespace Assignment3
                 MessageBox.Show("You must choose a gender for your animal!", "Invalid input!", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
+            // Check if food items are selected
+            if(lbFoodItems.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("You must select food items for your animal!", "Invalid input!", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
 
+            // TODO Break out into own function
             switch (animalCategory)
             {
                 case AnimalCategoryEnum.Mammals:
@@ -684,18 +712,18 @@ namespace Assignment3
             {
                 case "Age":
                     // Sort by age
-                    animalManager.SortAnimalList(new SorterAge(), sortDescending);
+                    animalManager.SortList(new SorterAge(), sortDescending);
                     break;
                 case "ID":
                     // Sort by id
-                    animalManager.SortAnimalList(new SorterId(), sortDescending);
+                    animalManager.SortList(new SorterId(), sortDescending);
                     break;
                 case "Gender":
-                    animalManager.SortAnimalList(new SorterGender(), sortDescending);
+                    animalManager.SortList(new SorterGender(), sortDescending);
                     break;
                 default:
                     
-                    animalManager.SortAnimalList(new SorterName(), sortDescending);
+                    animalManager.SortList(new SorterName(), sortDescending);
                     break;
             }
 
@@ -719,6 +747,15 @@ namespace Assignment3
             {
                 AnimalCategoryEnum animalCat;
                 Animal animal = null;
+                FoodItem foodItem = new FoodItem();
+                foodItem.Name = "Breakfast";
+                foodItem.Ingredients.Add("Milj");
+                foodItem.Ingredients.Add("Banana");
+                foodManager.FoodItems.Add(foodItem);
+                foodItems.Add(foodItem);
+                //lstFoodItems.Add();
+                //lstFoodItems.Add("Lunch: Food and drinks");
+                //lstFoodItems.Add("Supper: Food and drinks");
                 if (i==0)
                 {
                     MammalFactory mammalFactory = new MammalFactory();
@@ -727,9 +764,9 @@ namespace Assignment3
                     // TODO TA bort
                     //string id = animalManager.GetNewId(animalCat);
                     GenderType gender = (GenderType)i;
-                    animal = mammalFactory.CreateAnimal(mammalType, "Name" + i.ToString(), 14, gender, animalCat, "Description " + i.ToString(), 24);
+                    animal = mammalFactory.CreateAnimal(mammalType, "Name" + i.ToString(), 14, gender, EaterTypeEnum.Carnivore, animalCat, "Description " + i.ToString(), 24, foodItems);
                     ((Dog)animal).Breed = "Samojed";
-                    animalManager.AddAnimal(animal);
+                    animalManager.AddAnimal(animal, foodItems);                    
                 }
                 if(i == 1)
                 {
@@ -739,9 +776,9 @@ namespace Assignment3
                     // TODO TA bort
                     //string id = animalManager.GetNewId(animalCat);
                     GenderType gender = (GenderType)i;
-                    animal = insectFactory.CreateAnimal(insectType, "Name" + i.ToString(), 4, gender, animalCat, "Description " + i.ToString(), 2);
+                    animal = insectFactory.CreateAnimal(insectType, "Name" + i.ToString(), 4, gender, EaterTypeEnum.Herbivore, animalCat, "Description " + i.ToString(), 2, foodItems);
                     ((Butterfly)animal).MainColor = "Blue";
-                    animalManager.AddAnimal(animal);
+                    animalManager.AddAnimal(animal, foodItems);
                 }
                 if (i == 2)
                 {
@@ -751,10 +788,11 @@ namespace Assignment3
                     // TODO TA bort
                     //string id = animalManager.GetNewId(animalCat);
                     GenderType gender = (GenderType)i;
-                    animal = reptileFactory.CreateAnimal(reptileType, "Name" + i.ToString(), 10, gender, animalCat, "Description " + i.ToString(), 120);
+                    animal = reptileFactory.CreateAnimal(reptileType, "Name" + i.ToString(), 10, gender, EaterTypeEnum.Carnivore, animalCat, "Description " + i.ToString(), 120, foodItems);
                     ((Crocodile)animal).NumberOfFarmersEaten = 12;
-                    animalManager.AddAnimal(animal);
+                    animalManager.AddAnimal(animal, foodItems);
                 }
+                foodItems.Clear();
             }
             RecreateAnimalList();
         }
@@ -820,7 +858,7 @@ namespace Assignment3
         {
             if(animal == null)
             {
-                lstCategoryType.SelectedItem = null;
+                lstCategoryType.SelectedItem = null;                
                 grpMammalCategorySpec.Visibility = Visibility.Collapsed;
                 grpBirdCategorySpec.Visibility = Visibility.Collapsed;
                 grpInsectCategorySpec.Visibility = Visibility.Collapsed;
@@ -861,8 +899,9 @@ namespace Assignment3
                 lblAnimalInfo.Content = "";
                 lbFoodSchedule.ItemsSource = null;
                 lbFoodSchedule.Items.Clear();
-                lbFoodItems.ItemsSource = null;
-                lbFoodItems.Items.Clear();
+                // TODO TA BORT
+                //lbFoodItems.ItemsSource = null;
+                //lbFoodItems.Items.Clear();
             } else
             {
                 lstCategoryType.SelectedItem = animal.Category;
@@ -1017,8 +1056,10 @@ namespace Assignment3
             if(addFoodWindow.ShowDialog() == true)
             {
                 // Add ingredients through addFoodWindow.foodItem.ToString();
-                lbFoodItems.ItemsSource = lstFoodItems;
-                lstFoodItems.Add(addFoodWindow.FoodItem.ToString());
+                //lbFoodItems.ItemsSource = lstFoodItems;
+                //lstFoodItems.Add(addFoodWindow.FoodItem.ToString());
+                lbFoodItems.ItemsSource = foodManager.FoodItems;                
+                foodManager.Add(addFoodWindow.FoodItem);
                 lbFoodItems.Items.Refresh();
 
             } else
@@ -1026,6 +1067,28 @@ namespace Assignment3
                 // Cancel was clicked
             }
 
+        }
+
+        private void btnCreateFoodItemsForTest_Click(object sender, RoutedEventArgs e)
+        {
+            FoodItem foodItem = new FoodItem();
+            foodItem.Name = "Breakfast";
+            foodItem.Ingredients.Add("Cereal");
+            foodItem.Ingredients.Add("Milk");
+            foodManager.Add(foodItem);
+
+            foodItem = new FoodItem();
+            foodItem.Name = "Lunch";
+            foodItem.Ingredients.Add("Meat");
+            foodItem.Ingredients.Add("Sallad");
+            foodManager.Add(foodItem);
+
+            foodItem = new FoodItem();
+            foodItem.Name = "Supper";
+            foodItem.Ingredients.Add("Grass");
+            foodItem.Ingredients.Add("Fish");
+            foodManager.Add(foodItem);
+            lbFoodItems.Items.Refresh();
         }
     }
 }

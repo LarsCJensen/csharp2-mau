@@ -29,12 +29,14 @@ namespace Assignment3.Mammals
         /// <param name="name">Name of animal</param>
         /// <param name="age">Age of animal</param>
         /// <param name="gender">Gender of animal</param>
+        /// <param name="eaterType">Eater type</param>
         /// <param name="category">Category of animal</param>
         /// <param name="description">Description of animal</param>
         /// <param name="teeth">Teeth of animal(mammal)</param>
-        public Elephant(string name, int age, GenderType gender, AnimalCategoryEnum category, string description, int teeth) : base(name, age, gender, category, description, teeth)
+        /// <param name="foodItems">List of strings with food items</param>
+        public Elephant(string name, int age, GenderType gender, EaterTypeEnum eaterType, AnimalCategoryEnum category, string description, int teeth, List<FoodItem> foodItems) : base(name, age, gender, eaterType, category, description, teeth)
         {
-            SetFoodSchedule();
+            //SetFoodSchedule(foodItems);
         }
         /// <summary>
         /// Method to print out mammal information
@@ -67,13 +69,14 @@ namespace Assignment3.Mammals
         /// <summary>
         /// Method to set food schedule
         /// </summary>
-        private void SetFoodSchedule()
+        private void SetFoodSchedule(List<FoodItem> foodItems)
         {
             foodSchedule = new FoodSchedule();
-            foodSchedule.EaterType = EaterTypeEnum.Carnivore;
-            foodSchedule.Add("Morning: Grass");
-            foodSchedule.Add("Lunch: Grass");
-            foodSchedule.Add("Evening: Icecream");
+            foodSchedule.EaterType = EaterTypeEnum.Herbivore;
+            foreach (FoodItem item in foodItems)
+            {
+                //foodSchedule.Add(item);
+            }
         }
     }
 }

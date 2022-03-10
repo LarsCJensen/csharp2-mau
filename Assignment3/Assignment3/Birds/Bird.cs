@@ -28,9 +28,10 @@ namespace Assignment3.Birds
         /// <param name="name">Name of animal</param>
         /// <param name="age">Age of animal</param>
         /// <param name="gender">Gender of animal</param>
+        /// <param name="eaterType">Eater type</param>
         /// <param name="category">Category of animal</param>
         /// <param name="description">Description of animal</param>
-        public Bird(int speed, string name, int age, GenderType gender, AnimalCategoryEnum category, string description) : base(name, age, gender, category, description)
+        public Bird(int speed, string name, int age, GenderType gender, EaterTypeEnum eaterType, AnimalCategoryEnum category, string description) : base(name, age, gender, eaterType, category, description)
         {
             airSpeedVelocity = speed;
         }

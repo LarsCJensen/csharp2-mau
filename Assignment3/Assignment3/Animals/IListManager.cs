@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace Assignment3.Animals
 {
+    /// <summary>
+    /// TODO WRITE
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IListManager<T>
     {
         int Count { get; }
@@ -17,5 +21,6 @@ namespace Assignment3.Animals
         T GetAt(int index);
         string[] ToStringArray();
         List<string> ToStringList();
+        void SortList(IComparer<T> sorter, bool desc);
     }
 }

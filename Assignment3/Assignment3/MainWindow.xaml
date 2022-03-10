@@ -19,7 +19,7 @@
             <RowDefinition Height="300"/>
         </Grid.RowDefinitions>
         <GroupBox x:Name="groupBox" Header="Animal Specification" HorizontalAlignment="Left" Height="296" Margin="10,10,0,0" VerticalAlignment="Top" Width="980" Grid.Row="0" Grid.ColumnSpan="4">
-            <Grid HorizontalAlignment="Left" Height="284" Margin="-2,0,0,0" VerticalAlignment="Center" Width="952">
+            <Grid HorizontalAlignment="Left" Height="284" Margin="-2,0,0,0" VerticalAlignment="Center" Width="969">
                 <Label Content="Name" HorizontalAlignment="Left" Height="28" Margin="26,18,0,0" VerticalAlignment="Top" Width="41"/>
                 <TextBox x:Name="txtName" HorizontalAlignment="Left" Height="25" Margin="72,18,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="78"/>
                 <Label Content="Age" HorizontalAlignment="Left" Height="28" Margin="26,49,0,0" VerticalAlignment="Top" Width="41"/>
@@ -35,23 +35,27 @@
                         <RadioButton x:Name="rdoUnknown" Content="Unknown" Height="27" Margin="10,0,0,7" HorizontalAlignment="Left" Width="78" VerticalAlignment="Bottom" Grid.ColumnSpan="2" IsChecked="True"/>
                     </Grid>
                 </GroupBox>
-                <ListBox x:Name="lstCategoryType" HorizontalAlignment="Left" Height="170" Margin="239,19,0,0" VerticalAlignment="Top" Width="110" SelectionChanged="lstCategoryType_SelectionChanged"/>
-                <ListBox x:Name="lstAnimalObject" HorizontalAlignment="Left" Height="170" Margin="359,19,0,0" VerticalAlignment="Top" Width="110" SelectionChanged="lstAnimalObject_SelectionChanged"/>
-                <Label Content="Category Type" HorizontalAlignment="Left" Height="27" Margin="235,-2,0,0" VerticalAlignment="Top" Width="88"/>
-                <Label Content="Animal Object" HorizontalAlignment="Left" Height="24" Margin="355,-2,0,0" VerticalAlignment="Top" Width="97"/>
+                <ListBox x:Name="lstCategoryType" HorizontalAlignment="Left" Height="170" Margin="256,19,0,0" VerticalAlignment="Top" Width="110" SelectionChanged="lstCategoryType_SelectionChanged"/>
+                <ListBox x:Name="lstAnimalObject" HorizontalAlignment="Left" Height="170" Margin="376,19,0,0" VerticalAlignment="Top" Width="110" SelectionChanged="lstAnimalObject_SelectionChanged"/>
+                <Label Content="Category Type" HorizontalAlignment="Left" Height="27" Margin="252,-2,0,0" VerticalAlignment="Top" Width="88"/>
+                <Label Content="Animal Object" HorizontalAlignment="Left" Height="24" Margin="372,-2,0,0" VerticalAlignment="Top" Width="97"/>
                 <Image x:Name="imgAnimal" HorizontalAlignment="Left" Height="170" Margin="491,20,0,0" VerticalAlignment="Top" Width="197">
                     <Image.Style>
                         <Style/>
                     </Image.Style>
                 </Image>
-                <Label Content="Description" HorizontalAlignment="Left" Margin="152,-3,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="txtDescription" HorizontalAlignment="Left" Height="167" Margin="155,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="78" AcceptsReturn="True"/>
+                <Label Content="Description" HorizontalAlignment="Left" Margin="151,46,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="txtDescription" HorizontalAlignment="Left" Height="117" Margin="155,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="91" AcceptsReturn="True"/>
                 <Button x:Name="btnBrowseImage" Content="Load image" HorizontalAlignment="Left" Margin="589,189,0,0" VerticalAlignment="Top" Click="btnBrowseImage_Click"/>
                 <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="3" Margin="719,38,0,0" VerticalAlignment="Top" Width="3"/>
-                <ListBox x:Name="lbFoodItems" HorizontalAlignment="Left" Height="143" Margin="708,40,0,0" VerticalAlignment="Top" Width="225"/>
+                <ListBox x:Name="lbFoodItems" HorizontalAlignment="Left" Height="143" Margin="708,40,0,0" VerticalAlignment="Top" Width="251" SelectionMode="Multiple"/>
                 <Label x:Name="lblFoodName" Content="Name" HorizontalAlignment="Left" Margin="711,14,0,0" VerticalAlignment="Top" Height="24"/>
-                <Label x:Name="lblFoodIngredients" Content="Ingredients" HorizontalAlignment="Left" Margin="807,14,0,0" VerticalAlignment="Top" Height="25"/>
+                <Label x:Name="lblFoodIngredients" Content="Ingredients" HorizontalAlignment="Left" Margin="845,13,0,0" VerticalAlignment="Top" Height="25"/>
                 <Button x:Name="btnAddFoodItem" Content="Add food" HorizontalAlignment="Left" Height="23" Margin="711,188,0,0" VerticalAlignment="Top" Width="63" Click="btnAddFoodItem_Click"/>
+                <Button x:Name="btnCreateFoodItemsForTest" Content="Create Food Items (Test)" HorizontalAlignment="Left" Margin="712,216,0,0" VerticalAlignment="Top" Width="139" Click="btnCreateFoodItemsForTest_Click"/>
+                <Label x:Name="lblFoodName_Copy" Content="Eater type" HorizontalAlignment="Left" Margin="777,14,0,0" VerticalAlignment="Top" Height="24"/>
+                <ComboBox x:Name="cboEaterType" HorizontalAlignment="Left" Margin="157,19,0,0" VerticalAlignment="Top" Width="89"/>
+                <Label Content="Eater type" HorizontalAlignment="Left" Margin="153,-3,0,0" VerticalAlignment="Top"/>
             </Grid>
         </GroupBox>
         <GroupBox x:Name="grpMammalCategorySpec" Header="Category Specifications" HorizontalAlignment="Left" Height="83" Margin="20,211,0,0" VerticalAlignment="Top" Width="267" Visibility="Collapsed" Grid.Row="0" Grid.ColumnSpan="2">
