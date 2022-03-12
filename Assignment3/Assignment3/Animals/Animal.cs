@@ -105,7 +105,7 @@ namespace Assignment3.Animals
                 eaterType = value;
             }
         }
-        public abstract FoodSchedule GetFoodSchedule();
+        //public abstract FoodSchedule GetFoodSchedule();
         /// <summary>
         /// Default sort method
         /// </summary>

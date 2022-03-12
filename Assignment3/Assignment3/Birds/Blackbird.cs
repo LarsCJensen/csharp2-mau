@@ -29,16 +29,15 @@ namespace Assignment3.Birds
         /// Constructor
         /// </summary>
         /// <param name="speed">Air-speed velocity of animal(bird)</param>
-        /// <param name="foodItems">List of food items</param>
         /// <param name="name">Name of animal</param>
         /// <param name="age">Age of animal</param>
         /// <param name="gender">Gender of animal</param>
         /// <param name="eaterType">Eater type</param>
         /// <param name="category">Category of animal</param>
         /// <param name="description">Description of animal</param>
-        public Blackbird(int speed, List<FoodItem> foodItems, string name, int age, GenderType gender, EaterTypeEnum eaterType, AnimalCategoryEnum category, string description) : base(speed, name, age, gender, eaterType, category, description)
+        public Blackbird(int speed, string name, int age, GenderType gender, EaterTypeEnum eaterType, AnimalCategoryEnum category, string description) : base(speed, name, age, gender, eaterType, category, description)
         {
-            SetFoodSchedule(foodItems);
+            //SetFoodSchedule(foodItems);
         }
         /// <summary>
         /// Method to print out mammal information
@@ -52,24 +51,24 @@ namespace Assignment3.Birds
                 "\nIUCN Cat: ", iucnCategorization);
             return strOut;
         }
-        public override FoodSchedule GetFoodSchedule()
-        {
-            return foodSchedule;
-        }
+        //public override FoodSchedule GetFoodSchedule()
+        //{
+        //    return foodSchedule;
+        //}
 
         /// <summary>
         /// Method to set food schedule
         /// </summary>
-        private void SetFoodSchedule(List<FoodItem> foodItems)
-        {
-            foodSchedule = new FoodSchedule();
-            foodSchedule.EaterType = EaterTypeEnum.Omnivorous;
-            foreach (FoodItem item in foodItems)
-            {
-                // TODO Use dict instead
-                //foodSchedule.Add(item);
-            }
-        }
+        //private void SetFoodSchedule(List<FoodItem> foodItems)
+        //{
+        //    foodSchedule = new FoodSchedule();
+        //    foodSchedule.EaterType = EaterTypeEnum.Omnivorous;
+        //    foreach (FoodItem item in foodItems)
+        //    {
+        //        // TODO Use dict instead
+        //        //foodSchedule.Add(item);
+        //    }
+        //}
         public override string GetExtraInfo()
         {
             string strOut = "Blackbird\n\n" + base.GetExtraInfo();

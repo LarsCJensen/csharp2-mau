@@ -12,7 +12,8 @@ namespace Assignment3.Animals
     /// </summary>
     public class AnimalManager: ListManager<Animal>
     {
-        private List<Animal> animalList = new List<Animal>();        
+        // TODO Ta bort
+        //private List<Animal> animalList = new List<Animal>();        
 
         private int startId = 1000;
         private Dictionary<int, List<string>> foodAnimalDict;
@@ -35,7 +36,7 @@ namespace Assignment3.Animals
         /// <returns>If succeeded</returns>
         public bool AddAnimal(Animal animal, List<FoodItem> foodItems)
         {
-            bool retValue = false;
+            bool retValue;
             if (animal != null)
             {
                 startId = startId += 1;
@@ -58,32 +59,47 @@ namespace Assignment3.Animals
                         break;
                 }
                 retValue = Add(animal);
-                foreach(FoodItem item in foodItems)
+                if(!retValue)
                 {
-                    retValue = AddFoodForAnimal(item.Id, animal.Id);
+                    return retValue;
                 }
-                
+                retValue = SetFoodItems(foodItems, animal.Id);                
             }
             else
             {
                 retValue = false ;
             }
             return retValue;
-        }        
-        
-        //public void SortAnimalList(string sortColumn, bool sortDescending)
-        //public void SortAnimalList(IComparer<Animal> sorter, bool desc)
-        //{
-        //    if(desc)
-        //    {
-        //        animalList.Sort(new SorterReverse<Animal>(sorter));
-        //    } else
-        //    {
-        //        animalList.Sort(sorter);
-        //    }                   
-        //}
+        }
+        public bool EditAnimal(Animal animal, int index, List<FoodItem> foodItems)
+        {
+            bool retValue;
+            retValue = Edit(animal, index);
+            if (!retValue)
+            {
+                return retValue;
+            }
+            RemoveFoodItems(animal.Id);
+            retValue = SetFoodItems(foodItems, animal.Id);
+
+            return retValue;
+        }
+
+        // TODO Remove
+            //public void SortAnimalList(string sortColumn, bool sortDescending)
+            //public void SortAnimalList(IComparer<Animal> sorter, bool desc)
+            //{
+            //    if(desc)
+            //    {
+            //        animalList.Sort(new SorterReverse<Animal>(sorter));
+            //    } else
+            //    {
+            //        animalList.Sort(sorter);
+            //    }                   
+            //}
         private bool AddFoodForAnimal(int foodItemId, string animalId)
         {
+            // TODO ta bort alla entrys för djuret och lägg tillbaka dem
             // TODO Add check for things
             List<string> animalList = new List<string>();
             if (foodAnimalDict.ContainsKey(foodItemId))
@@ -104,6 +120,32 @@ namespace Assignment3.Animals
         {
             var matches = foodAnimalDict.Where(x => x.Value.Contains(animalId)).Select(x => x.Key);            
             return matches.ToArray();
+        }
+        /// <summary>
+        /// Helper function to set food items for animal
+        /// </summary>
+        /// <param name="foodItems">List of food items</param>
+        /// <param name="animalId">Id of animal</param>
+        /// <returns>bool</returns>
+        private bool SetFoodItems(List<FoodItem> foodItems, string animalId)
+        {
+            bool retValue = false;
+            foreach (FoodItem item in foodItems)
+            {
+                retValue = AddFoodForAnimal(item.Id, animalId);
+            }
+            return retValue;
+        }
+        private void RemoveFoodItems(string animalId)
+        {
+            List<string> animalList = new List<string>();
+            var matches = foodAnimalDict.Where(x => x.Value.Contains(animalId)).Select(x => x.Key);
+            foreach (int match in matches)
+            {
+                animalList = foodAnimalDict[match];
+                animalList.Remove(animalId);
+                foodAnimalDict[match] = animalList;
+            }            
         }
     }
 }

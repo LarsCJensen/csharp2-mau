@@ -29,16 +29,15 @@ namespace Assignment3.Mammals
         /// <param name="category">Category of animal</param>
         /// <param name="description">Description of mammal</param>
         /// <param name="teeth">Number of teeth of mammal</param>
-        /// <param name="foodItems">List of  food items</param>
         /// <returns>An instance of mammal</returns>
-        public Animal CreateAnimal(MammalTypes mammalType, string name, int age, GenderType gender, EaterTypeEnum eaterType, AnimalCategoryEnum category, string description, int teeth, List<FoodItem> foodItems)
+        public Animal CreateAnimal(MammalTypes mammalType, string name, int age, GenderType gender, EaterTypeEnum eaterType, AnimalCategoryEnum category, string description, int teeth)
         {
             switch(mammalType)
             {
-                case MammalTypes.Cat: return new Cat(name, age, gender, eaterType, category, description, teeth, foodItems);                    
-                case MammalTypes.Dog: return new Dog(name, age, gender, eaterType, category, description, teeth, foodItems);                    
-                case MammalTypes.Horse: return new Horse(name, age, gender, eaterType, category, description, teeth, foodItems);
-                case MammalTypes.Elephant: return new Elephant(name, age, gender, eaterType, category, description, teeth, foodItems);
+                case MammalTypes.Cat: return new Cat(name, age, gender, eaterType, category, description, teeth);                    
+                case MammalTypes.Dog: return new Dog(name, age, gender, eaterType, category, description, teeth);                    
+                case MammalTypes.Horse: return new Horse(name, age, gender, eaterType, category, description, teeth);
+                case MammalTypes.Elephant: return new Elephant(name, age, gender, eaterType, category, description, teeth);
                 default:
                     // If mammalType is not found throw error
                     throw new ArgumentException("Mammal type not found!");
