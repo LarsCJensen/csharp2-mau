@@ -24,8 +24,7 @@ namespace Assignment3.Insects
                 }                
             } 
         }
-        private FoodSchedule foodSchedule;
-
+        
         /// <summary>
         /// Constructor
         /// </summary>        
@@ -38,7 +37,7 @@ namespace Assignment3.Insects
         /// <param name="numberOfWings">Number of wings of animal(insect)</param>
         public Bee(string name, int age, GenderType gender, EaterTypeEnum eaterType, AnimalCategoryEnum category, string description, int numberOfWings) : base(name, age, gender, eaterType, category, description, numberOfWings)
         {
-            //SetFoodSchedule(foodItems);
+           
         }
         /// <summary>
         /// Method to print out mammal information
@@ -52,22 +51,7 @@ namespace Assignment3.Insects
                 "\nHive number: ", beeHiveNumber);
             return strOut;
         }
-        //public override FoodSchedule GetFoodSchedule()
-        //{
-        //    return foodSchedule;
-        //}
-        ///// <summary>
-        ///// Method to set food schedule
-        ///// </summary>
-        //private void SetFoodSchedule(List<FoodItem> foodItems)
-        //{
-        //    foodSchedule = new FoodSchedule();
-        //    foodSchedule.EaterType = EaterTypeEnum.Omnivorous;
-        //    foreach (FoodItem item in foodItems)
-        //    {
-        //        //foodSchedule.Add(item);
-        //    }
-        //}
+        
         /// <summary>
         /// Method to return information about animal
         /// </summary>

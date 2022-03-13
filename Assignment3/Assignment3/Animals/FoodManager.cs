@@ -7,22 +7,27 @@ using System.Threading.Tasks;
 namespace Assignment3.Animals
 {
     /// <summary>
-    /// TODO Write
+    /// Manager for food
     /// </summary>    
+    /// This could inherit ListManager, but getting a food item is a bit special so decided to make it like this
     public class FoodManager
     {
-        // TODO SHOULD THIS inherit ListManager?
+        
         private List<FoodItem> foodItems = new List<FoodItem>();
         public List<FoodItem> FoodItems
         {
             get
             {
                 return foodItems;
-            }                 
+            }
         }
+        /// <summary>
+        /// Add food item
+        /// </summary>
+        /// <param name="foodItem">Food item to add to list</param>
         public void Add(FoodItem foodItem)
         {
-            if(foodItem != null)
+            if (foodItem != null)
             {
                 foodItems.Add(foodItem);
             }

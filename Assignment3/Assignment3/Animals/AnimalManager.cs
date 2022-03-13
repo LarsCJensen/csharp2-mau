@@ -12,9 +12,7 @@ namespace Assignment3.Animals
     /// </summary>
     public class AnimalManager: ListManager<Animal>
     {
-        // TODO Ta bort
-        //private List<Animal> animalList = new List<Animal>();        
-
+     
         private int startId = 1000;
         private Dictionary<int, List<string>> foodAnimalDict;
         public Dictionary<int, List<string>> FoodAnimalDict
@@ -63,7 +61,7 @@ namespace Assignment3.Animals
                 {
                     return retValue;
                 }
-                retValue = SetFoodItems(foodItems, animal.Id);                
+                SetFoodItems(foodItems, animal.Id);                
             }
             else
             {
@@ -80,27 +78,18 @@ namespace Assignment3.Animals
                 return retValue;
             }
             RemoveFoodItems(animal.Id);
-            retValue = SetFoodItems(foodItems, animal.Id);
+            SetFoodItems(foodItems, animal.Id);
 
             return retValue;
         }
-
-        // TODO Remove
-            //public void SortAnimalList(string sortColumn, bool sortDescending)
-            //public void SortAnimalList(IComparer<Animal> sorter, bool desc)
-            //{
-            //    if(desc)
-            //    {
-            //        animalList.Sort(new SorterReverse<Animal>(sorter));
-            //    } else
-            //    {
-            //        animalList.Sort(sorter);
-            //    }                   
-            //}
-        private bool AddFoodForAnimal(int foodItemId, string animalId)
-        {
-            // TODO ta bort alla entrys för djuret och lägg tillbaka dem
-            // TODO Add check for things
+        /// <summary>
+        /// Helper function to add food for an animal
+        /// </summary>
+        /// <param name="foodItemId">Id of food item</param>
+        /// <param name="animalId">Id of animal</param>
+        /// <returns>bool</returns>
+       private void AddFoodForAnimal(int foodItemId, string animalId)
+        {            
             List<string> animalList = new List<string>();
             if (foodAnimalDict.ContainsKey(foodItemId))
             {
@@ -108,8 +97,7 @@ namespace Assignment3.Animals
 
             }
             animalList.Add(animalId);
-            foodAnimalDict[foodItemId] = animalList;
-            return true;
+            foodAnimalDict[foodItemId] = animalList;            
         }
         /// <summary>
         /// Get food schedule for animal
@@ -127,14 +115,12 @@ namespace Assignment3.Animals
         /// <param name="foodItems">List of food items</param>
         /// <param name="animalId">Id of animal</param>
         /// <returns>bool</returns>
-        private bool SetFoodItems(List<FoodItem> foodItems, string animalId)
+        private void SetFoodItems(List<FoodItem> foodItems, string animalId)
         {
-            bool retValue = false;
             foreach (FoodItem item in foodItems)
             {
-                retValue = AddFoodForAnimal(item.Id, animalId);
-            }
-            return retValue;
+                AddFoodForAnimal(item.Id, animalId);
+            }            
         }
         private void RemoveFoodItems(string animalId)
         {

@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace Assignment3.Animals
 {
+    /// <summary>
+    /// Generic manager for lists
+    /// </summary>
+    /// <typeparam name="T">Type for list</typeparam>
     public class ListManager<T> : IListManager<T>
     {
         private List<T> m_List = new List<T>();
@@ -20,7 +24,12 @@ namespace Assignment3.Animals
                 return m_List.Count();            
             }
         }
-           
+        
+        /// <summary>
+        /// Add to list
+        /// </summary>
+        /// <param name="type">Type to add</param>
+        /// <returns>bool</returns>
         public bool Add(T type)
         {
             if(type != null)
@@ -30,7 +39,12 @@ namespace Assignment3.Animals
             }
             return false;
         }
-
+        /// <summary>
+        /// Edit list item
+        /// </summary>
+        /// <param name="type">Type of object</param>
+        /// <param name="index">Index of object</param>
+        /// <returns>bool</returns>
         public bool Edit(T type, int index)
         {
             if(type != null)
@@ -40,17 +54,27 @@ namespace Assignment3.Animals
             }
             return false;
         }
-
+        /// <summary>
+        /// Check if index is available
+        /// </summary>
+        /// <param name="index">Index to check</param>
+        /// <returns>bool</returns>
         public bool CheckIndex(int index)
         {
             throw new NotImplementedException();
         }
-        
+        /// <summary>
+        /// Delete all objects from list
+        /// </summary>
         public void DeleteAll()
         {
             m_List.Clear();
         }
-
+        /// <summary>
+        /// Delete list item
+        /// </summary>
+        /// <param name="index">Index to delete</param>
+        /// <returns>bool</returns>
         public bool Delete(int index)
         {
             if(m_List[index] != null)
@@ -73,10 +97,9 @@ namespace Assignment3.Animals
         /// <summary>
         /// Gets all strings for T
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Array of strings</returns>
         public string[] ToStringArray()
         {
-            // TODO Break out to helper function
             string[] infoStrings = new string[Count];
             for (int i = 0; i < Count; i++)
             {
@@ -84,10 +107,12 @@ namespace Assignment3.Animals
             }
             return infoStrings;
         }
-
+        /// <summary>
+        /// Get strings of all items in list
+        /// </summary>
+        /// <returns>List of strings</returns>
         public List<string> ToStringList()
         {
-            // TODO Break out to helper function
             List<string> infoStrings = new List<string>();
             for (int i = 0; i < Count; i++)
             {
@@ -95,23 +120,13 @@ namespace Assignment3.Animals
             }
             return infoStrings;
         }
-
-
-        // TODO REMOVE
-        private void ArrangeObjects(int removedIndex)
-        {
-            // If this is run each time a recipe is deleted and because you only can select one item
-            // then it shouldn't need to loop over all items and setting them to null. But this solution will be 
-            // future proff if multi-select is introduced.
-            for (int i = removedIndex+1; i <= m_List.Count; i++)
-            {
-                m_List[i - 1] = m_List[i];
-                m_List[i] = default(T);
-            }
-        }
-
+        /// <summary>
+        /// Sorter function for list
+        /// </summary>
+        /// <param name="sorter">Type of sorter</param>
+        /// <param name="desc">If descending order</param>
         public void SortList(IComparer<T> sorter, bool desc)
-        {
+        {            
             if (desc)
             {
                 m_List.Sort(new SorterReverse<T>(sorter));

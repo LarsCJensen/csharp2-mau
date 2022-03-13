@@ -104,18 +104,7 @@ namespace Assignment3.Animals
             {
                 eaterType = value;
             }
-        }
-        //public abstract FoodSchedule GetFoodSchedule();
-        /// <summary>
-        /// Default sort method
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        //public int CompareTo(Animal other)
-        //{
-        //    return String.Compare(this.name, other.name);
-        //}
-
+        }        
         /// <summary>
         /// Constructor
         /// </summary>
