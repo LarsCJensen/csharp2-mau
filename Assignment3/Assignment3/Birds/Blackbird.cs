@@ -24,7 +24,6 @@ namespace Assignment3.Birds
                 }
             } 
         }
-        private FoodSchedule foodSchedule;
         /// <summary>
         /// Constructor
         /// </summary>
@@ -37,7 +36,7 @@ namespace Assignment3.Birds
         /// <param name="description">Description of animal</param>
         public Blackbird(int speed, string name, int age, GenderType gender, EaterTypeEnum eaterType, AnimalCategoryEnum category, string description) : base(speed, name, age, gender, eaterType, category, description)
         {
-            //SetFoodSchedule(foodItems);
+           
         }
         /// <summary>
         /// Method to print out mammal information
@@ -51,24 +50,6 @@ namespace Assignment3.Birds
                 "\nIUCN Cat: ", iucnCategorization);
             return strOut;
         }
-        //public override FoodSchedule GetFoodSchedule()
-        //{
-        //    return foodSchedule;
-        //}
-
-        /// <summary>
-        /// Method to set food schedule
-        /// </summary>
-        //private void SetFoodSchedule(List<FoodItem> foodItems)
-        //{
-        //    foodSchedule = new FoodSchedule();
-        //    foodSchedule.EaterType = EaterTypeEnum.Omnivorous;
-        //    foreach (FoodItem item in foodItems)
-        //    {
-        //        // TODO Use dict instead
-        //        //foodSchedule.Add(item);
-        //    }
-        //}
         public override string GetExtraInfo()
         {
             string strOut = "Blackbird\n\n" + base.GetExtraInfo();

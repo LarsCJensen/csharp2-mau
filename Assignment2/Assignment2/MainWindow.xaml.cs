@@ -694,8 +694,6 @@ namespace Assignment2
                     MammalFactory mammalFactory = new MammalFactory();
                     animalCat = (AnimalCategoryEnum)i;
                     MammalTypes mammalType = MammalTypes.Dog;
-                    // TODO TA bort
-                    //string id = animalManager.GetNewId(animalCat);
                     GenderType gender = (GenderType)i;
                     animal = mammalFactory.CreateAnimal(mammalType, "Name" + i.ToString(), 14, gender, animalCat, "Description " + i.ToString(), 24);
                     ((Dog)animal).Breed = "Samojed";
@@ -706,8 +704,6 @@ namespace Assignment2
                     InsectFactory insectFactory = new InsectFactory();
                     animalCat = (AnimalCategoryEnum)i;
                     InsectTypes insectType = InsectTypes.Butterfly;
-                    // TODO TA bort
-                    //string id = animalManager.GetNewId(animalCat);
                     GenderType gender = (GenderType)i;
                     animal = insectFactory.CreateAnimal(insectType, "Name" + i.ToString(), 4, gender, animalCat, "Description " + i.ToString(), 2);
                     ((Butterfly)animal).MainColor = "Blue";
@@ -718,8 +714,6 @@ namespace Assignment2
                     ReptileFactory reptileFactory = new ReptileFactory();
                     animalCat = (AnimalCategoryEnum)i;
                     ReptileTypes reptileType = ReptileTypes.Crocodile;
-                    // TODO TA bort
-                    //string id = animalManager.GetNewId(animalCat);
                     GenderType gender = (GenderType)i;
                     animal = reptileFactory.CreateAnimal(reptileType, "Name" + i.ToString(), 10, gender, animalCat, "Description " + i.ToString(), 120);
                     ((Crocodile)animal).NumberOfFarmersEaten = 12;

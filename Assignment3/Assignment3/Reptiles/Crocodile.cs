@@ -22,7 +22,6 @@ namespace Assignment3.Reptiles
                 numberOfFarmersEaten = value;
             } 
         }
-        private FoodSchedule foodSchedule;
         /// <summary>
         /// Constructor
         /// </summary>
@@ -35,7 +34,7 @@ namespace Assignment3.Reptiles
         /// <param name="len">Length of animal(reptile)</param>
         public Crocodile(string name, int age, GenderType gender, EaterTypeEnum eaterType, AnimalCategoryEnum category, string description, int len) : base(name, age, gender, eaterType, category, description, len)
         {
-            //SetFoodSchedule(foodItems);
+            
         }
 
         /// <summary>
@@ -50,22 +49,7 @@ namespace Assignment3.Reptiles
                 "\nFarmers eaten: ", numberOfFarmersEaten);
             return strOut;
         }
-        //public override FoodSchedule GetFoodSchedule()
-        //{
-        //    return foodSchedule;
-        //}
-        ///// <summary>
-        ///// Method to set food schedule
-        ///// </summary>
-        //private void SetFoodSchedule(List<FoodItem> foodItems)
-        //{
-        //    foodSchedule = new FoodSchedule();
-        //    foodSchedule.EaterType = EaterTypeEnum.Carnivore;
-        //    foreach (FoodItem item in foodItems)
-        //    {
-        //        //foodSchedule.Add(item);
-        //    }
-        //}
+        
         /// <summary>
         /// Method to return information about animal
         /// </summary>

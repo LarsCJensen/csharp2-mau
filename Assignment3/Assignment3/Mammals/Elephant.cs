@@ -22,7 +22,6 @@ namespace Assignment3.Mammals
                 location = value;
             }
         }
-        private FoodSchedule foodSchedule;
         /// <summary>
         /// Constructor
         /// </summary>
@@ -35,7 +34,7 @@ namespace Assignment3.Mammals
         /// <param name="teeth">Teeth of animal(mammal)</param>
         public Elephant(string name, int age, GenderType gender, EaterTypeEnum eaterType, AnimalCategoryEnum category, string description, int teeth) : base(name, age, gender, eaterType, category, description, teeth)
         {
-            //SetFoodSchedule(foodItems);
+            
         }
         /// <summary>
         /// Method to print out mammal information
@@ -59,23 +58,6 @@ namespace Assignment3.Mammals
             strOut += string.Format("{0, -15} {1, 6}",
                 "\nLocation: ", location);
             return strOut;
-        }
-        //public override FoodSchedule GetFoodSchedule()
-        //{
-        //    return foodSchedule;
-        //}
-
-        ///// <summary>
-        ///// Method to set food schedule
-        ///// </summary>
-        //private void SetFoodSchedule(List<FoodItem> foodItems)
-        //{
-        //    foodSchedule = new FoodSchedule();
-        //    foodSchedule.EaterType = EaterTypeEnum.Herbivore;
-        //    foreach (FoodItem item in foodItems)
-        //    {
-        //        //foodSchedule.Add(item);
-        //    }
-        //}
+        }        
     }
 }

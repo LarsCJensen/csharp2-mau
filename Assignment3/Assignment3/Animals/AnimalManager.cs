@@ -12,9 +12,7 @@ namespace Assignment3.Animals
     /// </summary>
     public class AnimalManager: ListManager<Animal>
     {
-        // TODO Ta bort
-        //private List<Animal> animalList = new List<Animal>();        
-
+     
         private int startId = 1000;
         private Dictionary<int, List<string>> foodAnimalDict;
         public Dictionary<int, List<string>> FoodAnimalDict
@@ -34,7 +32,7 @@ namespace Assignment3.Animals
         /// </summary>
         /// <param name="animal">Animal to add</param>
         /// <returns>If succeeded</returns>
-        public bool AddAnimal(Animal animal, List<FoodItem> foodItems)
+        public bool AddAnimal(Animal animal)
         {
             bool retValue;
             if (animal != null)
@@ -58,58 +56,37 @@ namespace Assignment3.Animals
                         animal.Id = $"{startId}";
                         break;
                 }
-                retValue = Add(animal);
-                if(!retValue)
-                {
-                    return retValue;
-                }
-                retValue = SetFoodItems(foodItems, animal.Id);                
+                retValue = Add(animal);                
             }
             else
             {
                 retValue = false ;
             }
             return retValue;
-        }
-        public bool EditAnimal(Animal animal, int index, List<FoodItem> foodItems)
+        }        
+        /// <summary>
+        /// Helper function to add food for an animal
+        /// </summary>
+        /// <param name="foodItemId">Id of food item</param>
+        /// <param name="animalId">Id of animal</param>
+        /// <returns>bool</returns>
+        public void AddFoodForAnimal(List<FoodItem> foodItems, string animalId)
         {
-            bool retValue;
-            retValue = Edit(animal, index);
-            if (!retValue)
+            // First remove all existing food items for animal
+            RemoveFoodItems(animalId);
+            // Then add them to dict
+            foreach (FoodItem item in foodItems)
             {
-                return retValue;
+
+                List<string> animalList = new List<string>();
+                if (foodAnimalDict.ContainsKey(item.Id))
+                {
+                    animalList = foodAnimalDict[item.Id];
+
+                }
+                animalList.Add(animalId);
+                foodAnimalDict[item.Id] = animalList;
             }
-            RemoveFoodItems(animal.Id);
-            retValue = SetFoodItems(foodItems, animal.Id);
-
-            return retValue;
-        }
-
-        // TODO Remove
-            //public void SortAnimalList(string sortColumn, bool sortDescending)
-            //public void SortAnimalList(IComparer<Animal> sorter, bool desc)
-            //{
-            //    if(desc)
-            //    {
-            //        animalList.Sort(new SorterReverse<Animal>(sorter));
-            //    } else
-            //    {
-            //        animalList.Sort(sorter);
-            //    }                   
-            //}
-        private bool AddFoodForAnimal(int foodItemId, string animalId)
-        {
-            // TODO ta bort alla entrys för djuret och lägg tillbaka dem
-            // TODO Add check for things
-            List<string> animalList = new List<string>();
-            if (foodAnimalDict.ContainsKey(foodItemId))
-            {
-                animalList = foodAnimalDict[foodItemId];
-
-            }
-            animalList.Add(animalId);
-            foodAnimalDict[foodItemId] = animalList;
-            return true;
         }
         /// <summary>
         /// Get food schedule for animal
@@ -120,21 +97,6 @@ namespace Assignment3.Animals
         {
             var matches = foodAnimalDict.Where(x => x.Value.Contains(animalId)).Select(x => x.Key);            
             return matches.ToArray();
-        }
-        /// <summary>
-        /// Helper function to set food items for animal
-        /// </summary>
-        /// <param name="foodItems">List of food items</param>
-        /// <param name="animalId">Id of animal</param>
-        /// <returns>bool</returns>
-        private bool SetFoodItems(List<FoodItem> foodItems, string animalId)
-        {
-            bool retValue = false;
-            foreach (FoodItem item in foodItems)
-            {
-                retValue = AddFoodForAnimal(item.Id, animalId);
-            }
-            return retValue;
         }
         private void RemoveFoodItems(string animalId)
         {

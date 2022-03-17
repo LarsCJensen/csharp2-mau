@@ -26,7 +26,6 @@ namespace Assignment3
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         // Make this public to be able to bind from frontend
-        //public AnimalManager animalManager = new AnimalManager();
         private AnimalManager animalManager = new AnimalManager();
         private MammalFactory myMammalFactory = new MammalFactory();
         private BirdFactory myBirdFactory = new BirdFactory();
@@ -35,9 +34,9 @@ namespace Assignment3
         private Animal animal = null;
         private string sortColumn;
         private bool sortDescending = false;
-        // TODO Ta bort nedan
-        private List<FoodItem> foodItems = new List<FoodItem>();
         private FoodManager foodManager = new FoodManager();
+        private List<FoodItem> foodItems = new List<FoodItem>();
+        private List<FoodItem> chosenFoodItems = new List<FoodItem>();
 
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -77,48 +76,11 @@ namespace Assignment3
             lstCategoryType.ItemsSource = Enum.GetValues(typeof(AnimalCategoryEnum));
             cboEaterType.ItemsSource = Enum.GetValues(typeof(EaterTypeEnum));
             cboEaterType.SelectedItem = null;
-            lbFoodItems.ItemsSource = foodManager.FoodItems;
+            chosenFoodItems = GetChosenFoodItems();
+            foodItems = GetAllFoodItems();
+            lbFoodItems.ItemsSource = foodItems;
             lbFoodItems.SelectedItems.Clear();
-            SetGui();
-            //lstCategoryType.SelectedItem = null;
-            //grpMammalCategorySpec.Visibility = Visibility.Collapsed;
-            //grpBirdCategorySpec.Visibility = Visibility.Collapsed;
-            //grpInsectCategorySpec.Visibility = Visibility.Collapsed;
-            //grpReptileCategorySpec.Visibility = Visibility.Collapsed;
-            //stackDog.Visibility = Visibility.Collapsed;
-            //stackCat.Visibility = Visibility.Collapsed;
-            //stackHorse.Visibility = Visibility.Collapsed;
-            //stackElephant.Visibility = Visibility.Collapsed;
-            //stackCrocodile.Visibility = Visibility.Collapsed;
-            //stackSnake.Visibility = Visibility.Collapsed;
-            //stackButterfly.Visibility = Visibility.Collapsed;
-            //stackBee.Visibility = Visibility.Collapsed;
-            //stackSwallow.Visibility = Visibility.Collapsed;
-            //stackBlackbird.Visibility = Visibility.Collapsed;
-            // This should be done in a loop over all children of mainGrid, but chose this quick and dirty way
-            //txtName.Text = String.Empty;
-            //txtAge.Text = String.Empty;
-            //rdoUnknown.IsChecked = true;
-            //txtDescription.Text = String.Empty;
-            //lstAnimalObject.ItemsSource = null;
-            //lstAnimalObject.Items.Clear();
-            //imgAnimal.Source = null;
-            //txtNumberOTeeth.Text = String.Empty;
-            //txtDogBreed.Text = String.Empty;
-            //chkIndoor.IsChecked = false;
-            //txtBoxNumber.Text = String.Empty;
-            //txtLocation.Text = String.Empty;
-            //txtAirSpeedVelocity.Text = String.Empty;
-            //txtBirdBreed.Text = String.Empty;
-            //txtIUCNCategory.Text = String.Empty;
-            //txtNumberOfWings.Text = String.Empty;
-            //txtButterflyColor.Text = String.Empty;
-            //txtHiveNumber.Text = String.Empty;
-            //txtReptileLength.Text = String.Empty;
-            //chkVenomous.IsChecked = false;
-            //txtCrodocile.Text = String.Empty;
-            //chkListAllAnimals.IsChecked = false;
-            //lstCategoryType.IsEnabled = true;
+            SetGui();            
         }
 
 
@@ -172,10 +134,13 @@ namespace Assignment3
             {
                 if (AddAnimal())
                 {
+                    animalManager.AddFoodForAnimal(GetChosenFoodItems(), animal.Id);
                     listOfAnimals.Add(animal);
                     animal = null;
-                    InitializeGUI();
-                    
+                    InitializeGUI();                    
+                } else
+                {
+                    MessageBox.Show("Could not add animal", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -183,7 +148,7 @@ namespace Assignment3
         // Helper function to add animal
         private bool AddAnimal()
         {
-            List<FoodItem> chosenFoodItems = GetFoodItems();
+            List<FoodItem> chosenFoodItems = GetChosenFoodItems();
 
             switch (lstCategoryType.SelectedItem)
             {
@@ -250,43 +215,7 @@ namespace Assignment3
                     break;
             }
             SetAnimalAttributes();
-            // TODO REMOVE
-            //// Switch to set animal specific attributes
-            //switch (animal)
-            //{
-            //    case Dog:
-            //        ((Dog)animal).Breed = txtDogBreed.Text;
-            //        break;
-            //    case Cat:
-            //        ((Cat)animal).Indoor = chkIndoor.IsChecked.Value;
-            //        break;
-            //    case Horse:
-            //        ((Horse)animal).StableBoxNumber = txtBoxNumber.Text;
-            //        break;
-            //    case Elephant:
-            //        ((Elephant)animal).Location = txtLocation.Text;
-            //        break;
-            //    case Bee:
-            //        ((Bee)animal).BeeHiveNumber = txtHiveNumber.Text;
-            //        break;
-            //    case Butterfly:
-            //        ((Butterfly)animal).MainColor = txtButterflyColor.Text;
-            //        break;
-            //    case Crocodile:
-            //        // Parse is fine here since I have validated the data already
-            //        ((Crocodile)animal).NumberOfFarmersEaten = int.Parse(txtCrodocile.Text);
-            //        break;
-            //    case Snake:
-            //        ((Snake)animal).Venomous = chkVenomous.IsChecked.Value;
-            //        break;
-            //    case Blackbird:
-            //        ((Blackbird)animal).IUCNCategorization = txtIUCNCategory.Text;
-            //        break;
-            //    case Swallow:
-            //        ((Swallow)animal).Breed = txtBirdBreed.Text;
-            //        break;
-            //}
-            return animalManager.AddAnimal(animal, chosenFoodItems);
+            return animalManager.AddAnimal(animal);
         }
         // Helper function for get Gender
         private GenderType GetGender()
@@ -302,24 +231,7 @@ namespace Assignment3
                     return GenderType.Unknown;
             }
         }
-        /// <summary>
-        /// Set control for gender
-        /// </summary>        
-        private void SetGender()
-        {
-            switch (animal.Gender)
-            {
-                case GenderType.Female:
-                    rdoFemale.IsChecked = true;
-                    break;
-                case GenderType.Male:
-                    rdoMale.IsChecked = true;
-                    break;
-                default:
-                    rdoUnknown.IsChecked = true;
-                    break;
-            }
-        }
+        
         // Function to display attributes of recently added animal
         // Perhaps not a better solution than to have a ToString overload in each class but a solution I wanted to try
         private void DisplayAnimalInfo(int index)
@@ -332,19 +244,19 @@ namespace Assignment3
             Animal selectedAnimal = animalManager.GetAt(index);
 
             lblAnimalInfo.Content = selectedAnimal.GetExtraInfo();
-            // TODO TA BORT
-            //FoodSchedule foodSchedule = selectedAnimal.GetFoodSchedule();
             lblEaterType.Content = selectedAnimal.EaterType;
-            // TODO DELETE            
-            //lbFoodSchedule.ItemsSource = foodSchedule.GetFoodListInfoStrings();
             int[] foodItemIds = animalManager.GetFoodSchedule(selectedAnimal.Id);
-            string[] foodSchedule = new string[foodItemIds.Length];
-            for(int i = 0; i < foodItemIds.Length; i++)
+            List<string> foodSchedule = new List<string>();
+            for (int i = 0; i < foodManager.Count; i++)
             {
-                foodSchedule[i] = foodManager.GetFoodItem(foodItemIds[i]).ToString();
+                FoodItem foodItem = foodManager.GetAt(i);
+                if (foodItemIds.Contains(foodItem.Id))
+                {
+                    foodSchedule.Add(foodItem.ToString());
+                }
             }
             // Dumb sort foodSchedule. Probably should create a more robust sorting solution
-            Array.Sort(foodSchedule);
+            foodSchedule.Sort();
             lbFoodSchedule.ItemsSource = foodSchedule;
 
         }
@@ -391,7 +303,6 @@ namespace Assignment3
                 return false;
             }
 
-            // TODO Break out into own function
             switch (animalCategory)
             {
                 case AnimalCategoryEnum.Mammals:
@@ -643,15 +554,7 @@ namespace Assignment3
                 btnAdd.IsEnabled = true;
                 lstCategoryType.IsEnabled = true;
             }
-        }
-        // Helper function to add enum items to listbox
-        private void AddItemsToAnimalListbox(Array items)
-        {
-            foreach (var item in items)
-            {
-                lstAnimalObject.Items.Add(item);
-            }
-        }
+        }        
 
         // Function to choose an image for your animal
         private void btnBrowseImage_Click(object sender, RoutedEventArgs e)
@@ -665,20 +568,7 @@ namespace Assignment3
             }
         }
         
-        // Function to clear all controls of input
-        // Not used
-        private void ClearControls()
-        {
-            foreach (Control ctl in mainGrid.Children)
-            {
-                if (ctl.GetType() == typeof(CheckBox))
-                    ((CheckBox)ctl).IsChecked = false;
-                if (ctl.GetType() == typeof(TextBox))
-                    ((TextBox)ctl).Text = String.Empty;
-                if (ctl.GetType() == typeof(RadioButton))
-                    ((RadioButton)ctl).IsChecked = false;
-            }
-        }
+        
         /// <summary>
         /// Function which are called upon selection changed
         /// </summary>
@@ -731,14 +621,6 @@ namespace Assignment3
                     animalManager.SortList(new SorterName(), sortDescending);
                     break;
             }
-
-            // TODO Ta bort
-            // Recreate ListOfAnimals from the newly sorted list
-            //ListOfAnimals = new ObservableCollection<Animal>();
-            //for (int i = 0; i < animalManager.Count; i++)
-            //{
-            //    ListOfAnimals.Add(animalManager.GetAt(i));
-            //}
             RecreateAnimalList();
         }
         /// <summary>
@@ -747,7 +629,8 @@ namespace Assignment3
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void btnCreateAnimalsForTest_Click(object sender, RoutedEventArgs e)
-        {            
+        {
+            List<FoodItem> foodItems = new List<FoodItem>();
             for (int i = 0; i < 3; i++)
             {
                 AnimalCategoryEnum animalCat;
@@ -756,46 +639,44 @@ namespace Assignment3
                 foodItem.Name = "Breakfast";
                 foodItem.Ingredients.Add("Milk");
                 foodItem.Ingredients.Add("Banana");
-                foodManager.FoodItems.Add(foodItem);
+                foodManager.Add(foodItem);
                 foodItems.Add(foodItem);
                 if (i==0)
                 {
                     MammalFactory mammalFactory = new MammalFactory();
                     animalCat = (AnimalCategoryEnum)i;
                     MammalTypes mammalType = MammalTypes.Dog;
-                    // TODO TA bort
-                    //string id = animalManager.GetNewId(animalCat);
                     GenderType gender = (GenderType)i;
                     animal = mammalFactory.CreateAnimal(mammalType, "Name" + i.ToString(), 14, gender, EaterTypeEnum.Carnivore, animalCat, "Description " + i.ToString(), 24);
                     ((Dog)animal).Breed = "Samojed";
-                    animalManager.AddAnimal(animal, foodItems);                    
+                    animalManager.AddAnimal(animal);
                 }
                 if(i == 1)
                 {
                     InsectFactory insectFactory = new InsectFactory();
                     animalCat = (AnimalCategoryEnum)i;
                     InsectTypes insectType = InsectTypes.Butterfly;
-                    // TODO TA bort
-                    //string id = animalManager.GetNewId(animalCat);
                     GenderType gender = (GenderType)i;
                     animal = insectFactory.CreateAnimal(insectType, "Name" + i.ToString(), 4, gender, EaterTypeEnum.Herbivore, animalCat, "Description " + i.ToString(), 2);
                     ((Butterfly)animal).MainColor = "Blue";
-                    animalManager.AddAnimal(animal, foodItems);
+                    animalManager.AddAnimal(animal);
+                    
                 }
                 if (i == 2)
                 {
                     ReptileFactory reptileFactory = new ReptileFactory();
                     animalCat = (AnimalCategoryEnum)i;
                     ReptileTypes reptileType = ReptileTypes.Crocodile;
-                    // TODO TA bort
-                    //string id = animalManager.GetNewId(animalCat);
                     GenderType gender = (GenderType)i;
                     animal = reptileFactory.CreateAnimal(reptileType, "Name" + i.ToString(), 10, gender, EaterTypeEnum.Carnivore, animalCat, "Description " + i.ToString(), 120);
                     ((Crocodile)animal).NumberOfFarmersEaten = 12;
-                    animalManager.AddAnimal(animal, foodItems);
+                    animalManager.AddAnimal(animal);
                 }
+                animalManager.AddFoodForAnimal(foodItems, animal.Id);
                 foodItems.Clear();
             }
+            foodItems = GetAllFoodItems();
+            lbFoodItems.ItemsSource = foodItems;
             RecreateAnimalList();
         }
 
@@ -819,9 +700,10 @@ namespace Assignment3
             } else
             {
                 UpdateAnimal();
-                List<FoodItem> foodItems = GetFoodItems();
-                if(animalManager.EditAnimal(animal, lvAnimalList.SelectedIndex, foodItems))
+                List<FoodItem> foodItems = GetChosenFoodItems();
+                if (animalManager.Edit(animal, lvAnimalList.SelectedIndex))
                 {
+                    animalManager.AddFoodForAnimal(foodItems, animal.Id);
                     animal = null;
                     SetGui();
                     RecreateAnimalList();
@@ -833,11 +715,17 @@ namespace Assignment3
                     btnEdit.Content = "Edit";
                 } else
                 {
-                    // TODO Ask to abort and reset edit mode
-                    MessageBox.Show("Could not edit animal, please try again!");
+                    MessageBox.Show("Could save edit, please try again!");
+                    animal = null;
+                    SetGui();
+                    RecreateAnimalList();
+                    btnAdd.IsEnabled = true;
+                    btnDelete.IsEnabled = true;
+                    chkListAllAnimals.IsEnabled = true;
+                    lvAnimalList.IsEnabled = true;
+                    lbFoodSchedule.IsEnabled = true;
+                    btnEdit.Content = "Edit";
                 }
-                
-                
             }
         }
 
@@ -850,99 +738,11 @@ namespace Assignment3
                 lbFoodSchedule.ItemsSource = null;
                 lbFoodSchedule.Items.Clear();
                 lvAnimalList.UnselectAll();
-                // TODO Ta bort
-                // Recreate ListOfAnimals from the newly sorted list
-                //ListOfAnimals = new ObservableCollection<Animal>();
-                //for (int i = 0; i < animalManager.Count; i++)
-                //{
-                //    ListOfAnimals.Add(animalManager.GetAt(i));
-                //}
                 RecreateAnimalList();
 
             }
         }
-
-        private void SetGui()
-        {
-            if(animal == null)
-            {
-                lstCategoryType.SelectedItem = null;                
-                grpMammalCategorySpec.Visibility = Visibility.Collapsed;
-                grpBirdCategorySpec.Visibility = Visibility.Collapsed;
-                grpInsectCategorySpec.Visibility = Visibility.Collapsed;
-                grpReptileCategorySpec.Visibility = Visibility.Collapsed;
-                stackDog.Visibility = Visibility.Collapsed;
-                stackCat.Visibility = Visibility.Collapsed;
-                stackHorse.Visibility = Visibility.Collapsed;
-                stackElephant.Visibility = Visibility.Collapsed;
-                stackCrocodile.Visibility = Visibility.Collapsed;
-                stackSnake.Visibility = Visibility.Collapsed;
-                stackButterfly.Visibility = Visibility.Collapsed;
-                stackBee.Visibility = Visibility.Collapsed;
-                stackSwallow.Visibility = Visibility.Collapsed;
-                stackBlackbird.Visibility = Visibility.Collapsed;
-                txtName.Text = String.Empty;
-                txtAge.Text = String.Empty;
-                rdoUnknown.IsChecked = true;
-                cboEaterType.SelectedIndex = -1;
-                txtDescription.Text = String.Empty;
-                lstAnimalObject.ItemsSource = null;
-                lstAnimalObject.Items.Clear();
-                imgAnimal.Source = null;
-                txtNumberOTeeth.Text = String.Empty;
-                txtDogBreed.Text = String.Empty;
-                chkIndoor.IsChecked = false;
-                txtBoxNumber.Text = String.Empty;
-                txtLocation.Text = String.Empty;
-                txtAirSpeedVelocity.Text = String.Empty;
-                txtBirdBreed.Text = String.Empty;
-                txtIUCNCategory.Text = String.Empty;
-                txtNumberOfWings.Text = String.Empty;
-                txtButterflyColor.Text = String.Empty;
-                txtHiveNumber.Text = String.Empty;
-                txtReptileLength.Text = String.Empty;
-                chkVenomous.IsChecked = false;
-                txtCrodocile.Text = String.Empty;
-                chkListAllAnimals.IsChecked = false;
-                lstCategoryType.IsEnabled = true;
-                lblAnimalInfo.Content = "";
-                lbFoodSchedule.ItemsSource = null;
-                lbFoodSchedule.Items.Clear();
-                lbFoodItems.SelectedItems.Clear();
-                // TODO TA BORT
-                //lbFoodItems.ItemsSource = null;
-                //lbFoodItems.Items.Clear();
-            } else
-            {
-                lstCategoryType.SelectedItem = animal.Category;
-                lstAnimalObject.SelectedItem = animal.GetType().Name;
-                txtName.Text = animal.Name;
-                txtAge.Text = animal.Age.ToString();
-                SetGender();
-                cboEaterType.SelectedItem = animal.EaterType;
-                txtDescription.Text = animal.Description;
-                SetAnimalAttributesControls();
-                SetFoodItemsSelection();
-            }
-            
-            // TODO Remove
-            //txtNumberOTeeth.Text = String.Empty;
-            //txtDogBreed.Text = String.Empty;
-            //chkIndoor.IsChecked = false;
-            //txtBoxNumber.Text = String.Empty;
-            //txtLocation.Text = String.Empty;
-            //txtAirSpeedVelocity.Text = String.Empty;
-            //txtBirdBreed.Text = String.Empty;
-            //txtIUCNCategory.Text = String.Empty;
-            //txtNumberOfWings.Text = String.Empty;
-            //txtButterflyColor.Text = String.Empty;
-            //txtHiveNumber.Text = String.Empty;
-            //txtReptileLength.Text = String.Empty;
-            //chkVenomous.IsChecked = false;
-            //txtCrodocile.Text = String.Empty;
-            //chkListAllAnimals.IsChecked = false;
-            //lstCategoryType.IsEnabled = true;
-        }
+        
         private void SetAnimalAttributes()
         {
             // Switch to set animal specific attributes
@@ -981,75 +781,7 @@ namespace Assignment3
                     break;
             }
         }
-        private void SetAnimalAttributesControls()
-        {
-            switch (animal)
-            {
-                case Dog:
-                    // TODO Make this prettier
-                    txtNumberOTeeth.Text = ((Mammal)animal).NumberOfTeeth.ToString();
-                    txtDogBreed.Text = ((Dog)animal).Breed;
-                    break;
-                case Cat:
-                    txtNumberOTeeth.Text = ((Mammal)animal).NumberOfTeeth.ToString();
-                    chkIndoor.IsChecked = ((Cat)animal).Indoor;
-                    break;
-                case Horse:
-                    txtNumberOTeeth.Text = ((Mammal)animal).NumberOfTeeth.ToString();
-                    txtBoxNumber.Text = ((Horse)animal).StableBoxNumber;
-                    break;
-                case Elephant:
-                    txtNumberOTeeth.Text = ((Mammal)animal).NumberOfTeeth.ToString();
-                    txtLocation.Text = ((Elephant)animal).Location;
-                    break;
-                case Bee:
-                    txtNumberOfWings.Text = ((Insect)animal).NumberOfWings.ToString();
-                    txtHiveNumber.Text = ((Bee)animal).BeeHiveNumber;
-                    break;
-                case Butterfly:
-                    txtNumberOfWings.Text = ((Insect)animal).NumberOfWings.ToString();
-                    txtButterflyColor.Text = ((Butterfly)animal).MainColor;                    
-                    break;
-                case Crocodile:
-                    txtReptileLength.Text = ((Reptile)animal).Length.ToString();
-                    // Parse is fine here since I have validated the data already
-                    txtCrodocile.Text = ((Crocodile)animal).NumberOfFarmersEaten.ToString();
-                    break;
-                case Snake:
-                    txtReptileLength.Text = ((Reptile)animal).Length.ToString();
-                    chkVenomous.IsChecked = ((Snake)animal).Venomous;
-                    break;
-                case Blackbird:
-                    txtAirSpeedVelocity.Text = ((Bird)animal).AirSpeedVelocity.ToString();
-                    txtIUCNCategory.Text = ((Blackbird)animal).IUCNCategorization;
-                    break;
-                case Swallow:
-                    txtAirSpeedVelocity.Text = ((Bird)animal).AirSpeedVelocity.ToString();
-                    txtBirdBreed.Text = ((Swallow)animal).Breed;
-                    break;
-            }
-        }
-        private void SetFoodItemsSelection()
-        {
-            foreach(int itemId in animalManager.GetFoodSchedule(animal.Id)) {
-                for(int i=0; i < lbFoodItems.Items.Count; i++)
-                {
-                    FoodItem foodItem = (FoodItem)lbFoodItems.Items.GetItemAt(i);
-                    if (foodItem.Id == itemId)
-                    {
-                        lbFoodItems.SelectedItems.Add(foodItem);
-                    }
-                }
-            }
-        }
-        private void RecreateAnimalList()
-        {
-            ListOfAnimals = new ObservableCollection<Animal>();
-            for (int i = 0; i < animalManager.Count; i++)
-            {
-                ListOfAnimals.Add(animalManager.GetAt(i));
-            }
-        }
+        
         private void UpdateAnimal()
         {
             switch (lstCategoryType.SelectedItem)
@@ -1080,8 +812,9 @@ namespace Assignment3
             AddFood addFoodWindow = new AddFood();
             if(addFoodWindow.ShowDialog() == true)
             {
-                lbFoodItems.ItemsSource = foodManager.FoodItems;                
                 foodManager.Add(addFoodWindow.FoodItem);
+                foodItems = GetAllFoodItems();
+                lbFoodItems.ItemsSource = foodItems;
                 lbFoodItems.Items.Refresh();
 
             } else
@@ -1110,9 +843,21 @@ namespace Assignment3
             foodItem.Ingredients.Add("Grass");
             foodItem.Ingredients.Add("Fish");
             foodManager.Add(foodItem);
+            foodItems = GetAllFoodItems();
+            lbFoodItems.ItemsSource = foodItems;
             lbFoodItems.Items.Refresh();
         }
-        private List<FoodItem> GetFoodItems()
+        private List<FoodItem> GetAllFoodItems()
+        {
+            List<FoodItem> foodItems = new List<FoodItem>();
+            // For each selected food items add them to 
+            for(int i = 0; i < foodManager.Count; i++)
+            {
+                foodItems.Add(foodManager.GetAt(i));
+            }
+            return foodItems;
+        }
+        private List<FoodItem> GetChosenFoodItems()
         {
             List<FoodItem> chosenFoodItems = new List<FoodItem>();
             // For each selected food items add them to 
