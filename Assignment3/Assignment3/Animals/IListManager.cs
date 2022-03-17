@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace Assignment3.Animals
 {
     /// <summary>
-    /// TODO WRITE
+    /// Interface for List manager
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Type to create for</typeparam>
     public interface IListManager<T>
     {
         int Count { get; }

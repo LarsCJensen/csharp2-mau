@@ -26,14 +26,13 @@ namespace Assignment3.Birds
         /// <param name="category">Category of animal</param>
         /// <param name="description">Description of animal</param>
         /// <param name="speed">Air-speed velocity of bird</param>
-        /// <param name="foodItems">List of food items</param>
         /// <returns>Instance of bird</returns>
-        public Animal CreateAnimal(BirdTypes birdType, string name, int age, GenderType gender, EaterTypeEnum eaterType, AnimalCategoryEnum category, string description, int speed, List<FoodItem> foodItems)
+        public Animal CreateAnimal(BirdTypes birdType, string name, int age, GenderType gender, EaterTypeEnum eaterType, AnimalCategoryEnum category, string description, int speed)
         {
             switch (birdType)
             {
-                case BirdTypes.Blackbird: return new Blackbird(speed, foodItems, name, age, gender, eaterType, category, description);
-                case BirdTypes.Swallow: return new Swallow(speed, foodItems, name, age, gender, eaterType, category, description);
+                case BirdTypes.Blackbird: return new Blackbird(speed, name, age, gender, eaterType, category, description);
+                case BirdTypes.Swallow: return new Swallow(speed, name, age, gender, eaterType, category, description);
                 default:
                     // If InsectTypes is not found throw error
                     throw new ArgumentException("Bird type not found!");

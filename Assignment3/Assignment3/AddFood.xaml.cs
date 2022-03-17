@@ -41,7 +41,11 @@ namespace Assignment3
             txtName.Text = String.Empty;
             txtIngredient.Text = String.Empty;            
         }
-
+        /// <summary>
+        /// Add ingredient
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             if(ValidateInput())
@@ -50,6 +54,10 @@ namespace Assignment3
                 txtIngredient.Text = String.Empty;
             } 
         }
+        /// <summary>
+        /// Validate input
+        /// </summary>
+        /// <returns>bool</returns>
         private bool ValidateInput()
         {
             if (string.IsNullOrEmpty(txtIngredient.Text))
@@ -59,30 +67,67 @@ namespace Assignment3
             }
             return true;
         }
-
+        /// <summary>
+        /// Edit ingredient
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
-            // TODO How to check for if Edit
-            if(lbIngredients.SelectedIndex >= 0)
+            if (lbIngredients.SelectedIndex == -1)
             {
-                txtIngredient.Text = foodItem.Ingredients.GetAt(lbIngredients.SelectedIndex);
+                MessageBox.Show("Please select an ingredient to edit!", "Choose ingredient!", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if ((sender as Button).Content.ToString() == "Edit")
+            {
+                btnAdd.IsEnabled = false;
+                btnDelete.IsEnabled = false;
+                btnSave.IsEnabled = false;
+                btnEdit.Content = "Save";
+                txtIngredient.Text = lbIngredients.Items.GetItemAt(lbIngredients.SelectedIndex).ToString();
+            } else
+            {
+                lbIngredients.Items[lbIngredients.SelectedIndex] = txtIngredient.Text;
+                btnAdd.IsEnabled = true;
+                btnDelete.IsEnabled = true;
+                btnSave.IsEnabled = true;
+                btnEdit.Content = "Edit";
+                txtIngredient.Text = "";
             }
             
         }
-
+        /// <summary>
+        /// Delete ingredient
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
+            if (lbIngredients.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select an ingredient to delete!", "Choose ingredient!", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
             if (lbIngredients.SelectedIndex >= 0)
             {
                 lbIngredients.Items.RemoveAt(lbIngredients.SelectedIndex);
             }
         }
-
+        /// <summary>
+        /// Cancel adding food items
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = false;
         }
-
+        /// <summary>
+        /// Save food item
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             foodItem.Name = txtName.Text;

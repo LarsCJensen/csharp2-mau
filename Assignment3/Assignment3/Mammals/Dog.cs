@@ -26,7 +26,6 @@ namespace Assignment3.Mammals
                 }                
             }
         }
-        private FoodSchedule foodSchedule;
         /// <summary>
         /// Constructor
         /// </summary>
@@ -37,10 +36,9 @@ namespace Assignment3.Mammals
         /// <param name="category">Category of animal</param>
         /// <param name="description">Description of animal</param>
         /// <param name="teeth">Teeth of animal(mammal)</param>
-        /// <param name="foodItems">List of strings with food items</param>
-        public Dog(string name, int age, GenderType gender, EaterTypeEnum eaterType, AnimalCategoryEnum category, string description, int teeth, List<FoodItem> foodItems) : base(name, age, gender, eaterType, category, description, teeth)
+        public Dog(string name, int age, GenderType gender, EaterTypeEnum eaterType, AnimalCategoryEnum category, string description, int teeth) : base(name, age, gender, eaterType, category, description, teeth)
         {
-            SetFoodSchedule(foodItems);
+           
         }
         /// <summary>
         /// Method to print out mammal information
@@ -64,22 +62,6 @@ namespace Assignment3.Mammals
             strOut += string.Format("{0, -15} {1, 6}",
                 "\nBreed: ", breed);
             return strOut;
-        }
-        public override FoodSchedule GetFoodSchedule()
-        {
-            return foodSchedule;
-        }
-        /// <summary>
-        /// Method to set food schedule
-        /// </summary>
-        private void SetFoodSchedule(List<FoodItem> foodItems)
-        {
-            foodSchedule = new FoodSchedule();
-            foodSchedule.EaterType = EaterTypeEnum.Carnivore;
-            foreach (FoodItem item in foodItems)
-            {
-                //foodSchedule.Add(item);
-            }
-        }
+        }        
     }
 }

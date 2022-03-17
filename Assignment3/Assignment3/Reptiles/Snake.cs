@@ -22,7 +22,6 @@ namespace Assignment3.Reptiles
                 venomous = value;
             } 
         }
-        private FoodSchedule foodSchedule;
         /// <summary>
         /// Constructor
         /// </summary>
@@ -33,10 +32,9 @@ namespace Assignment3.Reptiles
         /// <param name="category">Category of animal</param>
         /// <param name="description">Description of animal</param>
         /// <param name="len">Length of animal(reptile)</param>
-        /// <param name="foodItems">List of food items</param>
-        public Snake(string name, int age, GenderType gender, EaterTypeEnum eaterType, AnimalCategoryEnum category, string description, int len, List<FoodItem> foodItems) : base(name, age, gender, eaterType, category, description, len)
+        public Snake(string name, int age, GenderType gender, EaterTypeEnum eaterType, AnimalCategoryEnum category, string description, int len) : base(name, age, gender, eaterType, category, description, len)
         {
-            //SetFoodSchedule(foodItems);
+            
         }
 
         /// <summary>
@@ -51,22 +49,7 @@ namespace Assignment3.Reptiles
                 "\nVenomous: ", venomous.ToString());
             return strOut;
         }
-        public override FoodSchedule GetFoodSchedule()
-        {
-            return foodSchedule;
-        }
-        /// <summary>
-        /// Method to set food schedule
-        /// </summary>
-        private void SetFoodSchedule(List<FoodItem> foodItems)
-        {
-            foodSchedule = new FoodSchedule();
-            foodSchedule.EaterType = EaterTypeEnum.Carnivore;
-            foreach (FoodItem item in foodItems)
-            {
-                //foodSchedule.Add(item);
-            }
-        }
+        
         /// <summary>
         /// Method to return information about animal
         /// </summary>
