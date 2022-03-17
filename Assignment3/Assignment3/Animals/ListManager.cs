@@ -14,9 +14,9 @@ namespace Assignment3.Animals
     {
         private List<T> m_List = new List<T>();
         /// <summary>
-        /// Number of animals in list
+        /// Number of objects in list
         /// </summary>
-        /// <returns>Number of animals in list</returns>
+        /// <returns>Number of objects in list</returns>
         public int Count 
         {
             get
@@ -86,10 +86,10 @@ namespace Assignment3.Animals
         }
 
         /// <summary>
-        /// Get animal at a certain index
+        /// Get object at a certain index
         /// </summary>
         /// <param name="index">Index number</param>
-        /// <returns>Animal at intex</returns>
+        /// <returns>Object at intex</returns>
         public T GetAt(int index)
         {
             return m_List[index];

@@ -35,6 +35,8 @@ namespace Assignment3
         private string sortColumn;
         private bool sortDescending = false;
         private FoodManager foodManager = new FoodManager();
+        private List<FoodItem> foodItems = new List<FoodItem>();
+        private List<FoodItem> chosenFoodItems = new List<FoodItem>();
 
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -74,7 +76,9 @@ namespace Assignment3
             lstCategoryType.ItemsSource = Enum.GetValues(typeof(AnimalCategoryEnum));
             cboEaterType.ItemsSource = Enum.GetValues(typeof(EaterTypeEnum));
             cboEaterType.SelectedItem = null;
-            lbFoodItems.ItemsSource = foodManager.FoodItems;
+            chosenFoodItems = GetChosenFoodItems();
+            foodItems = GetAllFoodItems();
+            lbFoodItems.ItemsSource = foodItems;
             lbFoodItems.SelectedItems.Clear();
             SetGui();            
         }
@@ -130,6 +134,7 @@ namespace Assignment3
             {
                 if (AddAnimal())
                 {
+                    animalManager.AddFoodForAnimal(GetChosenFoodItems(), animal.Id);
                     listOfAnimals.Add(animal);
                     animal = null;
                     InitializeGUI();                    
@@ -143,7 +148,7 @@ namespace Assignment3
         // Helper function to add animal
         private bool AddAnimal()
         {
-            List<FoodItem> chosenFoodItems = GetFoodItems();
+            List<FoodItem> chosenFoodItems = GetChosenFoodItems();
 
             switch (lstCategoryType.SelectedItem)
             {
@@ -210,8 +215,7 @@ namespace Assignment3
                     break;
             }
             SetAnimalAttributes();
-            
-            return animalManager.AddAnimal(animal, chosenFoodItems);
+            return animalManager.AddAnimal(animal);
         }
         // Helper function for get Gender
         private GenderType GetGender()
@@ -242,13 +246,17 @@ namespace Assignment3
             lblAnimalInfo.Content = selectedAnimal.GetExtraInfo();
             lblEaterType.Content = selectedAnimal.EaterType;
             int[] foodItemIds = animalManager.GetFoodSchedule(selectedAnimal.Id);
-            string[] foodSchedule = new string[foodItemIds.Length];
-            for(int i = 0; i < foodItemIds.Length; i++)
+            List<string> foodSchedule = new List<string>();
+            for (int i = 0; i < foodManager.Count; i++)
             {
-                foodSchedule[i] = foodManager.GetFoodItem(foodItemIds[i]).ToString();
+                FoodItem foodItem = foodManager.GetAt(i);
+                if (foodItemIds.Contains(foodItem.Id))
+                {
+                    foodSchedule.Add(foodItem.ToString());
+                }
             }
             // Dumb sort foodSchedule. Probably should create a more robust sorting solution
-            Array.Sort(foodSchedule);
+            foodSchedule.Sort();
             lbFoodSchedule.ItemsSource = foodSchedule;
 
         }
@@ -631,7 +639,7 @@ namespace Assignment3
                 foodItem.Name = "Breakfast";
                 foodItem.Ingredients.Add("Milk");
                 foodItem.Ingredients.Add("Banana");
-                foodManager.FoodItems.Add(foodItem);
+                foodManager.Add(foodItem);
                 foodItems.Add(foodItem);
                 if (i==0)
                 {
@@ -641,7 +649,7 @@ namespace Assignment3
                     GenderType gender = (GenderType)i;
                     animal = mammalFactory.CreateAnimal(mammalType, "Name" + i.ToString(), 14, gender, EaterTypeEnum.Carnivore, animalCat, "Description " + i.ToString(), 24);
                     ((Dog)animal).Breed = "Samojed";
-                    animalManager.AddAnimal(animal, foodItems);                    
+                    animalManager.AddAnimal(animal);
                 }
                 if(i == 1)
                 {
@@ -651,7 +659,8 @@ namespace Assignment3
                     GenderType gender = (GenderType)i;
                     animal = insectFactory.CreateAnimal(insectType, "Name" + i.ToString(), 4, gender, EaterTypeEnum.Herbivore, animalCat, "Description " + i.ToString(), 2);
                     ((Butterfly)animal).MainColor = "Blue";
-                    animalManager.AddAnimal(animal, foodItems);
+                    animalManager.AddAnimal(animal);
+                    
                 }
                 if (i == 2)
                 {
@@ -661,10 +670,13 @@ namespace Assignment3
                     GenderType gender = (GenderType)i;
                     animal = reptileFactory.CreateAnimal(reptileType, "Name" + i.ToString(), 10, gender, EaterTypeEnum.Carnivore, animalCat, "Description " + i.ToString(), 120);
                     ((Crocodile)animal).NumberOfFarmersEaten = 12;
-                    animalManager.AddAnimal(animal, foodItems);
+                    animalManager.AddAnimal(animal);
                 }
+                animalManager.AddFoodForAnimal(foodItems, animal.Id);
                 foodItems.Clear();
             }
+            foodItems = GetAllFoodItems();
+            lbFoodItems.ItemsSource = foodItems;
             RecreateAnimalList();
         }
 
@@ -688,9 +700,10 @@ namespace Assignment3
             } else
             {
                 UpdateAnimal();
-                List<FoodItem> foodItems = GetFoodItems();
-                if(animalManager.EditAnimal(animal, lvAnimalList.SelectedIndex, foodItems))
+                List<FoodItem> foodItems = GetChosenFoodItems();
+                if (animalManager.Edit(animal, lvAnimalList.SelectedIndex))
                 {
+                    animalManager.AddFoodForAnimal(foodItems, animal.Id);
                     animal = null;
                     SetGui();
                     RecreateAnimalList();
@@ -799,8 +812,9 @@ namespace Assignment3
             AddFood addFoodWindow = new AddFood();
             if(addFoodWindow.ShowDialog() == true)
             {
-                lbFoodItems.ItemsSource = foodManager.FoodItems;                
                 foodManager.Add(addFoodWindow.FoodItem);
+                foodItems = GetAllFoodItems();
+                lbFoodItems.ItemsSource = foodItems;
                 lbFoodItems.Items.Refresh();
 
             } else
@@ -829,9 +843,21 @@ namespace Assignment3
             foodItem.Ingredients.Add("Grass");
             foodItem.Ingredients.Add("Fish");
             foodManager.Add(foodItem);
+            foodItems = GetAllFoodItems();
+            lbFoodItems.ItemsSource = foodItems;
             lbFoodItems.Items.Refresh();
         }
-        private List<FoodItem> GetFoodItems()
+        private List<FoodItem> GetAllFoodItems()
+        {
+            List<FoodItem> foodItems = new List<FoodItem>();
+            // For each selected food items add them to 
+            for(int i = 0; i < foodManager.Count; i++)
+            {
+                foodItems.Add(foodManager.GetAt(i));
+            }
+            return foodItems;
+        }
+        private List<FoodItem> GetChosenFoodItems()
         {
             List<FoodItem> chosenFoodItems = new List<FoodItem>();
             // For each selected food items add them to 
