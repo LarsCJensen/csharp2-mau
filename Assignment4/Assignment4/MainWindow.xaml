@@ -23,14 +23,15 @@
             <DockPanel Margin="0,2,0,0">
                 <Menu DockPanel.Dock="Top">
                     <MenuItem Header="_File">
+                        <MenuItem Header="_New" Click="MenuItemNew_Click"/>
                         <MenuItem Header="_Open As">
-                            <MenuItem Header="_Binary" />
-                            <MenuItem Header="_Text" />
+                            <MenuItem Header="_Binary" Click="MenuItemOpenAsBinary_Click"/>
+                            <MenuItem Header="_Text" Click="MenuItemOpenAsText_Click"/>
                         </MenuItem>
                         <MenuItem Header="_Save" Click="MenuItemSave_Click"/>
                         <MenuItem Header="_Save As">
                             <MenuItem Header="_Binary" Click="MenuItemSaveAsBinary_Click"/>
-                            <MenuItem Header="_Text" />
+                            <MenuItem Header="_Text" Click="MenuItemSaveAsText_Click"/>
                         </MenuItem>
                         <MenuItem Header="_XML">
                             <MenuItem Header="_Export" />
@@ -80,6 +81,9 @@
                 <Label Content="Eater type" HorizontalAlignment="Left" Margin="777,14,0,0" VerticalAlignment="Top" Height="24"/>
                 <ComboBox x:Name="cboEaterType" HorizontalAlignment="Left" Margin="157,19,0,0" VerticalAlignment="Top" Width="89"/>
                 <Label Content="Eater type" HorizontalAlignment="Left" Margin="153,-3,0,0" VerticalAlignment="Top"/>
+                <CheckBox x:Name="chkListAllAnimals" Content="List all animals" HorizontalAlignment="Left" Height="17" Margin="375,193,0,0" VerticalAlignment="Top" Width="109" Grid.Column="1" Click="ChkListAllAnimals_Click"/>
+                <Button x:Name="btnAdd" Content="Add" HorizontalAlignment="Left" Height="22" Margin="275,225,0,0" VerticalAlignment="Top" Width="105" Click="btnAdd_Click" Grid.Column="1"/>
+
                 <Button x:Name="btnCreateAnimalsFor_Test" Content="Create Animals For Test" HorizontalAlignment="Left" Height="22" Margin="275,250,0,0" VerticalAlignment="Top" Width="141" Click="btnCreateAnimalsForTest_Click" Grid.Column="1"/>
             </Grid>
         </GroupBox>
@@ -169,8 +173,6 @@
                 </StackPanel>
             </Grid>
         </GroupBox>
-        <CheckBox x:Name="chkListAllAnimals" Content="List all animals" HorizontalAlignment="Left" Height="17" Margin="265,216,0,0" VerticalAlignment="Top" Width="109" Grid.Column="2" Click="ChkListAllAnimals_Click"/>
-        <Button x:Name="btnAdd" Content="Add" HorizontalAlignment="Left" Height="22" Margin="193,238,0,0" VerticalAlignment="Top" Width="105" Click="btnAdd_Click" Grid.Column="2"/>
         <GroupBox x:Name="groupBox2" Header="Animal details" HorizontalAlignment="Left" Height="305" Margin="10,0,0,-9" VerticalAlignment="Bottom" Width="980" Grid.Row="2" Grid.ColumnSpan="5">
             <Grid HorizontalAlignment="Left" Height="266" Margin="-2,0,0,0" VerticalAlignment="Top" Width="952">
                 <Label x:Name="lblAnimalInfo" Content="" HorizontalAlignment="Left" Height="224" Margin="10,20,0,0" VerticalAlignment="Top" Width="180" Grid.ColumnSpan="2" Background="#FFC1BBBB"/>

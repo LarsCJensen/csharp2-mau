@@ -38,6 +38,7 @@ namespace Assignment4
         private FoodManager foodManager = new FoodManager();
         private List<FoodItem> foodItems = new List<FoodItem>();
         private List<FoodItem> chosenFoodItems = new List<FoodItem>();
+        private string dataFile;
 
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -872,7 +873,8 @@ namespace Assignment4
 
         private void MenuItemSave_Click(object sender, RoutedEventArgs e)
         {
-            
+            // IF data file is set, save using binary dump
+            // If not, call SaveAsBinary
         }
         private void MenuItemSaveAsBinary_Click(object sender, RoutedEventArgs e)
         {
@@ -886,6 +888,84 @@ namespace Assignment4
                 try
                 {
                     animalManager.BinarySerialize(dialog.FileName);
+                }
+                // TODO
+                catch (ArgumentException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        private void MenuItemOpenAsBinary_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new OpenFileDialog();
+            dialog.Filter = "BIN|*.bin|All files (*.*)|*.*";
+            bool? result = dialog.ShowDialog();
+            if (result == true)
+            {
+                try
+                {
+                    List<Animal> animals = animalManager.BinaryDeSerialize(dialog.FileName);
+                    foreach(Animal animal in animals)
+                    {
+                        animalManager.Add(animal);
+                        listOfAnimals.Add(animal);
+                    }
+                    lvAnimalList.Items.Refresh();
+                }
+                // TODO
+                catch (ArgumentException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        private void MenuItemSaveAsText_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new SaveFileDialog();
+            dialog.Filter = "TXT|*.txt|All files (*.*)|*.*";
+            bool? result = dialog.ShowDialog();
+            if (result == true)
+            {
+                try
+                {
+                    animalManager.TextFileSerialize(dialog.FileName);
+                }
+                // TODO
+                catch (ArgumentException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+        /// <summary>
+        /// Function called from menu to start a new datafile
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItemNew_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO 
+        }
+
+        private void MenuItemOpenAsText_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new OpenFileDialog();
+            dialog.Filter = "TXT|*.txt|All files (*.*)|*.*";
+            bool? result = dialog.ShowDialog();
+            if (result == true)
+            {
+                try
+                {
+                    List<Animal> animals = animalManager.TextDeSerialize(dialog.FileName);
+                    foreach (Animal animal in animals)
+                    {
+                        animalManager.Add(animal);
+                        listOfAnimals.Add(animal);
+                    }
+                    lvAnimalList.Items.Refresh();
                 }
                 // TODO
                 catch (ArgumentException ex)

@@ -138,12 +138,43 @@ namespace Assignment4.Helpers
         }
         public void BinarySerialize(string fileName)
         {
-            string errorMsg = String.Empty;
+            string errorMsg;
             Serializer.BinaryFileSerialize<T>(fileName, m_List, out errorMsg);
             if(errorMsg != null)
             {
                 throw new ArgumentException(errorMsg);
             }
         }
+        public List<T> BinaryDeSerialize(string fileName)
+        {
+            string errorMsg;
+            List<T> objectsList = Serializer.BinaryFileDeSerialize<T>(fileName, out errorMsg);
+            if (errorMsg != null)
+            {
+                throw new ArgumentException(errorMsg);
+            }
+            return objectsList;
+        }
+
+        public void TextFileSerialize(string fileName)
+        {
+            string errorMsg;
+            Serializer.TextFileSerialize<T>(fileName, m_List, out errorMsg);
+            if (errorMsg != null)
+            {
+                throw new ArgumentException(errorMsg);
+            }
+        }
+
+        //public List<T> TextFileDeSerialize(string fileName)
+        //{
+        //    string errorMsg;
+        //    List<T> objectsList = Serializer.TextFileDeSerialize<T>(fileName, out errorMsg);
+        //    if (errorMsg != null)
+        //    {
+        //        throw new ArgumentException(errorMsg);
+        //    }
+        //    return objectsList;
+        //}
     }
 }
