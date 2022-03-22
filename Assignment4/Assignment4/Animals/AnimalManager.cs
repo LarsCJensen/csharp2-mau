@@ -95,6 +95,10 @@ namespace Assignment4.Animals
             var matches = foodAnimalDict.Where(x => x.Value.Contains(animalId)).Select(x => x.Key);            
             return matches.ToArray();
         }
+        public void RemoveAnimalFoods()
+        {
+            foodAnimalDict.Clear();
+        }
         private void RemoveFoodItems(string animalId)
         {
             List<string> animalList = new List<string>();

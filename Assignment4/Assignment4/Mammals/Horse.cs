@@ -35,8 +35,9 @@ namespace Assignment4.Mammals
         /// <param name="teeth">Teeth of animal(mammal)</param>
         public Horse(string name, int age, GenderType gender, EaterTypeEnum eaterType, AnimalCategoryEnum category, string description, int teeth) : base(name, age, gender, eaterType, category, description, teeth)
         {
-
         }
+        // Default constructor for serilization
+        public Horse() { }
         /// <summary>
         /// Method to print out mammal information
         /// </summary>

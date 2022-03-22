@@ -27,6 +27,9 @@ namespace Assignment4.Mammals
                 }                
             }
         }
+
+        // Default constructor for serilization
+        public Dog() { }
         /// <summary>
         /// Constructor
         /// </summary>

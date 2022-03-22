@@ -24,7 +24,8 @@ namespace Assignment4.Mammals
 
             }
         }
-
+        // Default constructor for serilization
+        public Mammal() { }
         /// <summary>
         /// Constructor
         /// </summary>
@@ -38,8 +39,7 @@ namespace Assignment4.Mammals
         public Mammal(string name, int age, GenderType gender, EaterTypeEnum eaterType, AnimalCategoryEnum category, string description, int teeth) : base(name, age, gender, eaterType, category, description)
         {
             numberOfTeeth = teeth;
-        }
-
+        }        
         /// <summary>
         /// Method to print out mammal information
         /// </summary>

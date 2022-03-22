@@ -39,6 +39,8 @@ namespace Assignment4.Insects
         {
             numberOfWings = numWings;
         }
+        // Default constructor for serilization
+        public Insect() { }
         /// <summary>
         /// Method to print out mammal information
         /// </summary>

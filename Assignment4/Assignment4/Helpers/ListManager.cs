@@ -142,6 +142,7 @@ namespace Assignment4.Helpers
             Serializer.BinaryFileSerialize<T>(fileName, m_List, out errorMsg);
             if(errorMsg != null)
             {
+                // TODO Fix
                 throw new ArgumentException(errorMsg);
             }
         }
@@ -166,15 +167,35 @@ namespace Assignment4.Helpers
             }
         }
 
-        //public List<T> TextFileDeSerialize(string fileName)
-        //{
-        //    string errorMsg;
-        //    List<T> objectsList = Serializer.TextFileDeSerialize<T>(fileName, out errorMsg);
-        //    if (errorMsg != null)
-        //    {
-        //        throw new ArgumentException(errorMsg);
-        //    }
-        //    return objectsList;
-        //}
+        public List<T> TextFileDeSerialize(string fileName)
+        {
+            string errorMsg;
+            List<T> objectsList = Serializer.TextFileDeSerialize<T>(fileName, out errorMsg);
+            if (errorMsg != null)
+            {
+                throw new ArgumentException(errorMsg);
+            }
+            return objectsList;
+        }
+        public void XmlFileSerialize(string fileName)
+        {
+            string errorMsg;
+            Serializer.XmlFileSerialize<T>(fileName, m_List, out errorMsg);
+            if (errorMsg != null)
+            {
+                throw new ArgumentException(errorMsg);
+            }
+        }
+        public List<T> XmlFileDeSerialize(string fileName)
+        {
+            string errorMsg;
+            List<T> objectsList = Serializer.XmlFileDeSerialize<T>(fileName, out errorMsg);
+            if (errorMsg != null)
+            {
+                throw new ArgumentException(errorMsg);
+            }
+            return objectsList;
+        }
+
     }
 }

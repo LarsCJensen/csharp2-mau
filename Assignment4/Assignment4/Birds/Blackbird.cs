@@ -37,6 +37,8 @@ namespace Assignment4.Birds
         {
            
         }
+        // Default constructor for serilization
+        public Blackbird() { }
         /// <summary>
         /// Method to print out mammal information
         /// </summary>

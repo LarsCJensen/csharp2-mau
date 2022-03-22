@@ -34,8 +34,8 @@
                             <MenuItem Header="_Text" Click="MenuItemSaveAsText_Click"/>
                         </MenuItem>
                         <MenuItem Header="_XML">
-                            <MenuItem Header="_Export" />
-                            <MenuItem Header="_Import" />
+                            <MenuItem Header="_Export" Click="MenuItemSaveAsXml_Click"/>
+                            <MenuItem Header="_Import" Click="MenuItemOpenAsXml_Click"/>
                         </MenuItem>
                         <MenuItem Header="_Exit"/>
                     </MenuItem>
@@ -154,7 +154,7 @@
                 </StackPanel>
             </Grid>
         </GroupBox>
-        <GroupBox x:Name="grpReptileCategorySpec" Header="Category Specifications" HorizontalAlignment="Left" Height="83" Margin="20,211,0,0" VerticalAlignment="Top" Width="267" Visibility="Collapsed" Grid.Row="0" Grid.ColumnSpan="3">
+        <GroupBox x:Name="grpReptileCategorySpec" Header="Category Specifications" HorizontalAlignment="Left" Height="83" Margin="20,211,0,0" VerticalAlignment="Top" Width="267" Visibility="Collapsed" Grid.Row="1" Grid.ColumnSpan="3">
             <Grid HorizontalAlignment="Left" Height="68" VerticalAlignment="Top" Width="257">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="95"/>

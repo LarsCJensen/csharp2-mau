@@ -40,6 +40,8 @@ namespace Assignment4.Insects
         {
            
         }
+        // Default constructor for serilization
+        public Bee() { }
         /// <summary>
         /// Method to print out mammal information
         /// </summary>

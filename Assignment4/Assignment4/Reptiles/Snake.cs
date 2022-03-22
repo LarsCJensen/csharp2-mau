@@ -34,9 +34,10 @@ namespace Assignment4.Reptiles
         /// <param name="description">Description of animal</param>
         /// <param name="len">Length of animal(reptile)</param>
         public Snake(string name, int age, GenderType gender, EaterTypeEnum eaterType, AnimalCategoryEnum category, string description, int len) : base(name, age, gender, eaterType, category, description, len)
-        {
-            
+        {            
         }
+        // Default constructor for serilization
+        public Snake() { }
 
         /// <summary>
         /// Method to print out mammal information

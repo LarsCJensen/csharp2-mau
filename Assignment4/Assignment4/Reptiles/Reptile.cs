@@ -40,6 +40,8 @@ namespace Assignment4.Reptiles
         {
             length = len;
         }
+        // Default constructor for serilization
+        public Reptile() { }
 
         /// <summary>
         /// Method to print out mammal information

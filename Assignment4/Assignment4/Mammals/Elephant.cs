@@ -37,6 +37,8 @@ namespace Assignment4.Mammals
         {
             
         }
+        // Default constructor for serilization
+        public Elephant() { }
         /// <summary>
         /// Method to print out mammal information
         /// </summary>

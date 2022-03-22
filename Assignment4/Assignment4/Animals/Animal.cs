@@ -2,9 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
+using Assignment4.Mammals;
+using Assignment4.Birds;
+using Assignment4.Insects;
+using Assignment4.Reptiles;
 
 namespace Assignment4.Animals
 {
+    // TODO Remove
+    // Needed to include animals to make export to XML work
+    [XmlInclude(typeof(Cat))]
+    [XmlInclude(typeof(Dog))]
+    [XmlInclude(typeof(Elephant))]
+    [XmlInclude(typeof(Horse))]
+    [XmlInclude(typeof(Blackbird))]
+    [XmlInclude(typeof(Swallow))]
+    [XmlInclude(typeof(Bee))]
+    [XmlInclude(typeof(Butterfly))]
+    [XmlInclude(typeof(Crocodile))]
+    [XmlInclude(typeof(Snake))]
     [Serializable]
     public abstract class Animal: IAnimal
     {
@@ -105,7 +122,9 @@ namespace Assignment4.Animals
             {
                 eaterType = value;
             }
-        }        
+        }
+        // Default constructor for serialization
+        public Animal() { }
         /// <summary>
         /// Constructor
         /// </summary>
@@ -124,8 +143,7 @@ namespace Assignment4.Animals
             description = animalDesc;
 
             NumberOfAnimalsCreated++;
-        }
-
+        }        
 
         /// <summary>
         /// Method to print out animal information

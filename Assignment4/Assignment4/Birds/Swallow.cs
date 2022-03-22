@@ -36,6 +36,8 @@ namespace Assignment4.Birds
         public Swallow(int speed, string name, int age, GenderType gender, EaterTypeEnum eaterType, AnimalCategoryEnum category, string description) : base(speed, name, age, gender, eaterType, category, description)
         {           
         }
+        // Default constructor for serilization
+        public Swallow() { }
         /// <summary>
         /// Method to print out mammal information
         /// </summary>

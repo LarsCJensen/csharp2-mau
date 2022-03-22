@@ -38,6 +38,8 @@ namespace Assignment4.Birds
         {
             airSpeedVelocity = speed;
         }
+        // Default constructor for serilization
+        public Bird() { }
         /// <summary>
         /// Method to print out mammal information
         /// </summary>

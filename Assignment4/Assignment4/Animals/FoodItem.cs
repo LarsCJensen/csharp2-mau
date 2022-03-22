@@ -1,12 +1,15 @@
-﻿using System.Linq;
+﻿using System;
+using System.Xml.Serialization;
 using Assignment4.Helpers;
 
 
 namespace Assignment4.Animals
-{
+{   [Serializable]
     public class FoodItem
     {
         private ListManager<string> ingredients = new ListManager<string>();
+        [XmlArray("ingredients")]
+        [XmlArrayItem("ingredient")]
         public ListManager<string> Ingredients
         {
             get
