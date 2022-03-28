@@ -64,5 +64,15 @@ namespace Assignment4.Insects
                 "Number of wings: ", numberOfWings);
             return strOut;
         }
+        /// <summary>
+        /// Method to serialize information about animal
+        /// </summary>
+        /// <returns>Serialized string</returns>
+        public override string SerializeToText(string divider = ";")
+        {
+            string serializeString = base.SerializeToText();
+            serializeString += $"{numberOfWings}{divider}";
+            return serializeString;
+        }
     }
 }

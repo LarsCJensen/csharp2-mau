@@ -20,7 +20,7 @@ namespace Assignment4
     public partial class MainWindow
     {
         /// <summary>
-        /// Helper function for Menu
+        /// Helper functions for Menu
         /// </summary>
         private void MenuItemSave_Click(object sender, RoutedEventArgs e)
         {
@@ -29,11 +29,11 @@ namespace Assignment4
                 try
                 {
                     animalManager.BinarySerialize(dataFile);
+                    dataDirty = false;
                 }
-                // TODO
-                catch (ArgumentException ex)
+                catch (SerializerException ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             else
@@ -43,8 +43,6 @@ namespace Assignment4
         }
         private void MenuItemSaveAsBinary_Click(object sender, RoutedEventArgs e)
         {
-            // Open FileDialog
-            // Save AnimalList as binary
             var dialog = new SaveFileDialog();
             dialog.Filter = "BIN|*.bin|All files (*.*)|*.*";
             bool? result = dialog.ShowDialog();
@@ -54,11 +52,11 @@ namespace Assignment4
                 {
                     animalManager.BinarySerialize(dialog.FileName);
                     dataFile = dialog.FileName;
+                    dataDirty = false;
                 }
-                // TODO
-                catch (ArgumentException ex)
+                catch (SerializerException ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -72,24 +70,23 @@ namespace Assignment4
             {
                 try
                 {
-                    // TODO Move to own function
+                    ClearGui();
                     List<Animal> animals = animalManager.BinaryDeSerialize(dialog.FileName);
                     foreach (Animal animal in animals)
                     {
-                        animalManager.Add(animal);
+                        animalManager.AddAnimal(animal);
                         listOfAnimals.Add(animal);
                     }
                     lvAnimalList.Items.Refresh();
                     dataFile = dialog.FileName;
+                    dataDirty = false;
                 }
-                // TODO
-                catch (ArgumentException ex)
+                catch (SerializerException ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
-
         private void MenuItemSaveAsText_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new SaveFileDialog();
@@ -100,11 +97,29 @@ namespace Assignment4
                 try
                 {
                     animalManager.TextFileSerialize(dialog.FileName);
+                    dataDirty = false;
                 }
-                // TODO
-                catch (ArgumentException ex)
+                catch (SerializerException ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+        private void MenuItemSaveAsTextProper_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new SaveFileDialog();
+            dialog.Filter = "TXT|*.txt|All files (*.*)|*.*";
+            bool? result = dialog.ShowDialog();
+            if (result == true)
+            {
+                try
+                {
+                    animalManager.TextFileSerializeProper(dialog.FileName);
+                    dataDirty = false;
+                }
+                catch (SerializerException ex)
+                {
+                    MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -115,17 +130,21 @@ namespace Assignment4
         /// <param name="e"></param>
         private void MenuItemNew_Click(object sender, RoutedEventArgs e)
         {
-            animal = null;
-            dataFile = null;
-            listOfAnimals.Clear();
-            animalManager.DeleteAll();
-            foodManager.DeleteAll();
-            // TODO
-            // FoodAnimalDict Clear
-            // If change has been done, ask to save
-            InitializeGUI();
+            if(dataDirty)
+            {
+                MessageBoxResult result = MessageBox.Show("You have unsaved changes. Do you want to save now?", "You have unsaved changes!", MessageBoxButton.YesNo);
+                if (result == MessageBoxResult.Yes)
+                {
+                    MenuItemSave_Click(sender, e);
+                }
+            }
+            ClearGui();
         }
-
+        /// <summary>
+        /// Function to open as text
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MenuItemOpenAsText_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new OpenFileDialog();
@@ -135,22 +154,55 @@ namespace Assignment4
             {
                 try
                 {
-                    List<Animal> animals = animalManager.TextFileDeSerialize(dialog.FileName);
-                    foreach (Animal animal in animals)
-                    {
-                        animalManager.Add(animal);
-                        listOfAnimals.Add(animal);
-                    }
-                    lvAnimalList.Items.Refresh();
+                    ClearGui();
+                    string[] animalInfo = animalManager.TextFileDeSerialize(dialog.FileName);
+                    // Not yet implemented
+                    //foreach (Animal animal in animals)
+                    //{
+                    //    animalManager.AddAnimal(animal);
+                    //    listOfAnimals.Add(animal);
+                    //}
+                    //lvAnimalList.Items.Refresh();
+                    // It only shows the first animalInfo in the saved text file
+                    lblAnimalInfo.Content = animalInfo[0];
+                    dataDirty = false;
                 }
-                // TODO
-                catch (ArgumentException ex)
+                catch (SerializerException ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
-
+        private void MenuItemOpenAsTextProper_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new OpenFileDialog();
+            dialog.Filter = "TXT|*.txt|All files (*.*)|*.*";
+            bool? result = dialog.ShowDialog();
+            if (result == true)
+            {
+                try
+                {
+                    ClearGui();
+                    List<Animal> animals = animalManager.TextFileDeSerializeProper(dialog.FileName);
+                    foreach (Animal animal in animals)
+                    {
+                        animalManager.AddAnimal(animal);
+                        listOfAnimals.Add(animal);
+                    }
+                    lvAnimalList.Items.Refresh();
+                    dataDirty = false;
+                }
+                catch (SerializerException ex)
+                {
+                    MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+        /// <summary>
+        /// Function to save fooditems as xml
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MenuItemSaveAsXml_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new SaveFileDialog();
@@ -159,17 +211,20 @@ namespace Assignment4
             if (result == true)
             {
                 try
-                {                    
-                    foodManager.XmlFileSerialize(dialog.FileName);                    
-                }
-                // TODO
-                catch (ArgumentException ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    foodManager.XmlFileSerialize(dialog.FileName);                    
+                }                
+                catch (SerializerException ex)
+                {
+                    MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
-
+        /// <summary>
+        /// Function to open fooditems as xml
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MenuItemOpenAsXml_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new OpenFileDialog();
@@ -179,22 +234,52 @@ namespace Assignment4
             {
                 try
                 {
-                    // TODO Move to own function
-                    List<Animal> animals = animalManager.XmlFileDeSerialize(dialog.FileName);
-                    foreach (Animal animal in animals)
+                    // Should there be a posibility to reset the id counter upon new?
+                    // It feels wrong as it is a internal counter
+                    foodManager.DeleteAll();
+                    List<FoodItem> items = foodManager.XmlFileDeSerialize(dialog.FileName);
+                    foreach (FoodItem item in items)
                     {
-                        animalManager.Add(animal);
-                        listOfAnimals.Add(animal);
+                        foodManager.Add(item);
+                        foodItems.Add(item);
                     }
-                    lvAnimalList.Items.Refresh();
+                    lbFoodItems.Items.Refresh();
                     dataFile = dialog.FileName;
                 }
-                // TODO
-                catch (ArgumentException ex)
+                catch (SerializerException ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
+        }
+        /// <summary>
+        /// Exit function
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItemExit_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataDirty)
+            {
+                MessageBoxResult result = MessageBox.Show("You have unsaved changes. Do you want to save now?", "You have unsaved changes!", MessageBoxButton.YesNo);
+                if (result == MessageBoxResult.Yes)
+                {
+                    MenuItemSave_Click(sender, e);
+                }
+            }
+            Application.Current.Shutdown();
+        }
+
+        /// <summary>
+        /// Helper function to clear everything upon new and open
+        /// </summary>
+        private void ClearGui()
+        {
+            animal = null;
+            dataFile = null;
+            listOfAnimals.Clear();
+            animalManager.DeleteAll();            
+            InitializeGUI();
         }
     }
 }

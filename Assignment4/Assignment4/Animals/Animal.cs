@@ -7,21 +7,21 @@ using Assignment4.Mammals;
 using Assignment4.Birds;
 using Assignment4.Insects;
 using Assignment4.Reptiles;
+using Assignment4.Helpers;
 
 namespace Assignment4.Animals
 {
-    // TODO Remove
     // Needed to include animals to make export to XML work
-    [XmlInclude(typeof(Cat))]
-    [XmlInclude(typeof(Dog))]
-    [XmlInclude(typeof(Elephant))]
-    [XmlInclude(typeof(Horse))]
-    [XmlInclude(typeof(Blackbird))]
-    [XmlInclude(typeof(Swallow))]
-    [XmlInclude(typeof(Bee))]
-    [XmlInclude(typeof(Butterfly))]
-    [XmlInclude(typeof(Crocodile))]
-    [XmlInclude(typeof(Snake))]
+    //[XmlInclude(typeof(Cat))]
+    //[XmlInclude(typeof(Dog))]
+    //[XmlInclude(typeof(Elephant))]
+    //[XmlInclude(typeof(Horse))]
+    //[XmlInclude(typeof(Blackbird))]
+    //[XmlInclude(typeof(Swallow))]
+    //[XmlInclude(typeof(Bee))]
+    //[XmlInclude(typeof(Butterfly))]
+    //[XmlInclude(typeof(Crocodile))]
+    //[XmlInclude(typeof(Snake))]
     [Serializable]
     public abstract class Animal: IAnimal
     {
@@ -171,6 +171,18 @@ namespace Assignment4.Animals
                 description);
 
             return strOut; 
-        }        
+        
+        }  
+        
+        /// <summary>
+        /// Method to serialize all values to text
+        /// </summary>
+        /// <param name="divider">Character to divide parameters</param>
+        /// <returns>String separated by character</returns>
+        public virtual string SerializeToText(string divider=";")
+        {
+            string serializeString = $"{age}{divider}{category}{divider}{description}{divider}{eaterType}{divider}{gender}{divider}{id}{divider}";
+            return serializeString;
+        }
     }
 }

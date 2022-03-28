@@ -61,6 +61,17 @@ namespace Assignment4.Mammals
             strOut += string.Format("{0, -15} {1, 6}",
                 "\nLocation: ", location);
             return strOut;
-        }        
+        }
+        /// <summary>
+        /// Method to serialize all values to text
+        /// </summary>
+        /// <param name="divider">Character to divide parameters</param>
+        /// <returns>String separated by character</returns>
+        public override string SerializeToText(string divider = ";")
+        {
+            string serializeString = base.SerializeToText();
+            serializeString += $"{location}{divider}";
+            return serializeString;
+        }
     }
 }

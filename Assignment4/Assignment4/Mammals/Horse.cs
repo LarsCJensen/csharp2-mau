@@ -61,6 +61,17 @@ namespace Assignment4.Mammals
                 "\nBox number: ", stableBoxNumber);
             return strOut;
         }
+        /// <summary>
+        /// Method to serialize all values to text
+        /// </summary>
+        /// <param name="divider">Character to divide parameters</param>
+        /// <returns>String separated by character</returns>
+        public override string SerializeToText(string divider = ";")
+        {
+            string serializeString = base.SerializeToText();
+            serializeString += $"{stableBoxNumber}{divider}";
+            return serializeString;
+        }
 
     }
 }

@@ -58,5 +58,16 @@ namespace Assignment4.Birds
                 "\nIUCN Category: ", iucnCategorization);
             return strOut;
         }
+        /// <summary>
+        /// Method to serialize all values to text
+        /// </summary>
+        /// <param name="divider">Character to divide parameters</param>
+        /// <returns>String separated by character</returns>
+        public override string SerializeToText(string divider = ";")
+        {
+            string serializeString = base.SerializeToText();
+            serializeString += $"{iucnCategorization}{divider}";
+            return serializeString;
+        }
     }
 }

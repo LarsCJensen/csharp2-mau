@@ -66,5 +66,16 @@ namespace Assignment4.Reptiles
                 "Length: ", length);
             return strOut;
         }
+        /// <summary>
+        /// Method to serialize all values to text
+        /// </summary>
+        /// <param name="divider">Character to divide parameters</param>
+        /// <returns>String separated by character</returns>
+        public override string SerializeToText(string divider = ";")
+        {
+            string serializeString = base.SerializeToText();
+            serializeString += $"{length}{divider}";
+            return serializeString;
+        }
     }
 }

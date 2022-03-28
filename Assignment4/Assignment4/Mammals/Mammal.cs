@@ -63,5 +63,16 @@ namespace Assignment4.Mammals
                 "Number of teeth: ", numberOfTeeth);
             return strOut;
         }
+        /// <summary>
+        /// Method to serialize all values to text
+        /// </summary>
+        /// <param name="divider">Character to divide parameters</param>
+        /// <returns>String separated by character</returns>
+        public override string SerializeToText(string divider = ";")
+        {
+            string serializeString = base.SerializeToText();
+            serializeString += $"{numberOfTeeth}{divider}";
+            return serializeString;
+        }
     }
 }

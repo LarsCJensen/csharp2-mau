@@ -1,16 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
 using Assignment4.Helpers;
 
 
 namespace Assignment4.Animals
-{   [Serializable]
+{   
     public class FoodItem
     {
-        private ListManager<string> ingredients = new ListManager<string>();
-        [XmlArray("ingredients")]
-        [XmlArrayItem("ingredient")]
-        public ListManager<string> Ingredients
+        private List<string> ingredients = new List<string>();
+        public List<string> Ingredients        
         {
             get
             {
@@ -62,7 +61,7 @@ namespace Assignment4.Animals
                 {
                     appendString = "";
                 }
-                strIngredients += ingredients.GetAt(i) + appendString;
+                strIngredients += ingredients[i] + appendString;
             }
             string strOut = string.Format("{0, -15} {1, 6}",
                 name + ":", strIngredients);

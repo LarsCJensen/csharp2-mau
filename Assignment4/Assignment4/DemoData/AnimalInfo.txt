@@ -1,0 +1,40 @@
+ID               R1001
+Name:           Snakey
+Age                  4
+Gender:           Male
+Category:       Reptiles
+Description:    Frustratingly angry
+Length:            500
+
+Venomous:       False
+----
+ID               M1002
+Name:            Name0
+Age                 14
+Gender:           Male
+Category:       Mammals
+Description:    Description 0
+
+Number of teeth:      24
+Breed:         Samojed
+----
+ID               I1003
+Name:            Name1
+Age                  4
+Gender:         Female
+Category:       Insects
+Description:    Description 1
+Number of wings:       2
+
+Main color:      Blue
+----
+ID               R1004
+Name:            Name2
+Age                 10
+Gender:         Unknown
+Category:       Reptiles
+Description:    Description 2
+Length:            120
+
+Farmers eaten:      12
+----

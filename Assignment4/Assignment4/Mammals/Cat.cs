@@ -59,6 +59,17 @@ namespace Assignment4.Mammals
             strOut += string.Format("{0, -15} {1, 6}",
                 "\nIndoor: ", indoor.ToString());
             return strOut;
-        }        
+        }
+        /// <summary>
+        /// Method to serialize all values to text
+        /// </summary>
+        /// <param name="divider">Character to divide parameters</param>
+        /// <returns>String separated by character</returns>
+        public override string SerializeToText(string divider = ";")
+        {
+            string serializeString = base.SerializeToText();
+            serializeString += $"{indoor}{divider}";
+            return serializeString;
+        }
     }
 }

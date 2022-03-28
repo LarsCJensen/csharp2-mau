@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Serialization;
 using Assignment4.Helpers;
 
 namespace Assignment4.Animals
@@ -19,7 +21,6 @@ namespace Assignment4.Animals
                 return foodAnimalDict;
             }
         }
-
         public AnimalManager()
         {
             foodAnimalDict = new Dictionary<int, List<string>>();
@@ -95,6 +96,9 @@ namespace Assignment4.Animals
             var matches = foodAnimalDict.Where(x => x.Value.Contains(animalId)).Select(x => x.Key);            
             return matches.ToArray();
         }
+        /// <summary>
+        /// Clear mapping between animal and food items
+        /// </summary>
         public void RemoveAnimalFoods()
         {
             foodAnimalDict.Clear();

@@ -66,5 +66,16 @@ namespace Assignment4.Insects
                 "Main color: ", mainColor);
             return strOut;
         }
+        /// <summary>
+        /// Method to serialize all values to text
+        /// </summary>
+        /// <param name="divider">Character to divide parameters</param>
+        /// <returns>String separated by character</returns>
+        public override string SerializeToText(string divider = ";")
+        {
+            string serializeString = base.SerializeToText();
+            serializeString += $"{mainColor}{divider}";
+            return serializeString;
+        }
     }
 }

@@ -39,6 +39,7 @@ namespace Assignment4
         private List<FoodItem> foodItems = new List<FoodItem>();
         private List<FoodItem> chosenFoodItems = new List<FoodItem>();
         private string dataFile;
+        private bool dataDirty;
 
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -139,6 +140,7 @@ namespace Assignment4
                     animalManager.AddFoodForAnimal(GetChosenFoodItems(), animal.Id);
                     listOfAnimals.Add(animal);
                     animal = null;
+                    dataDirty = true;
                     InitializeGUI();                    
                 } else
                 {
@@ -558,7 +560,6 @@ namespace Assignment4
             }
         }        
 
-        // TODO Make general
         // Function to choose an image for your animal
         private void btnBrowseImage_Click(object sender, RoutedEventArgs e)
         {
@@ -680,6 +681,7 @@ namespace Assignment4
             }
             foodItems = GetAllFoodItems();
             lbFoodItems.ItemsSource = foodItems;
+            dataDirty = true;
             RecreateAnimalList();
         }
 
@@ -806,7 +808,8 @@ namespace Assignment4
             animal.Name = txtName.Text;
             animal.Age = int.Parse(txtAge.Text);
             animal.Gender = GetGender();
-            animal.Description = txtDescription.Text;            
+            animal.Description = txtDescription.Text;
+            dataDirty = true;
             SetAnimalAttributes();            
         }
 
@@ -869,8 +872,7 @@ namespace Assignment4
                 chosenFoodItems.Add(item);
             }
             return chosenFoodItems;            
-        }
-       
+        }        
     }
     
 }

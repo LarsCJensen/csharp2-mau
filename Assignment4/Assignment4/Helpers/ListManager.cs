@@ -142,8 +142,7 @@ namespace Assignment4.Helpers
             Serializer.BinaryFileSerialize<T>(fileName, m_List, out errorMsg);
             if(errorMsg != null)
             {
-                // TODO Fix
-                throw new ArgumentException(errorMsg);
+                throw new SerializerException(errorMsg);
             }
         }
         public List<T> BinaryDeSerialize(string fileName)
@@ -152,7 +151,7 @@ namespace Assignment4.Helpers
             List<T> objectsList = Serializer.BinaryFileDeSerialize<T>(fileName, out errorMsg);
             if (errorMsg != null)
             {
-                throw new ArgumentException(errorMsg);
+                throw new SerializerException(errorMsg);
             }
             return objectsList;
         }
@@ -163,19 +162,37 @@ namespace Assignment4.Helpers
             Serializer.TextFileSerialize<T>(fileName, m_List, out errorMsg);
             if (errorMsg != null)
             {
-                throw new ArgumentException(errorMsg);
+                throw new SerializerException(errorMsg);
             }
         }
-
-        public List<T> TextFileDeSerialize(string fileName)
+        public void TextFileSerializeProper(string fileName)
         {
             string errorMsg;
-            List<T> objectsList = Serializer.TextFileDeSerialize<T>(fileName, out errorMsg);
+            Serializer.TextFileSerializeProper<T>(fileName, m_List, out errorMsg);
             if (errorMsg != null)
             {
-                throw new ArgumentException(errorMsg);
+                throw new SerializerException(errorMsg);
             }
-            return objectsList;
+        }
+        public string[] TextFileDeSerialize(string fileName)
+        {
+            string errorMsg;
+            string[] animalInfoList = Serializer.TextFileDeSerialize<T>(fileName, out errorMsg);
+            if (errorMsg != null)
+            {
+                throw new SerializerException(errorMsg);
+            }
+            return animalInfoList;
+        }
+        public List<T> TextFileDeSerializeProper(string fileName)
+        {
+            string errorMsg;
+            List<T> animalInfoList = Serializer.TextFileDeSerializeProper<T>(fileName, out errorMsg);
+            if (errorMsg != null)
+            {
+                throw new SerializerException(errorMsg);
+            }
+            return animalInfoList;
         }
         public void XmlFileSerialize(string fileName)
         {
@@ -183,7 +200,7 @@ namespace Assignment4.Helpers
             Serializer.XmlFileSerialize<T>(fileName, m_List, out errorMsg);
             if (errorMsg != null)
             {
-                throw new ArgumentException(errorMsg);
+                throw new SerializerException(errorMsg);
             }
         }
         public List<T> XmlFileDeSerialize(string fileName)
@@ -192,10 +209,29 @@ namespace Assignment4.Helpers
             List<T> objectsList = Serializer.XmlFileDeSerialize<T>(fileName, out errorMsg);
             if (errorMsg != null)
             {
-                throw new ArgumentException(errorMsg);
+                throw new SerializerException(errorMsg);
             }
             return objectsList;
         }
-
+        /// <summary>
+        /// Method to get headers for type
+        /// </summary>
+        /// <param name="type">Type to get properties for</param>
+        /// <param name="divider">Divider between properties</param>
+        /// <returns>String with properties divided </returns>
+        // Should this be somewhere else?
+        public static string GetTypeHeaders(T obj, string divider = ";")
+        {            
+            var properties = obj.GetType().GetProperties();
+            // I want the properties to be ordered
+            List<string> propertiesList =  new List<string>();
+            foreach(var property in properties)
+            {                
+                propertiesList.Add(property.Name);
+            }
+            // I want the properties to be ordered
+            propertiesList.Sort();
+            return string.Join(divider.ToCharArray()[0], propertiesList) + divider;
+        }
     }
 }

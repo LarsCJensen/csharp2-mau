@@ -66,5 +66,11 @@ namespace Assignment4.Insects
                 "Hive number: ", beeHiveNumber);
             return strOut;
         }
+        public override string SerializeToText(string divider = ";")
+        {
+            string serializeString = base.SerializeToText();
+            serializeString += $"{beeHiveNumber}{divider}";
+            return serializeString;
+        }
     }
 }

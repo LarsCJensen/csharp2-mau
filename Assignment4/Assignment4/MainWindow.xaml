@@ -26,18 +26,20 @@
                         <MenuItem Header="_New" Click="MenuItemNew_Click"/>
                         <MenuItem Header="_Open As">
                             <MenuItem Header="_Binary" Click="MenuItemOpenAsBinary_Click"/>
-                            <MenuItem Header="_Text" Click="MenuItemOpenAsText_Click"/>
+                            <MenuItem Header="_Text Info" Click="MenuItemOpenAsText_Click"/>
+                            <MenuItem Header="_Text Full (WIP)" Click="MenuItemOpenAsTextProper_Click" IsEnabled="False"/>
                         </MenuItem>
                         <MenuItem Header="_Save" Click="MenuItemSave_Click"/>
                         <MenuItem Header="_Save As">
                             <MenuItem Header="_Binary" Click="MenuItemSaveAsBinary_Click"/>
-                            <MenuItem Header="_Text" Click="MenuItemSaveAsText_Click"/>
+                            <MenuItem Header="_Text Info" Click="MenuItemSaveAsText_Click"/>
+                            <MenuItem Header="_Text Full (WIP)" Click="MenuItemSaveAsTextProper_Click" IsEnabled="False"/>
                         </MenuItem>
                         <MenuItem Header="_XML">
-                            <MenuItem Header="_Export" Click="MenuItemSaveAsXml_Click"/>
-                            <MenuItem Header="_Import" Click="MenuItemOpenAsXml_Click"/>
+                            <MenuItem Header="_Export Food Items" Click="MenuItemSaveAsXml_Click"/>
+                            <MenuItem Header="_Import Food Items" Click="MenuItemOpenAsXml_Click"/>
                         </MenuItem>
-                        <MenuItem Header="_Exit"/>
+                        <MenuItem Header="_Exit" Click="MenuItemExit_Click"/>
                     </MenuItem>
                 </Menu>
                 <StackPanel></StackPanel>
