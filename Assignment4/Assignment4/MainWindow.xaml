@@ -77,10 +77,9 @@
                 <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="3" Margin="719,38,0,0" VerticalAlignment="Top" Width="3"/>
                 <ListBox x:Name="lbFoodItems" HorizontalAlignment="Left" Height="143" Margin="708,40,0,0" VerticalAlignment="Top" Width="251" SelectionMode="Multiple"/>
                 <Label x:Name="lblFoodName" Content="Name" HorizontalAlignment="Left" Margin="711,14,0,0" VerticalAlignment="Top" Height="24"/>
-                <Label x:Name="lblFoodIngredients" Content="Ingredients" HorizontalAlignment="Left" Margin="845,13,0,0" VerticalAlignment="Top" Height="25"/>
+                <Label x:Name="lblFoodIngredients" Content="Ingredients" HorizontalAlignment="Left" Margin="801,15,0,0" VerticalAlignment="Top" Height="25" RenderTransformOrigin="-0.543,0.615"/>
                 <Button x:Name="btnAddFoodItem" Content="Add food" HorizontalAlignment="Left" Height="23" Margin="711,188,0,0" VerticalAlignment="Top" Width="63" Click="btnAddFoodItem_Click"/>
                 <Button x:Name="btnCreateFoodItemsForTest" Content="Create Food Items (Test)" HorizontalAlignment="Left" Margin="712,216,0,0" VerticalAlignment="Top" Width="139" Click="btnCreateFoodItemsForTest_Click"/>
-                <Label Content="Eater type" HorizontalAlignment="Left" Margin="777,14,0,0" VerticalAlignment="Top" Height="24"/>
                 <ComboBox x:Name="cboEaterType" HorizontalAlignment="Left" Margin="157,19,0,0" VerticalAlignment="Top" Width="89"/>
                 <Label Content="Eater type" HorizontalAlignment="Left" Margin="153,-3,0,0" VerticalAlignment="Top"/>
                 <CheckBox x:Name="chkListAllAnimals" Content="List all animals" HorizontalAlignment="Left" Height="17" Margin="375,193,0,0" VerticalAlignment="Top" Width="109" Grid.Column="1" Click="ChkListAllAnimals_Click"/>
@@ -201,7 +200,7 @@
                 <Button x:Name="btnDelete" Content="Delete" HorizontalAlignment="Left" Height="22" Margin="301,0,0,-10" VerticalAlignment="Bottom" Width="75" Click="btnDeleteAnimal_Click"/>
                 <Button x:Name="btnEdit" Content="Edit" HorizontalAlignment="Left" Height="22" Margin="212,0,0,-10" VerticalAlignment="Bottom" Width="75" Click="btnEditAnimal_Click"/>
             </Grid>
-        </GroupBox>        
+        </GroupBox>
 
     </Grid>
 </Window>

@@ -138,33 +138,24 @@ namespace Assignment4.Helpers
         }
         public void BinarySerialize(string fileName)
         {
-            string errorMsg;
-            Serializer.BinaryFileSerialize<T>(fileName, m_List, out errorMsg);
-            if(errorMsg != null)
-            {
-                throw new SerializerException(errorMsg);
-            }
+            // Let errors fall through
+            Serializer.BinaryFileSerialize<List<T>>(fileName, m_List);            
         }
-        public List<T> BinaryDeSerialize(string fileName)
+        public void BinaryDeSerialize(string fileName)
         {
-            string errorMsg;
-            List<T> objectsList = Serializer.BinaryFileDeSerialize<T>(fileName, out errorMsg);
-            if (errorMsg != null)
-            {
-                throw new SerializerException(errorMsg);
-            }
-            return objectsList;
+            // Let errors fall through
+            m_List = Serializer.BinaryFileDeSerialize<List<T>>(fileName);            
         }
 
         public void TextFileSerialize(string fileName)
         {
-            string errorMsg;
-            Serializer.TextFileSerialize<T>(fileName, m_List, out errorMsg);
-            if (errorMsg != null)
-            {
-                throw new SerializerException(errorMsg);
-            }
+            // Let errors fall through
+            Serializer.TextFileSerialize<T>(fileName, m_List);            
         }
+        /// <summary>
+        /// NOT IN USE
+        /// </summary>
+        /// <param name="fileName"></param>
         public void TextFileSerializeProper(string fileName)
         {
             string errorMsg;
@@ -176,14 +167,15 @@ namespace Assignment4.Helpers
         }
         public string[] TextFileDeSerialize(string fileName)
         {
-            string errorMsg;
-            string[] animalInfoList = Serializer.TextFileDeSerialize<T>(fileName, out errorMsg);
-            if (errorMsg != null)
-            {
-                throw new SerializerException(errorMsg);
-            }
+            // Let errors fall through
+            string[] animalInfoList = Serializer.TextFileDeSerialize<T>(fileName);
             return animalInfoList;
         }
+        /// <summary>
+        /// NOT IN USE
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
         public List<T> TextFileDeSerializeProper(string fileName)
         {
             string errorMsg;
@@ -196,25 +188,16 @@ namespace Assignment4.Helpers
         }
         public void XmlFileSerialize(string fileName)
         {
-            string errorMsg;
-            Serializer.XmlFileSerialize<T>(fileName, m_List, out errorMsg);
-            if (errorMsg != null)
-            {
-                throw new SerializerException(errorMsg);
-            }
+            // Let errors fall through
+            Serializer.XmlFileSerialize<List<T>>(fileName, m_List);            
         }
-        public List<T> XmlFileDeSerialize(string fileName)
+        public void XmlFileDeSerialize(string fileName)
         {
-            string errorMsg;
-            List<T> objectsList = Serializer.XmlFileDeSerialize<T>(fileName, out errorMsg);
-            if (errorMsg != null)
-            {
-                throw new SerializerException(errorMsg);
-            }
-            return objectsList;
+            // Let errors fall through
+            m_List = Serializer.XmlFileDeSerialize<List<T>>(fileName);            
         }
         /// <summary>
-        /// Method to get headers for type
+        /// NOT IN USE Method to get headers for type
         /// </summary>
         /// <param name="type">Type to get properties for</param>
         /// <param name="divider">Divider between properties</param>

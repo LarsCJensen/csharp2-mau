@@ -58,6 +58,10 @@ namespace Assignment4
                 {
                     MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
@@ -71,11 +75,17 @@ namespace Assignment4
                 try
                 {
                     ClearGui();
-                    List<Animal> animals = animalManager.BinaryDeSerialize(dialog.FileName);
-                    foreach (Animal animal in animals)
+                    // TODO REMOVE
+                    //List<Animal> animals = animalManager.BinaryDeSerialize(dialog.FileName);
+                    //foreach (Animal animal in animalManager.)
+                    //{
+                    //    animalManager.AddAnimal(animal);
+                    //    listOfAnimals.Add(animal);
+                    //}
+                    animalManager.BinaryDeSerialize(dialog.FileName);
+                    for (int i = 0; i < animalManager.Count;i++)
                     {
-                        animalManager.AddAnimal(animal);
-                        listOfAnimals.Add(animal);
+                        listOfAnimals.Add(animalManager.GetAt(i));
                     }
                     lvAnimalList.Items.Refresh();
                     dataFile = dialog.FileName;
@@ -84,6 +94,10 @@ namespace Assignment4
                 catch (SerializerException ex)
                 {
                     MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -103,6 +117,10 @@ namespace Assignment4
                 {
                     MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
         private void MenuItemSaveAsTextProper_Click(object sender, RoutedEventArgs e)
@@ -120,6 +138,10 @@ namespace Assignment4
                 catch (SerializerException ex)
                 {
                     MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -155,7 +177,9 @@ namespace Assignment4
                 try
                 {
                     ClearGui();
-                    string[] animalInfo = animalManager.TextFileDeSerialize(dialog.FileName);
+                    // TODO REMOVE
+                    //string[] animalInfo = animalManager.TextFileDeSerialize(dialog.FileName);
+                    string[] animalInfo = animalManager.TextFileDeSerialize(@"c:\path\not\exist");
                     // Not yet implemented
                     //foreach (Animal animal in animals)
                     //{
@@ -170,6 +194,10 @@ namespace Assignment4
                 catch (SerializerException ex)
                 {
                     MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -218,6 +246,10 @@ namespace Assignment4
                 {
                     MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
         /// <summary>
@@ -237,11 +269,16 @@ namespace Assignment4
                     // Should there be a posibility to reset the id counter upon new?
                     // It feels wrong as it is a internal counter
                     foodManager.DeleteAll();
-                    List<FoodItem> items = foodManager.XmlFileDeSerialize(dialog.FileName);
-                    foreach (FoodItem item in items)
+                    foodManager.XmlFileDeSerialize(dialog.FileName);
+                    //List<FoodItem> items = foodManager.XmlFileDeSerialize(dialog.FileName);
+                    //foreach (FoodItem item in items)
+                    //{
+                    //    foodManager.Add(item);
+                    //    foodItems.Add(item);
+                    //}
+                    for(int i = 0; i < foodManager.Count;i++)
                     {
-                        foodManager.Add(item);
-                        foodItems.Add(item);
+                        foodItems.Add(foodManager.GetAt(i));
                     }
                     lbFoodItems.Items.Refresh();
                     dataFile = dialog.FileName;
@@ -249,6 +286,10 @@ namespace Assignment4
                 catch (SerializerException ex)
                 {
                     MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString(), "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -283,3 +324,4 @@ namespace Assignment4
         }
     }
 }
+

@@ -15,6 +15,10 @@ namespace Assignment4.Animals
             {
                 return ingredients;
             } 
+            set
+            {
+                ingredients = value;
+            }
 
         }
         private static int startId = 1000;

@@ -16,64 +16,47 @@ namespace Assignment4.Helpers
 {
     public static class Serializer
     {
-        public static string BinaryFileSerialize<T>(string path, List<T> objects, out string errorMsg)
+        public static void BinaryFileSerialize<T>(string path, T obj)
         {
             FileStream fileStream = null;
-            // I used this form because it was used in examples, but I would probably prefer to let errors fall through
-            errorMsg = null;
             try
             {
                 if (!Directory.Exists(Path.GetDirectoryName(path)))
                 {
-                    errorMsg = $"Directory {Path.GetDirectoryName(path)} was not found!";
-                    throw new FileNotFoundException(errorMsg);
+                    throw new SerializerException($"Directory {Path.GetDirectoryName(path)} was not found!");
                 } else
                 {
                     fileStream = new FileStream(path, FileMode.Create);
                     BinaryFormatter binaryFormatter = new BinaryFormatter();
-                    binaryFormatter.Serialize(fileStream, objects);
+                    binaryFormatter.Serialize(fileStream, obj);
                 }                
-            } 
-            catch (Exception e)
-            {
-                errorMsg = e.Message;
             }
+            // Make sure filestream is closed, but let error go up the callstack
             finally
             {
                 if(fileStream != null)
                 {
                     fileStream.Close();
                 }
-            }
-            return errorMsg;
+            }            
         }
-        public static List<T> BinaryFileDeSerialize<T>(string path, out string errorMsg)
+        public static T BinaryFileDeSerialize<T>(string path)
         {
             FileStream fileStream = null;
             // I used this form because it was used in examples, but I would probably prefer to let errors fall through
-            errorMsg = null;
             Object obj = null;
             try
             {
                 if(!File.Exists(path))
                 {
-                    errorMsg = $"File {path} was not found!";
-                    throw new FileNotFoundException(errorMsg);
+                    throw new SerializerException($"File {path} was not found!");
                 } else
                 {
                     fileStream = new FileStream(path, FileMode.Open);
                     BinaryFormatter binaryFormatter = new BinaryFormatter();
                     obj = binaryFormatter.Deserialize(fileStream);
                 }                
-            }
-            catch (Exception e)
-            {
-                if(errorMsg == null)
-                {
-                    errorMsg = e.Message;
-                }
-                
-            }
+            }            
             finally
             {
                 if (fileStream != null)
@@ -81,7 +64,7 @@ namespace Assignment4.Helpers
                     fileStream.Close();
                 }
             }
-            return (List<T>)obj;
+            return (T)obj;
         }
         /// <summary>
         /// A minimum effort to show serializing into text
@@ -89,40 +72,29 @@ namespace Assignment4.Helpers
         /// <typeparam name="T"></typeparam>
         /// <param name="path"></param>
         /// <param name="objects"></param>
-        /// <param name="errorMsg"></param>
         /// <returns></returns>
-        public static string TextFileSerialize<T>(string path, List<T> objects, out string errorMsg)
+        public static void TextFileSerialize<T>(string path, List<T> objects)
         {
-            // I used this form because it was used in examples, but I would probably prefer to let errors fall through
-            errorMsg = null;
-            try
+            // In this case I let errors fall through
+            if (!Directory.Exists(Path.GetDirectoryName(path)))
+            {                    
+                throw new SerializerException($"Directory {Path.GetDirectoryName(path)} was not found!");
+            }
+            else
             {
-                if (!Directory.Exists(Path.GetDirectoryName(path)))
+                using (FileStream fileStream = File.Create(path))
                 {
-                    errorMsg = $"Directory {Path.GetDirectoryName(path)} was not found!";
-                    throw new FileNotFoundException(errorMsg);
-                }
-                else
-                {
-                    using (FileStream fileStream = File.Create(path))
+                    using (StreamWriter streamWriter = new StreamWriter(fileStream))
                     {
-                        using (StreamWriter streamWriter = new StreamWriter(fileStream))
-                        {
-                            for (int i = 0; i < objects.Count; i++)
-                            {                            
-                                streamWriter.WriteLine(objects[i].ToString());
-                                // Using a delimiter to know where to split animal info
-                                streamWriter.WriteLine("----");
-                            }
+                        for (int i = 0; i < objects.Count; i++)
+                        {                            
+                            streamWriter.WriteLine(objects[i].ToString());
+                            // Using a delimiter to know where to split animal info
+                            streamWriter.WriteLine("----");
                         }
                     }
                 }
-            }
-            catch (Exception e) 
-            {
-                errorMsg = e.Message;
-            }
-            return errorMsg;
+            }                        
         }
         /// <summary>
         /// WIP: Was trying to figure out a nice way of serializing the animals
@@ -141,7 +113,7 @@ namespace Assignment4.Helpers
                 if (!Directory.Exists(Path.GetDirectoryName(path)))
                 {
                     errorMsg = $"Directory {Path.GetDirectoryName(path)} was not found!";
-                    throw new FileNotFoundException(errorMsg);
+                    throw new SerializerException(errorMsg);
                 } else
                 {
                     using (FileStream fileStream = File.Create(path))
@@ -205,31 +177,20 @@ namespace Assignment4.Helpers
         /// <param name="path"></param>
         /// <param name="errorMsg"></param>
         /// <returns></returns>
-        public static string[] TextFileDeSerialize<T>(string path, out string errorMsg)
+        public static string[] TextFileDeSerialize<T>(string path)
         {
             // I used this form because it was used in examples, but I would probably prefer to let errors fall through
-            errorMsg = null;
             string[] animalInfo = null;
-            try
+            
+            string info;
+            using (FileStream fileStream = File.OpenRead(path))
             {
-                string info;
-                using (FileStream fileStream = File.OpenRead(path))
+                using (StreamReader streamReader = new StreamReader(fileStream))
                 {
-                    using (StreamReader streamReader = new StreamReader(fileStream))
-                    {
-                        info = streamReader.ReadToEnd();                        
-                    }
-                    animalInfo = info.Replace("\r\n", "").Split("----");
+                    info = streamReader.ReadToEnd();                        
                 }
-            }
-            catch (Exception e)
-            {
-                if (errorMsg == null)
-                {
-                    errorMsg = e.Message;
-                }
-
-            }            
+                animalInfo = info.Replace("\r\n", "").Split("----");
+            }                        
             return animalInfo;
         }
         /// <summary>
@@ -246,7 +207,6 @@ namespace Assignment4.Helpers
             string output;
             try
             {
-                // TODO check if location exists?
                 using (FileStream fileStream = File.OpenRead(path))
                 {
                     using (StreamReader streamReader = new StreamReader(fileStream))
@@ -254,7 +214,7 @@ namespace Assignment4.Helpers
                         output = streamReader.ReadToEnd();
                     }
                 }
-                //obj = JsonConvert.DeserializeObject<T>(output);
+                // TODO
             }
             catch (Exception e) 
             {
@@ -262,27 +222,21 @@ namespace Assignment4.Helpers
             }
             return (List<T>)obj;
         }
-        public static string XmlFileSerialize<T>(string path, List<T> objects, out string errorMsg)
+        public static void XmlFileSerialize<T>(string path, T obj)
         {
             // I used this form because it was used in examples, but I would probably prefer to let errors fall through
-            errorMsg = null;
             TextWriter writer = null;
             try
             {
                 if (!Directory.Exists(Path.GetDirectoryName(path)))
                 {
-                    errorMsg = $"Directory {Path.GetDirectoryName(path)} was not found!";
-                    throw new FileNotFoundException(errorMsg);
+                    throw new SerializerException($"Directory {Path.GetDirectoryName(path)} was not found!");
                 } else
                 {
                     writer = new StreamWriter(path);
-                    XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<T>));
-                    xmlSerializer.Serialize(writer, objects);
+                    XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
+                    xmlSerializer.Serialize(writer, obj);
                 }                
-            }
-            catch (Exception e) 
-            {
-                errorMsg = e.ToString();
             }
             finally
             {
@@ -291,28 +245,21 @@ namespace Assignment4.Helpers
                     writer.Close();
                 }
             }
-            return errorMsg;
         }
-        public static List<T> XmlFileDeSerialize<T>(string path, out string errorMsg)
+        public static T XmlFileDeSerialize<T>(string path)
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<T>));
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
             // I used this form because it was used in examples, but I would probably prefer to let errors fall through
-            errorMsg = null;
-            Object objects = null;
+            Object obj = null;
             TextReader reader = null;
             try
             {
                 if (!File.Exists(path))
                 {
-                    errorMsg = $"File {path} was not found!";
-                    throw new FileNotFoundException(errorMsg);
+                    throw new SerializerException($"File {path} was not found!");
                 }
                 reader = new StreamReader(path);
-                objects =  (List<T>)xmlSerializer.Deserialize(reader);
-            }
-            catch (Exception e) 
-            {
-                errorMsg = e.Message;
+                obj =  (T)xmlSerializer.Deserialize(reader);
             }
             finally
             {
@@ -321,7 +268,7 @@ namespace Assignment4.Helpers
                     reader.Close();
                 }
             }
-            return (List<T>)objects;
+            return (T)obj;
         }
     }
 }
