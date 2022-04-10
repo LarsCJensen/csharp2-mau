@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\aa.png" />
+    <None Remove="Assets\ba.png" />
+    <None Remove="Assets\cz.png" />
+    <None Remove="Assets\default.png" />
+    <None Remove="Assets\kq.png" />
+    <None Remove="Assets\sk.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\aa.png" />
+    <Resource Include="Assets\ba.png" />
+    <Resource Include="Assets\cz.png" />
+    <Resource Include="Assets\default.png" />
+    <Resource Include="Assets\kq.png" />
+    <Resource Include="Assets\sk.png" />
+  </ItemGroup>
+
+</Project>
