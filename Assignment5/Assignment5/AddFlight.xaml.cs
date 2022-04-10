@@ -22,6 +22,10 @@ namespace Assignment5
     {
         public string flightNo;
         List<string> _airlines = new List<string>() { "AA", "BA", "CZ", "KQ", "SK" };
+        
+        public event EventHandler<FlightInformation> StartFlight;
+        public event EventHandler<FlightInformation> ChangeRoute;
+        public event EventHandler<FlightInformation> LandPlane;
         public AddFlight(string flightNumber)
         {
             flightNo = flightNumber;
@@ -83,6 +87,19 @@ namespace Assignment5
         #endregion
         #region EventHandlers
         private void btnStart_Click(object sender, RoutedEventArgs e)
+        {
+            FlightInformation flightInfo = new FlightInformation(flightNo, "Started");
+            OnStart(flightInfo);
+        }
+        public void OnStart(FlightInformation e)
+        {
+
+        }
+        public void OnChangeRoute(FlightInformation e)
+        {
+
+        }
+        public void OnStartLand(FlightInformation e)
         {
 
         }
