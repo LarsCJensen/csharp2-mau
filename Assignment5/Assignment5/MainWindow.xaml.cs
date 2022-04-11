@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -85,9 +86,10 @@ namespace Assignment5
 
         private void OnLandPlanePopup(object sender, LandPlane e)
         {
-            Rejoice rejoice = new Rejoice("LANDED BISCHES!!");
+            Rejoice rejoice = new Rejoice();
             // SHOW FOR A WHILE, then close!
             rejoice.Show();
+            Thread.Sleep(2000);
         }
 
         #endregion

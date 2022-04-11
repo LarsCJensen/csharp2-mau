@@ -20,10 +20,10 @@ namespace Assignment5
     public partial class Rejoice : Window
     {
         public string LabelMessage;
-        public Rejoice(string message)
+        public Rejoice()
         {            
             InitializeComponent();
-            LabelMessage = message;
+
         }
     }
 }

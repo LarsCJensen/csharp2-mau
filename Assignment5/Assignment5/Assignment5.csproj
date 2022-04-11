@@ -13,6 +13,7 @@
     <None Remove="Assets\default.png" />
     <None Remove="Assets\kq.png" />
     <None Remove="Assets\sk.png" />
+    <None Remove="horray.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,6 +23,7 @@
     <Resource Include="Assets\default.png" />
     <Resource Include="Assets\kq.png" />
     <Resource Include="Assets\sk.png" />
+    <Resource Include="horray.png" />
   </ItemGroup>
 
 </Project>
