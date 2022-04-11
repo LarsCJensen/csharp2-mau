@@ -24,7 +24,7 @@ namespace Assignment5
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        private ObservableCollection<FlightInformation> flightInformation = new ObservableCollection<FlightInformation>();
+        private ObservableCollection<FlightInformation> flightInformation = new ObservableCollection<FlightInformation>();        
         public ObservableCollection<FlightInformation> FlightInformation
         {
             get
@@ -45,7 +45,9 @@ namespace Assignment5
         }
         public void InitializeGUI() 
         { 
-            // What to do here
+            // TODO What to do here
+            // Clear listview
+
         }
         #region EventHandlers
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
@@ -63,24 +65,7 @@ namespace Assignment5
             addFlightPage.StartFlight += OnStartFlight;
             addFlightPage.ChangeRoute += OnChangeRoute;
             addFlightPage.LandPlane += OnLandPlane;
-            // What to check for?
-            //if (addFlightPage.ShowDialog() == true)
-            //{
-            //    // If Land is pressed??
-            //} else
-            //{
-
-            //}
-            //    foodManager.Add(addFoodWindow.FoodItem);
-            //    foodItems = GetAllFoodItems();
-            //    lbFoodItems.ItemsSource = foodItems;
-            //    lbFoodItems.Items.Refresh();
-
-            //}
-            //else
-            //{
-            //    // Cancel was clicked
-            //}
+            addFlightPage.LandPlane += OnLandPlanePopup;
         }
         private void OnStartFlight(object sender, TakeOff e)
         {
@@ -97,6 +82,14 @@ namespace Assignment5
             FlightInformation flightInfo = new FlightInformation(e.FlightNumber, e.FlightStatus, e.Timestamp);
             flightInformation.Add(flightInfo);
         }
+
+        private void OnLandPlanePopup(object sender, LandPlane e)
+        {
+            Rejoice rejoice = new Rejoice("LANDED BISCHES!!");
+            // SHOW FOR A WHILE, then close!
+            rejoice.Show();
+        }
+
         #endregion
     }
 }

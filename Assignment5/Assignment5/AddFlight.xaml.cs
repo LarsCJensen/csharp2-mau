@@ -20,7 +20,7 @@ namespace Assignment5
     /// </summary>
     public partial class AddFlight : Window
     {
-        public string flightNo;
+        public string FlightNo;
 
         List<string> _airlines = new List<string>() { "AA", "BA", "CZ", "KQ", "SK" };
         List<string> _changeRoute = new List<string> { "30 degrees", "45 degrees", "60 degrees", "90 degrees", "180 degrees" };
@@ -30,7 +30,7 @@ namespace Assignment5
         public event EventHandler<LandPlane> LandPlane;
         public AddFlight(string flightNumber)
         {
-            flightNo = flightNumber;
+            FlightNo = flightNumber;
             InitializeComponent();
             DataContext = this;
             this.Title = flightNumber;
@@ -45,7 +45,7 @@ namespace Assignment5
         # region Helpers
         private void SetLogo()
         {
-            string airlineCode = flightNo.Substring(0, 2);
+            string airlineCode = FlightNo.Substring(0, 2);
             try
             {
                 if (_airlines.Contains(airlineCode)) 
@@ -73,7 +73,7 @@ namespace Assignment5
         /// <param name="e"></param>
         private void btnStart_Click(object sender, RoutedEventArgs e)
         {
-            TakeOff takeOff = new TakeOff(flightNo, "Sent to runway");
+            TakeOff takeOff = new TakeOff(FlightNo, "Sent to runway");
             OnStart(takeOff);
             btnStart.IsEnabled = false;
             cboChange.IsEnabled = true;
@@ -87,13 +87,13 @@ namespace Assignment5
         private void cboChange_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string status = (sender as ComboBox).SelectedItem.ToString();
-            ChangeRoute changeRoute = new ChangeRoute(flightNo, $"Now heading {status}");
+            ChangeRoute changeRoute = new ChangeRoute(FlightNo, $"Now heading {status}");
             OnChangeRoute(changeRoute);
         }
 
         private void btnLand_Click(object sender, RoutedEventArgs e)
         {
-            LandPlane landPlane= new LandPlane(flightNo, "Landing");
+            LandPlane landPlane= new LandPlane(FlightNo, "Landing");
             OnLandPlane(landPlane);
             // Close window
             this.Close();
