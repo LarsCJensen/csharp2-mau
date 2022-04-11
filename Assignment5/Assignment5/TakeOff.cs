@@ -9,11 +9,14 @@ namespace Assignment5
     public class TakeOff : EventArgs
     {
         // Which properties??
-        public string FlightCode { get; set; }
-        public string Time { get; set; }
-        public TakeOff()
+        public string FlightNumber { get; set; }
+        public string FlightStatus { get; set; }
+        public DateTime Timestamp { get; }
+        public TakeOff(string flightNo, string status)
         {
-            // Status == "Started"
+            FlightNumber = flightNo;
+            FlightStatus = status;
+            Timestamp = DateTime.Now;
         }
     }
 }

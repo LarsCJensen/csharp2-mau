@@ -9,11 +9,14 @@ namespace Assignment5
     public class ChangeRoute : EventArgs
     {
         // Which properties??
-        public string FlightCode { get; set; }
-        public string Time { get; set; }
-        public ChangeRoute()
+        public string FlightNumber { get; set; }
+        public string FlightStatus { get; set; }
+        public DateTime Timestamp { get; }
+        public ChangeRoute(string flightNo, string status)
         {
-            // Status == "Changed route"
+            FlightNumber = flightNo;
+            FlightStatus = status;
+            Timestamp = DateTime.Now;
         }
     }
 }

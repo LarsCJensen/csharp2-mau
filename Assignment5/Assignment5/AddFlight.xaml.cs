@@ -21,11 +21,13 @@ namespace Assignment5
     public partial class AddFlight : Window
     {
         public string flightNo;
+
         List<string> _airlines = new List<string>() { "AA", "BA", "CZ", "KQ", "SK" };
-        
-        public event EventHandler<FlightInformation> StartFlight;
-        public event EventHandler<FlightInformation> ChangeRoute;
-        public event EventHandler<FlightInformation> LandPlane;
+        List<string> _changeRoute = new List<string> { "30 degrees", "45 degrees", "60 degrees", "90 degrees", "180 degrees" };
+
+        public event EventHandler<TakeOff> StartFlight;
+        public event EventHandler<ChangeRoute> ChangeRoute;
+        public event EventHandler<LandPlane> LandPlane;
         public AddFlight(string flightNumber)
         {
             flightNo = flightNumber;
@@ -36,13 +38,14 @@ namespace Assignment5
 
         }
         public void InitializeGUI()
-        {
+        {   
+            cboChange.ItemsSource = _changeRoute;
             SetLogo();            
         }
         # region Helpers
         private void SetLogo()
         {
-            string airlineCode = flightNo.Substring(2);
+            string airlineCode = flightNo.Substring(0, 2);
             try
             {
                 if (_airlines.Contains(airlineCode)) 
@@ -60,50 +63,66 @@ namespace Assignment5
                 //TODO WRITE MESSAGE
                 MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            
-            // TODO REMOVE
-            //switch (airlineCode)
-            //{                
-            //    case "AA":
-            //        imgLogo.Source = new BitmapImage(new Uri(@"pack://application:,,,/Assets/aa.png", UriKind.Absolute));
-            //        break;
-            //    case "BA":
-            //        imgLogo.Source = new BitmapImage(new Uri(@"pack://application:,,,/Assets/ba.png", UriKind.Absolute));
-            //        break;
-            //    case "CZ":
-            //        imgLogo.Source = new BitmapImage(new Uri(@"pack://application:,,,/Assets/cz.png", UriKind.Absolute));
-            //        break;
-            //    case "KQ":
-            //        imgLogo.Source = new BitmapImage(new Uri(@"pack://application:,,,/Assets/kq.png", UriKind.Absolute));
-            //        break;
-            //    case "SK":
-            //        imgLogo.Source = new BitmapImage(new Uri(@"pack://application:,,,/Assets/sk.png", UriKind.Absolute));
-            //        break;
-            //    default:
-            //        imgLogo.Source = new BitmapImage(new Uri(@"pack://application:,,,/Assets/default.png", UriKind.Absolute));
-            //        break;
-            //}
         }
         #endregion
         #region EventHandlers
+        /// <summary>
+        /// Event for clicking start button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnStart_Click(object sender, RoutedEventArgs e)
         {
-            FlightInformation flightInfo = new FlightInformation(flightNo, "Started");
-            OnStart(flightInfo);
+            TakeOff takeOff = new TakeOff(flightNo, "Sent to runway");
+            OnStart(takeOff);
+            btnStart.IsEnabled = false;
+            cboChange.IsEnabled = true;
+            btnLand.IsEnabled = true;
         }
-        public void OnStart(FlightInformation e)
+        /// <summary>
+        /// Event for changing route
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cboChange_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            string status = (sender as ComboBox).SelectedItem.ToString();
+            ChangeRoute changeRoute = new ChangeRoute(flightNo, $"Now heading {status}");
+            OnChangeRoute(changeRoute);
         }
-        public void OnChangeRoute(FlightInformation e)
-        {
 
+        private void btnLand_Click(object sender, RoutedEventArgs e)
+        {
+            LandPlane landPlane= new LandPlane(flightNo, "Landing");
+            OnLandPlane(landPlane);
+            // Close window
+            this.Close();
         }
-        public void OnStartLand(FlightInformation e)
+        /// <summary>
+        /// Event handler for OnStart
+        /// </summary>
+        /// <param name="e"></param>
+        private void OnStart(TakeOff e)
         {
-
+            if(StartFlight != null)
+            {
+                StartFlight(this, e);
+            }
+        }
+        public void OnChangeRoute(ChangeRoute e)
+        {
+            if (ChangeRoute != null)
+            {
+                ChangeRoute(this, e);
+            }
+        }
+        public void OnLandPlane(LandPlane e)
+        {
+            if (LandPlane != null)
+            {
+                LandPlane(this, e);
+            }
         }
         #endregion
-
     }
 }
