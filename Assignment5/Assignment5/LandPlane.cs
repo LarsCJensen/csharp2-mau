@@ -12,10 +12,10 @@ namespace Assignment5
         public string FlightNumber { get; set; }
         public string FlightStatus { get; set; }
         public DateTime Timestamp { get; }
-        public LandPlane(string flightNo, string status)
+        public LandPlane(string flightNo)
         {
             FlightNumber = flightNo;
-            FlightStatus = status;
+            FlightStatus = "Landed";
             Timestamp = DateTime.Now;
         }
     }

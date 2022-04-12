@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,8 +23,8 @@ namespace Assignment5
     {
         public string FlightNo;
 
-        List<string> _airlines = new List<string>() { "AA", "BA", "CZ", "KQ", "SK" };
-        List<string> _changeRoute = new List<string> { "30 degrees", "45 degrees", "60 degrees", "90 degrees", "180 degrees" };
+        List<string> _airlines = new List<string>() { "AA", "BA", "CZ", "KQ", "SK", "AF" };
+        List<string> _changeRoutes = new List<string> { "30 degrees", "45 degrees", "60 degrees", "90 degrees", "180 degrees" };
 
         public event EventHandler<TakeOff> StartFlight;
         public event EventHandler<ChangeRoute> ChangeRoute;
@@ -33,13 +34,13 @@ namespace Assignment5
             FlightNo = flightNumber;
             InitializeComponent();
             DataContext = this;
-            this.Title = flightNumber;
             InitializeGUI();
 
         }
         public void InitializeGUI()
-        {   
-            cboChange.ItemsSource = _changeRoute;
+        {
+            this.Title = FlightNo;
+            cboChange.ItemsSource = _changeRoutes;
             SetLogo();            
         }
         # region Helpers
@@ -48,20 +49,23 @@ namespace Assignment5
             string airlineCode = FlightNo.Substring(0, 2);
             try
             {
-                if (_airlines.Contains(airlineCode)) 
+                if (_airlines.Contains(airlineCode.ToUpper())) 
                 {
                     imgLogo.Source = new BitmapImage(new Uri($@"pack://application:,,,/Assets/{airlineCode.ToLower()}.png", UriKind.Absolute)); 
-
                 }
                 else
                 {
                     imgLogo.Source = new BitmapImage(new Uri(@"pack://application:,,,/Assets/default.png", UriKind.Absolute));
                 }
             }
-            catch (Exception ex)
+            catch (IOException)
             {
-                //TODO WRITE MESSAGE
-                MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                string message =  $"No image for the airline {airlineCode.ToUpper()} exists. Please add it to Assets!";
+                MessageBox.Show(message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.StackTrace, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         #endregion
@@ -73,7 +77,7 @@ namespace Assignment5
         /// <param name="e"></param>
         private void btnStart_Click(object sender, RoutedEventArgs e)
         {
-            TakeOff takeOff = new TakeOff(FlightNo, "Sent to runway");
+            TakeOff takeOff = new TakeOff(FlightNo);
             OnStart(takeOff);
             btnStart.IsEnabled = false;
             cboChange.IsEnabled = true;
@@ -86,14 +90,14 @@ namespace Assignment5
         /// <param name="e"></param>
         private void cboChange_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            string status = (sender as ComboBox).SelectedItem.ToString();
-            ChangeRoute changeRoute = new ChangeRoute(FlightNo, $"Now heading {status}");
+            string route = (sender as ComboBox).SelectedItem.ToString();
+            ChangeRoute changeRoute = new ChangeRoute(FlightNo, route);
             OnChangeRoute(changeRoute);
         }
 
         private void btnLand_Click(object sender, RoutedEventArgs e)
         {
-            LandPlane landPlane= new LandPlane(FlightNo, "Landing");
+            LandPlane landPlane= new LandPlane(FlightNo);
             OnLandPlane(landPlane);
             // Close window
             this.Close();

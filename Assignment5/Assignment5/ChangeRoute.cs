@@ -12,10 +12,10 @@ namespace Assignment5
         public string FlightNumber { get; set; }
         public string FlightStatus { get; set; }
         public DateTime Timestamp { get; }
-        public ChangeRoute(string flightNo, string status)
+        public ChangeRoute(string flightNo, string route)
         {
             FlightNumber = flightNo;
-            FlightStatus = status;
+            FlightStatus = $"Now heading {route}";
             Timestamp = DateTime.Now;
         }
     }

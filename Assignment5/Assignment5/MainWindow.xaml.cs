@@ -60,36 +60,65 @@ namespace Assignment5
         }
         private void btnSendAirplane_Click(object sender, RoutedEventArgs e)
         {
-            AddFlight addFlightPage = new AddFlight(txtFlight.Text);
+            if(txtFlight.Text.Length > 0)
+            {
+                AddFlight addFlightPage = new AddFlight(txtFlight.Text);
 
-            addFlightPage.Show();
-            addFlightPage.StartFlight += OnStartFlight;
-            addFlightPage.ChangeRoute += OnChangeRoute;
-            addFlightPage.LandPlane += OnLandPlane;
-            addFlightPage.LandPlane += OnLandPlanePopup;
+                addFlightPage.Show();
+                addFlightPage.StartFlight += OnStartFlight;
+                addFlightPage.ChangeRoute += OnChangeRoute;
+                addFlightPage.LandPlane += OnLandPlane;
+                addFlightPage.LandPlane += OnLandPlanePopup;
+                txtFlight.Text = string.Empty;
+            } else
+            {
+                MessageBox.Show("You must issue a flight number to start!", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            
         }
+        /// <summary>
+        /// Method to be fired upon on start flight
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnStartFlight(object sender, TakeOff e)
         {
             FlightInformation flightInfo = new FlightInformation(e.FlightNumber, e.FlightStatus, e.Timestamp);
             flightInformation.Add(flightInfo);            
         }
+        /// <summary>
+        /// Method to be fired upon on change route 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnChangeRoute(object sender, ChangeRoute e)
         {
             FlightInformation flightInfo = new FlightInformation(e.FlightNumber, e.FlightStatus, e.Timestamp);
             flightInformation.Add(flightInfo);
         }
+        /// <summary>
+        /// Method to be fired upon Land event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnLandPlane(object sender, LandPlane e)
         {
             FlightInformation flightInfo = new FlightInformation(e.FlightNumber, e.FlightStatus, e.Timestamp);
             flightInformation.Add(flightInfo);
         }
-
+        /// <summary>
+        /// Method to be fired upon Land event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnLandPlanePopup(object sender, LandPlane e)
         {
-            Rejoice rejoice = new Rejoice();
-            // SHOW FOR A WHILE, then close!
-            rejoice.Show();
-            Thread.Sleep(2000);
+            SplashScreen splash = new SplashScreen(@"Assets/horray.png");
+            splash.Show(true);
+            System.Media.SoundPlayer player = new System.Media.SoundPlayer();
+            player.SoundLocation = @"Assets/much_rejoicing.wav";
+            player.Play();
+            Thread.Sleep(3000);
         }
 
         #endregion

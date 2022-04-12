@@ -11,9 +11,9 @@
     <None Remove="Assets\ba.png" />
     <None Remove="Assets\cz.png" />
     <None Remove="Assets\default.png" />
+    <None Remove="Assets\horray.png" />
     <None Remove="Assets\kq.png" />
     <None Remove="Assets\sk.png" />
-    <None Remove="horray.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,9 +21,15 @@
     <Resource Include="Assets\ba.png" />
     <Resource Include="Assets\cz.png" />
     <Resource Include="Assets\default.png" />
+    <Resource Include="Assets\horray.png" />
     <Resource Include="Assets\kq.png" />
     <Resource Include="Assets\sk.png" />
-    <Resource Include="horray.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Assets\much_rejoicing.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
