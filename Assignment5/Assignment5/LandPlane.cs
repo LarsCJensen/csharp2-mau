@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace Assignment5
 {
+    /// <summary>
+    /// Class for LandPlane
+    /// </summary>
     public class LandPlane : EventArgs
-    {
-        // Which properties??
+    {        
         public string FlightNumber { get; set; }
         public string FlightStatus { get; set; }
         public DateTime Timestamp { get; }

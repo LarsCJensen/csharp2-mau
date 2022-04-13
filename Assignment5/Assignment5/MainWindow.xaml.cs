@@ -1,4 +1,7 @@
-﻿using System;
+﻿/*
+ * 2022-04-13 Lars Jensen
+ */
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -26,6 +29,9 @@ namespace Assignment5
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private ObservableCollection<FlightInformation> flightInformation = new ObservableCollection<FlightInformation>();        
+        /// <summary>
+        /// Observable collection of FlightInformation to populate listview with
+        /// </summary>
         public ObservableCollection<FlightInformation> FlightInformation
         {
             get
@@ -35,6 +41,7 @@ namespace Assignment5
             set
             {
                 flightInformation = value;
+                // When new value is set, notify
                 NotifyPropertyChanged();
             }
         }
@@ -46,7 +53,7 @@ namespace Assignment5
         }
         public void InitializeGUI() 
         { 
-            // TODO What to do here
+            // Nothing really to do here
             // Clear listview
 
         }
@@ -58,6 +65,11 @@ namespace Assignment5
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+        /// <summary>
+        /// Event method for Add flight
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSendAirplane_Click(object sender, RoutedEventArgs e)
         {
             if(txtFlight.Text.Length > 0)
@@ -65,6 +77,7 @@ namespace Assignment5
                 AddFlight addFlightPage = new AddFlight(txtFlight.Text);
 
                 addFlightPage.Show();
+                // Bind events to methods
                 addFlightPage.StartFlight += OnStartFlight;
                 addFlightPage.ChangeRoute += OnChangeRoute;
                 addFlightPage.LandPlane += OnLandPlane;
@@ -83,6 +96,8 @@ namespace Assignment5
         /// <param name="e"></param>
         private void OnStartFlight(object sender, TakeOff e)
         {
+            // Create instance of FlightInformation with information from event
+            // Checks to make sure properties exist on event might be a good idea
             FlightInformation flightInfo = new FlightInformation(e.FlightNumber, e.FlightStatus, e.Timestamp);
             flightInformation.Add(flightInfo);            
         }
@@ -93,6 +108,8 @@ namespace Assignment5
         /// <param name="e"></param>
         private void OnChangeRoute(object sender, ChangeRoute e)
         {
+            // Create instance of FlightInformation with information from event
+            // Checks to make sure properties exist on event might be a good idea
             FlightInformation flightInfo = new FlightInformation(e.FlightNumber, e.FlightStatus, e.Timestamp);
             flightInformation.Add(flightInfo);
         }
@@ -103,6 +120,8 @@ namespace Assignment5
         /// <param name="e"></param>
         private void OnLandPlane(object sender, LandPlane e)
         {
+            // Create instance of FlightInformation with information from event
+            // Checks to make sure properties exist on event might be a good idea
             FlightInformation flightInfo = new FlightInformation(e.FlightNumber, e.FlightStatus, e.Timestamp);
             flightInformation.Add(flightInfo);
         }
@@ -113,11 +132,14 @@ namespace Assignment5
         /// <param name="e"></param>
         private void OnLandPlanePopup(object sender, LandPlane e)
         {
+            // Show splash with image from one of my favorite movies
             SplashScreen splash = new SplashScreen(@"Assets/horray.png");
             splash.Show(true);
             System.Media.SoundPlayer player = new System.Media.SoundPlayer();
             player.SoundLocation = @"Assets/much_rejoicing.wav";
+            // Play sound from the scene of one of my favorite movies
             player.Play();
+            // Wait three seconds and then close splash
             Thread.Sleep(3000);
         }
 

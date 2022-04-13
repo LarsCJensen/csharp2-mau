@@ -23,12 +23,20 @@ namespace Assignment5
     {
         public string FlightNo;
 
-        List<string> _airlines = new List<string>() { "AA", "BA", "CZ", "KQ", "SK", "AF" };
+
+        List<string> _airlineCodes = new List<string>() { "AA", "BA", "CZ", "KQ", "SK", "AF" };
         List<string> _changeRoutes = new List<string> { "30 degrees", "45 degrees", "60 degrees", "90 degrees", "180 degrees" };
 
+        /// <summary>
+        /// Event handlers
+        /// </summary>
         public event EventHandler<TakeOff> StartFlight;
         public event EventHandler<ChangeRoute> ChangeRoute;
         public event EventHandler<LandPlane> LandPlane;
+        /// <summary>
+        /// Constructor to Add a flight
+        /// </summary>
+        /// <param name="flightNumber">Flight number to add</param>
         public AddFlight(string flightNumber)
         {
             FlightNo = flightNumber;
@@ -39,8 +47,10 @@ namespace Assignment5
         }
         public void InitializeGUI()
         {
+            // Set flight number for title
             this.Title = FlightNo;
             cboChange.ItemsSource = _changeRoutes;
+            // Set logo of airline, if exists
             SetLogo();            
         }
         # region Helpers
@@ -49,19 +59,24 @@ namespace Assignment5
             string airlineCode = FlightNo.Substring(0, 2);
             try
             {
-                if (_airlines.Contains(airlineCode.ToUpper())) 
+                if (_airlineCodes.Contains(airlineCode.ToUpper())) 
                 {
+                    // If user adds arilne with airline code use asset with airline code name
+                    // PS Try to use airline code AF
                     imgLogo.Source = new BitmapImage(new Uri($@"pack://application:,,,/Assets/{airlineCode.ToLower()}.png", UriKind.Absolute)); 
                 }
                 else
                 {
+                    // Use default image
                     imgLogo.Source = new BitmapImage(new Uri(@"pack://application:,,,/Assets/default.png", UriKind.Absolute));
                 }
             }
             catch (IOException)
             {
-                string message =  $"No image for the airline {airlineCode.ToUpper()} exists. Please add it to Assets!";
+                string message =  $"No image for the airline {airlineCode.ToUpper()} exists. Please add it to Assets! Using default for now.";
                 MessageBox.Show(message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                // Use default image
+                imgLogo.Source = new BitmapImage(new Uri(@"pack://application:,,,/Assets/default.png", UriKind.Absolute));
             }
             catch (Exception e)
             {
@@ -77,8 +92,9 @@ namespace Assignment5
         /// <param name="e"></param>
         private void btnStart_Click(object sender, RoutedEventArgs e)
         {
-            TakeOff takeOff = new TakeOff(FlightNo);
+            TakeOff takeOff = new TakeOff(FlightNo);            
             OnStart(takeOff);
+            // Disable/Enable buttons
             btnStart.IsEnabled = false;
             cboChange.IsEnabled = true;
             btnLand.IsEnabled = true;
@@ -94,7 +110,11 @@ namespace Assignment5
             ChangeRoute changeRoute = new ChangeRoute(FlightNo, route);
             OnChangeRoute(changeRoute);
         }
-
+        /// <summary>
+        /// Event for Landing
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnLand_Click(object sender, RoutedEventArgs e)
         {
             LandPlane landPlane= new LandPlane(FlightNo);

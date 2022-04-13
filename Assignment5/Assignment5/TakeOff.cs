@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Assignment5
 {
+    /// <summary>
+    /// Class for TakeOff
+    /// </summary>
     public class TakeOff : EventArgs
     {
         public string FlightNumber { get; set; }
