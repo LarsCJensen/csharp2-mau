@@ -40,4 +40,74 @@ namespace Assignment6
     }
 
     #endregion // HeaderToImageConverter
+    // TODO REMOVE BELOW!!
+    public class Account<T> : ICloneable
+    {
+        public int CompareTo(Account<T>? other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object Clone()
+        {
+            throw new NotImplementedException();
+        }
+    }
+    public class Generic<T>
+    {
+        private T value;
+        public void Test()
+        {
+            //T sum = value + 1;
+        }
+    }
+
+    class GenericTest
+    {
+        public void Test<X>(X value)
+        {
+            Console.WriteLine(value.ToString());
+        }
+    }
+
+    class GenericConstraints<T, U> where T : BankLoan
+    {
+        public void Test(T t, U u)
+        {
+            Console.WriteLine(t.ToString() + "\n" + u.ToString());
+        }
+    }
+
+    
+    class BankLoan
+    {
+
+        public override string ToString()
+        {
+            return "BankLoan object";
+        }
+    }
+
+    interface IAccount
+    {
+        string Name { get; set; }
+    }
+
+    class GenericAccount<T>: IAccount
+    {
+        private T m_id;
+
+        public T ID
+        {
+            get { return m_id; }
+            set { m_id = value; }
+        }
+
+        public string Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public object Clone()
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
