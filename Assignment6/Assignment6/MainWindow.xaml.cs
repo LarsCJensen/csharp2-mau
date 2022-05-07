@@ -1,9 +1,14 @@
-﻿using Microsoft.Win32;
+﻿/***
+ * Lars Jensen 2022-05-08
+ */
+using Microsoft.Win32;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,24 +28,37 @@ namespace Assignment6
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
-    {        
+    {
+        
         private object dummyNode = null;
+        List<TreeViewItem> selectedItems = new List<TreeViewItem>();
         public MainWindow()
         {
             InitializeComponent();
             InitializeGUI();
         }
-        // TODO CLasses
-        // File, Icon, Name, Path, DateCreated, DateModified
-        // FileType (Enum), File, Folder, Drive
         private void InitializeGUI()
-        {
-            // Välj katalog via fileDialog
-            // Kryssruta "Inkludera sub-folders"
-            // Vilka attribute att jämföra med?
-
+        {            
             AddLogicalDrives();            
         }
+        /// <summary>
+        /// Helper method to add logical drives to treeview
+        /// </summary>
+        private void AddLogicalDrives()
+        {
+            foreach (string s in Directory.GetLogicalDrives())
+            {
+                TreeViewItem item = new TreeViewItem();
+                item.Header = s;
+                item.Tag = s;
+                item.FontWeight = FontWeights.Normal;
+                // Adding a dummyNode to make first expand work
+                item.Items.Add(dummyNode);
+                item.Expanded += new RoutedEventHandler(FolderExpanded);
+                fileTree.Items.Add(item);
+            }
+        }
+
         /// <summary>
         /// Event for when folder is expanded
         /// </summary>
@@ -65,170 +83,90 @@ namespace Assignment6
                         item.Items.Add(subitem);
                     }
                 }
+                // TODO
                 catch (Exception) { }
             }
         }
-        /// <summary>
-        /// Helper method to add logical drives to treeview
-        /// </summary>
-        private void AddLogicalDrives()
-        {
-            foreach (string s in Directory.GetLogicalDrives())
-            {
-                TreeViewItem item = new TreeViewItem();
-                item.Header = s;
-                item.Tag = s;
-                item.FontWeight = FontWeights.Normal;
-                // Adding a dummyNode to make first expand work
-                item.Items.Add(dummyNode);
-                item.Expanded += new RoutedEventHandler(FolderExpanded);
-                fileTree.Items.Add(item);
-            }
-        }
-        // TODO REMOVE
-        public void foldersItem_SelectedItemChanged(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Test");
-        }
-        // TODO REMOVE
-        private void btnChooseFolder_Click(object sender, RoutedEventArgs e)
-        {
-            var dialog = new OpenFileDialog();
-            dialog.Filter = "BMP|*.bmp|JPG|*.jpg|PNG|*.png|All files (*.*)|*.*";
-            bool? result = dialog.ShowDialog();
-            if (result == true)
-            {
-                //imgAnimal.Source = new BitmapImage(new Uri(dialog.FileName, UriKind.Absolute));
-            }
-        }
-
         private void btnFindDuplicates_Click(object sender, RoutedEventArgs e)
-        {
-            string validationString = string.Empty;
-            if (fileTree.SelectedItem == null)
-            {
-                
-                validationString = "You have to select a folder!\n";                
-            }
-            if (NoFiltersAreSelected())
-            {
-                validationString = validationString + "You must choose a filter to compare with!";                                   
-            }
+        {            
+            string validationString = validateInput();            
             if(validationString != string.Empty)
             {
-                // TODO buttons ERROR etc
-                MessageBox.Show(validationString, "Validation error!");
+                MessageBox.Show(validationString, "Validation error!", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            List<string> directories = new List<string>() { ((TreeViewItem)fileTree.SelectedItem).Tag.ToString() };
-            // If include sub-dirs then loop
-            if (chkIncludeSubfolders.IsChecked == true)
-            {
-                // TODO recursive getdirs
-                var dirs = GetSubdirectories(directories[0]).ToList(); 
-                for(var i=0; i< dirs.Count; i++)
-                {
-                    dirs.AddRange(GetSubdirectories(dirs[i]));
-                }
-                directories.AddRange(dirs);                
-            }
-            List<string> files = new List<string>();
-            foreach (string folder in directories)
-            {
-                files.AddRange(GetFilesInFolder(folder));
-            }
-            // TODO Compare tuples in A assignment
 
-            List<FileInfo> duplicates = new List<FileInfo>();
-            // For each file, check if it is similar to others
+            // Get all directories, with sub directories if needed
+            List<string> chosenDirectories = new List<string>(getChosenDirectories());
+
+            // Get all files in chosen directories
+            List<string> files = new List<string>();
+            foreach (string dir in chosenDirectories)
+            {
+                files.AddRange(GetFilesInDir(dir));
+            }
+
+            List<(FileInfo FileInfo, string Checksum, int DuplicateId)> duplicates = new List<(FileInfo FileInfo, string Checksum, int DuplicateId)>();
+            // Remove files which are marked as duplicates
+            // For each file, check if it is duplicate(s)
+            int i = 0;
+            //TODO REMOVE
+            List<string> filesCopy = new List<string>(files);
             foreach (string file in files)
             {
-                List<string> filesCopy = new List<string>(files);
                 // Remove file from list as not to compare to itself
                 filesCopy.Remove(file);
-                duplicates = GetDuplicates(file, filesCopy);                
+                // TODO REMOVE
+                if (file == "C:\\Temp\\duplicates\\Text till CV.docx")
+                {
+                    Console.WriteLine("Test");
+                }
+                duplicates.AddRange(GetDuplicates(file, i, ref filesCopy));
+                i++;
             }
-            
-            List<FileInfo> cleanedList = duplicates.Distinct().ToList();            
-            foreach (FileInfo duplicate in cleanedList)
-            {
-                string checkSum = GetChecksum(duplicate.FullName);
 
-                // TODO Based on selected comparison,                 
-                var fileTuple = (
-                    Name: duplicate.Name,
-                    Path: duplicate.DirectoryName,
-                    DateCreated: duplicate.CreationTimeUtc,
-                    DateModified: duplicate.LastWriteTimeUtc,
-                    Size: duplicate.Length.ToString(),
-                    Checksum: checkSum
-                );
+            List<FileClass> duplicateFiles = new List<FileClass>();
+            foreach (var duplicate in duplicates)
+            {                
+                FileClass file = new FileClass(duplicate);
+                duplicateFiles.Add(file);
             }
-        }
-        private string GetChecksum(string fileName)
-        {
-            using (var md5 = MD5.Create())
-            {
-                using (var stream = File.OpenRead(fileName))
-                {
-                    var hash = md5.ComputeHash(stream);
-                    return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
-                }
-            }
-        }
 
-        private List<string> GetFilesInFolder(string folder)
-        {
-            return Directory.GetFiles(folder).ToList();
+            string dirsString = GetDirsText();
+            // Text to be shown regarding selected folders and filters
+            string filtersText = $"Folder(s): {dirsString.Remove(dirsString.Length -2, 2)}\n";
+            string chkBoxText = GetFilterText();
+            filtersText += $"Filter(s): {chkBoxText.Remove(chkBoxText.Length -2, 2)}";
+            DuplicateList duplicateList = new DuplicateList(duplicateFiles, filtersText);
+            duplicateList.Show();            
         }
-        private List<string> GetSubdirectories(string dir)
+        
+        private void fileTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            return Directory.GetDirectories(dir).ToList();
-        }   
-        private List<FileInfo> GetDuplicates(string file, List<string> files)
-        {
-            // TODO Hur markera de filer som är lika?
-            List<FileInfo> duplicates = new List<FileInfo>();
-            FileInfo fileInfo = new FileInfo(file);
-            bool isDuplicate = false;
-            foreach(string fileToCompare in files)
+            if((TreeViewItem)fileTree.SelectedItem == null)
             {
-                FileInfo fileToCompareInfo = new FileInfo(fileToCompare);
-                if (chkCreatedDate.IsChecked == true)
-                {
-                    isDuplicate = IsAttributeEqual(fileInfo.CreationTimeUtc, fileToCompareInfo.CreationTimeUtc);
-                }
-                if (chkModifiedDate.IsChecked == true)
-                {
-                    isDuplicate = IsAttributeEqual(fileInfo.LastWriteTimeUtc, fileToCompareInfo.LastWriteTime);
-                }
-                if (chkSize.IsChecked == true)
-                {
-                    isDuplicate = IsAttributeEqual(fileInfo.Length.ToString(), fileToCompareInfo.Length.ToString());
-                }
-                if (chkFileType.IsChecked == true)
-                {
-                    isDuplicate = IsAttributeEqual(fileInfo.Extension, fileToCompareInfo.Extension);
-                }
-                if(isDuplicate)
-                {
-                    duplicates.Add(fileInfo);
-                }                    
+                return;
             }
-            return duplicates;
-        }
-        private bool IsAttributeEqual(object val1, object val2)
-        {
-            return val1 == val2;
-        }
-        private bool NoFiltersAreSelected()
-        {
-            if (chkCreatedDate.IsChecked == false && chkModifiedDate.IsChecked == false && chkSize.IsChecked == false && chkFileType.IsChecked == false)
+
+            //fileTree.SelectedItem.IsSelected = false;
+            TreeViewItem selectedItem = (TreeViewItem)fileTree.SelectedItem;            
+            selectedItem.Background = Brushes.Blue;
+            selectedItem.Foreground = Brushes.White;
+
+            if (!ShiftPressed)
             {
-                return true;
+                ResetSelectedItems();
+                selectedItems = new List<TreeViewItem> { (TreeViewItem)fileTree.SelectedItem };
+                //chosenDirectories = new List<string> { ((TreeViewItem)fileTree.SelectedItem).Tag.ToString() };
+
+            } else
+            {
+                selectedItems.Add((TreeViewItem)fileTree.SelectedItem);
+                //chosenDirectories.Add(((TreeViewItem)fileTree.SelectedItem).Tag.ToString());
             }
-            return false;
+            selectedItem.IsSelected = false;
         }
+        
     }
     
 }

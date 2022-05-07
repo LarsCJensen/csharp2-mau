@@ -16,19 +16,22 @@
             <RowDefinition Height="300" />
             <RowDefinition Height="200*" />
         </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0">
+            <TextBlock MaxWidth="200" Margin="5,5,5,5" MaxHeight="300">
+                <TextBlock TextWrapping="WrapWithOverflow">
+                    Choose folder(s) to search for duplicates in. Use Shift key to choose multiple.    
+                </TextBlock>                
+                <LineBreak />
+                <LineBreak />                
+                <TextBlock TextWrapping="WrapWithOverflow"  Foreground="Red">
+                    Warning! Including subfoldes when choosing top-level folders will take a long time!    
+                </TextBlock>
+                
+            </TextBlock>
+        </Grid>
         <Grid Grid.Row="0" Grid.Column="1">
-            <!--TODO REMOVE-->
             <GroupBox>
-                <ListView x:Name="listView" HorizontalAlignment="Left" Height="180" Margin="5,5,5,5" Width="380" d:ItemsSource="{d:SampleData ItemCount=5}" Visibility="Hidden">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            </GroupBox>
-            <GroupBox>
-                <TreeView x:Name="fileTree"></TreeView>
+                <TreeView x:Name="fileTree" SelectedItemChanged="fileTree_SelectedItemChanged" ToolTip="Hold shift to select multiple folders"></TreeView>
             </GroupBox>
         </Grid>
         <Grid Grid.Row="1" Grid.Column="1">
@@ -46,7 +49,7 @@
             <Grid Grid.Row="1" Grid.Column="0">
                 <Button x:Name="btnFindDuplicates" Content="Find Duplicates" Height="25" Width="100" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,0,0,0" Click="btnFindDuplicates_Click"/>
             </Grid>
-            <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="2">
+            <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" x:Name="searchAttributes">
                 <Label Content="File attributes to compare" HorizontalAlignment="Left" VerticalAlignment="Top" />
                 <CheckBox x:Name="chkCreatedDate" Content="Created date" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,30,0,0"/>
                 <CheckBox x:Name="chkModifiedDate" Content="Modified date" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="90,30,0,0"/>
