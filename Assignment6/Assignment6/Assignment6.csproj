@@ -13,6 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FontAwesome5" Version="2.1.6" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Assets\disk.png" />
     <Resource Include="Assets\folder.jpg" />
   </ItemGroup>

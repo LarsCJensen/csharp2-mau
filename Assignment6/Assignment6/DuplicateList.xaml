@@ -64,7 +64,7 @@
         </Grid>
         <Grid Grid.Row="1" Grid.Column="1">
             <Label Content="{Binding FilterText}" />
-            <Button x:Name="btnDelete" Content="Delete" Width="100" Height="20" Click="btnDelete_Click"/>
+            <Button x:Name="btnDelete" Content="Delete" Width="100" Height="20" Click="btnDelete_Click"/>            
         </Grid>
     </Grid>
 </Window>

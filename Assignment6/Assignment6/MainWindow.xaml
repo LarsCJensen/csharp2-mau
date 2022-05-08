@@ -3,9 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fa5="http://schemas.fontawesome.com/icons/"
         xmlns:local="clr-namespace:Assignment6"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Find Duplicates" Height="450" Width="800">
     <Grid x:Name="mainGrid" HorizontalAlignment="Left" Height="450" Margin="0,0,0,0" VerticalAlignment="Top" Width="800" Grid.Row="2" Grid.Column="2">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200" />
@@ -31,7 +32,21 @@
         </Grid>
         <Grid Grid.Row="0" Grid.Column="1">
             <GroupBox>
-                <TreeView x:Name="fileTree" SelectedItemChanged="fileTree_SelectedItemChanged" ToolTip="Hold shift to select multiple folders"></TreeView>
+                <TreeView x:Name="fileTree" SelectedItemChanged="fileTree_SelectedItemChanged" ToolTip="Hold shift to select multiple folders"></TreeView>                
+            </GroupBox>
+            <GroupBox Margin="100" x:Name="grpSpinner" BorderThickness="0">
+                <GroupBox.Style>
+                    <Style TargetType="{x:Type GroupBox}">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=SpinnerVisible, Mode=TwoWay}" Value="True">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </GroupBox.Style>
+                <!--Using font-awesome nuget spinner-->
+                <fa5:ImageAwesome Icon="Solid_Spinner" Spin="True" SpinDuration="10"/>
             </GroupBox>
         </Grid>
         <Grid Grid.Row="1" Grid.Column="1">
@@ -44,10 +59,10 @@
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Grid.Column="0">                
-                <CheckBox x:Name="chkIncludeSubfolders" Content="Include subfolders" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,0"/>
+                <CheckBox x:Name="chkIncludeSubfolders" Content="Include subfolders" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,0"/>                
             </Grid>
             <Grid Grid.Row="1" Grid.Column="0">
-                <Button x:Name="btnFindDuplicates" Content="Find Duplicates" Height="25" Width="100" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,0,0,0" Click="btnFindDuplicates_Click"/>
+                <Button x:Name="btnFindDuplicates" Content="Find Duplicates" Height="25" Width="100" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,0,0,0" Click="btnFindDuplicates_Click" />
             </Grid>
             <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" x:Name="searchAttributes">
                 <Label Content="File attributes to compare" HorizontalAlignment="Left" VerticalAlignment="Top" />

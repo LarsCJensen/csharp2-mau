@@ -92,7 +92,6 @@ namespace Assignment6
             MessageBoxResult result = MessageBox.Show("Do you want to delete the selected files?", "Are you sure?",MessageBoxButton.YesNo);
             if (result == MessageBoxResult.Yes)
             {
-                // TODO Return which files that could not be deleted
                 string errors = DeleteChosenFiles(filesToDelete);
                 if (errors != string.Empty)
                 {
@@ -100,44 +99,18 @@ namespace Assignment6
                     return;
                 }
                 MessageBox.Show("All files have been deleted!", "Success!", MessageBoxButton.OK, MessageBoxImage.Information);
+                this.Close();
             }
-
-            // Chceck if files are chosen
-            // Validate that deletions are ok?            
-            // Delete
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             if (duplicateFiles.Count == 0)
             {
-                // TODO Improve?
                 MessageBox.Show("No duplicates found in the chosen folder(s)!", "No duplicates found!", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
-            }
-            SetBackgroundColor();
-        }
-        private void SetBackgroundColor()
-        {
-            //lstDuplicateFiles
-            int previousDuplicateId = 0;
-            foreach (var item in lstDuplicateFiles.Items)
-            {
-                previousDuplicateId = 0;
-                //    var file = DuplicateFilesList.ItemContainerGenerator.ItemFromContainer(item) as FileClass;
-                //    if (file.DuplicateId == previousDuplicateId) 
-                //    { 
-                //    }
-                //    item.Background = Brushes.AliceBlue;
-                //}
-                //for (int i = 0; i < DuplicateFilesList.Items.Count; i++)
-                //{
-
-                //    previousDuplicateId = ((FileClass)DuplicateFilesList.Items[i]).DuplicateId;
-                //    ((ListViewItem)DuplicateFilesList.Items[i]).Background = new SolidColorBrush(RandomColorGenerator.generateRandomColor());
-
-            }
-        }
+            }         
+        }        
         private string DeleteChosenFiles(List<FileClass> filesToDelete)
         {
             string errorMsg = string.Empty;
@@ -150,6 +123,12 @@ namespace Assignment6
                 catch (FileNotFoundException ex)
                 {
                     errorMsg += $"Could not delete: {file.Name}. File not found!\n";
+                    // Continue deletion of other files
+                    continue;
+                }
+                catch (System.UnauthorizedAccessException ex)
+                {
+                    errorMsg += $"Could not delete: {file.Name}. Unauthorized access!\n";
                     // Continue deletion of other files
                     continue;
                 }

@@ -60,23 +60,6 @@ namespace Assignment6
             FileInfo = duplicateFile.FileInfo;
             CheckSum = duplicateFile.Checksum;
             DuplicateId = duplicateFile.DuplicateId; 
-        
-            // TODO REMOVE
-            //Name: fileToCompareInfo.Name,
-            //Path: fileToCompareInfo.DirectoryName,
-            //Extension: fileToCompareInfo.Extension,
-            //DateCreated: fileToCompareInfo.CreationTimeUtc,
-            //DateModified: fileToCompareInfo.LastWriteTimeUtc,
-            //Size: fileToCompareInfo.Length.ToString(),
-
-            //Name = duplicateFile.Name;
-            //Path = duplicateFile.Path;
-            //Extension = duplicateFile.Extension;
-            //DateCreated = duplicateFile.DateCreated;
-            //DateModified = duplicateFile.DateModified;
-            //Size = duplicateFile.Size;
-            //CheckSum = duplicateFile.Checksum;
-            //DuplicateId = duplicateFile.DuplicateId;
         }
         /// <summary>
         /// Method for delete, delegated to FileInfo
