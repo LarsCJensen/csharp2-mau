@@ -11,6 +11,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,19 +28,46 @@ namespace Assignment6
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        
+        List<FileClass> duplicateFiles = new List<FileClass>();
+        public event PropertyChangedEventHandler PropertyChanged;
+        private bool spinnerVisible;
+        public bool SpinnerVisible 
+        {
+            get
+            {
+                return spinnerVisible;
+            }
+            set
+            {
+                spinnerVisible = value;
+                NotifyPropertyChanged();
+            }
+        }
         private object dummyNode = null;
         List<TreeViewItem> selectedItems = new List<TreeViewItem>();
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = this;
             InitializeGUI();
         }
         private void InitializeGUI()
-        {            
+        {
+            SpinnerVisible = false;
             AddLogicalDrives();            
+        }
+        /// <summary>
+        /// Method to notify bound property changed
+        /// </summary>
+        /// <param name="propertyName"></param>
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
         /// <summary>
         /// Helper method to add logical drives to treeview
@@ -67,11 +95,13 @@ namespace Assignment6
         private void FolderExpanded(object sender, RoutedEventArgs e)
         {
             TreeViewItem item = (TreeViewItem)sender;
+            // If top node is expanded
             if (item.Items.Count == 1 && item.Items[0] == dummyNode)
             {
                 item.Items.Clear();
                 try
                 {
+                    // Add subfolders to list
                     foreach (string s in Directory.GetDirectories(item.Tag.ToString()))
                     {
                         TreeViewItem subitem = new TreeViewItem();
@@ -83,11 +113,14 @@ namespace Assignment6
                         item.Items.Add(subitem);
                     }
                 }
-                // TODO
-                catch (Exception) { }
+                catch (Exception ex) 
+                {
+                    MessageBox.Show(ex.Message, "Exception occurred!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    // Would log callstack
+                }
             }
         }
-        private void btnFindDuplicates_Click(object sender, RoutedEventArgs e)
+        private async void btnFindDuplicates_Click(object sender, RoutedEventArgs e)
         {            
             string validationString = validateInput();            
             if(validationString != string.Empty)
@@ -95,42 +128,11 @@ namespace Assignment6
                 MessageBox.Show(validationString, "Validation error!", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+            SpinnerVisible = true;
+            btnFindDuplicates.IsEnabled = false;
 
-            // Get all directories, with sub directories if needed
-            List<string> chosenDirectories = new List<string>(getChosenDirectories());
-
-            // Get all files in chosen directories
-            List<string> files = new List<string>();
-            foreach (string dir in chosenDirectories)
-            {
-                files.AddRange(GetFilesInDir(dir));
-            }
-
-            List<(FileInfo FileInfo, string Checksum, int DuplicateId)> duplicates = new List<(FileInfo FileInfo, string Checksum, int DuplicateId)>();
-            // Remove files which are marked as duplicates
-            // For each file, check if it is duplicate(s)
-            int i = 0;
-            //TODO REMOVE
-            List<string> filesCopy = new List<string>(files);
-            foreach (string file in files)
-            {
-                // Remove file from list as not to compare to itself
-                filesCopy.Remove(file);
-                // TODO REMOVE
-                if (file == "C:\\Temp\\duplicates\\Text till CV.docx")
-                {
-                    Console.WriteLine("Test");
-                }
-                duplicates.AddRange(GetDuplicates(file, i, ref filesCopy));
-                i++;
-            }
-
-            List<FileClass> duplicateFiles = new List<FileClass>();
-            foreach (var duplicate in duplicates)
-            {                
-                FileClass file = new FileClass(duplicate);
-                duplicateFiles.Add(file);
-            }
+            // Call async method 
+            await FindDuplicates();            
 
             string dirsString = GetDirsText();
             // Text to be shown regarding selected folders and filters
@@ -138,9 +140,13 @@ namespace Assignment6
             string chkBoxText = GetFilterText();
             filtersText += $"Filter(s): {chkBoxText.Remove(chkBoxText.Length -2, 2)}";
             DuplicateList duplicateList = new DuplicateList(duplicateFiles, filtersText);
-            duplicateList.Show();            
+            duplicateList.Show();
+            SpinnerVisible = false;
+            btnFindDuplicates.IsEnabled = true;
+            // Clear duplicate files
+            duplicateFiles.Clear();
         }
-        
+
         private void fileTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             if((TreeViewItem)fileTree.SelectedItem == null)
@@ -148,7 +154,6 @@ namespace Assignment6
                 return;
             }
 
-            //fileTree.SelectedItem.IsSelected = false;
             TreeViewItem selectedItem = (TreeViewItem)fileTree.SelectedItem;            
             selectedItem.Background = Brushes.Blue;
             selectedItem.Foreground = Brushes.White;
@@ -156,17 +161,73 @@ namespace Assignment6
             if (!ShiftPressed)
             {
                 ResetSelectedItems();
-                selectedItems = new List<TreeViewItem> { (TreeViewItem)fileTree.SelectedItem };
-                //chosenDirectories = new List<string> { ((TreeViewItem)fileTree.SelectedItem).Tag.ToString() };
-
+                selectedItems = new List<TreeViewItem> { (TreeViewItem)fileTree.SelectedItem };                
             } else
             {
-                selectedItems.Add((TreeViewItem)fileTree.SelectedItem);
-                //chosenDirectories.Add(((TreeViewItem)fileTree.SelectedItem).Tag.ToString());
+                selectedItems.Add((TreeViewItem)fileTree.SelectedItem);                
             }
             selectedItem.IsSelected = false;
         }
-        
+        /// <summary>
+        /// Async task function to have loading spinner work
+        /// </summary>
+        /// <returns></returns>
+        private async Task FindDuplicates()
+        {
+            // Since the task thread can't access UI I made this quick workaround
+            // Could use observable collection instead
+            List<string> chosenDirectories = new List<string>();
+            foreach (TreeViewItem item in selectedItems)
+            {
+                chosenDirectories.Add(item.Tag.ToString());
+            }
+
+            bool? includeSubfolders = chkIncludeSubfolders.IsChecked;
+
+            // Quick and dirty solution - refactor
+            var chkBoxes = LogicalTreeHelper.GetChildren(searchAttributes).OfType<CheckBox>();            
+            List<string> chosenAttributes = new List<string>();
+            foreach (CheckBox checkBox in chkBoxes)
+            {
+                if (checkBox.IsChecked != true)
+                {
+                    continue;
+                }
+                chosenAttributes.Add(checkBox.Name);
+            }
+            // Create a task and rund it async.
+            await Task.Run(() =>
+            {
+                List<string> listOfDirectories = new List<string>(getChosenDirectories(chosenDirectories, includeSubfolders));
+
+                // Get all files in chosen directories
+                List<string> files = new List<string>();
+                foreach (string dir in chosenDirectories)
+                {
+                    files.AddRange(GetFilesInDir(dir));
+                }
+
+                List<(FileInfo FileInfo, string Checksum, int DuplicateId)> duplicates = new List<(FileInfo FileInfo, string Checksum, int DuplicateId)>();
+                // Remove files which are marked as duplicates
+                // For each file, check if it is duplicate(s)
+                int i = 0;
+                List<string> filesCopy = new List<string>(files);
+                foreach (string file in files)
+                {
+                    // Remove file from list as not to compare to itself
+                    filesCopy.Remove(file);
+                    duplicates.AddRange(GetDuplicates(file, i, ref filesCopy, chosenAttributes));
+                    i++;
+                }
+
+                //List<FileClass> duplicateFiles = new List<FileClass>();
+                foreach (var duplicate in duplicates)
+                {
+                    FileClass file = new FileClass(duplicate);
+                    duplicateFiles.Add(file);
+                }
+            });            
+        }
     }
     
 }

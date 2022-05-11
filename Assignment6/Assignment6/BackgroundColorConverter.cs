@@ -44,6 +44,7 @@ namespace Assignment6
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            // Is not used
             throw new NotImplementedException();
         }
     }

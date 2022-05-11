@@ -14,6 +14,9 @@ namespace Assignment6
 {
     partial class MainWindow
     {
+        /// <summary>
+        /// Property if shift is pressed, for multi-select
+        /// </summary>
         bool ShiftPressed
         {
             get
@@ -21,6 +24,9 @@ namespace Assignment6
                 return System.Windows.Input.Keyboard.IsKeyDown(Key.LeftShift) || System.Windows.Input.Keyboard.IsKeyDown(Key.RightShift);
             }
         }
+        /// <summary>
+        /// Reset colors of selected items
+        /// </summary>
         private void ResetSelectedItems()
         {
             foreach (TreeViewItem item in selectedItems)
@@ -29,10 +35,20 @@ namespace Assignment6
                 item.Foreground = Brushes.Black;
             }
         }
+        /// <summary>
+        /// Helper method to compare two values
+        /// </summary>
+        /// <param name="val1">First value to compare</param>
+        /// <param name="val2">Second value to compare</param>
+        /// <returns>Bool</returns>
         private bool IsAttributeEqual(object val1, object val2)
         {
             return val1.Equals(val2);
         }
+        /// <summary>
+        /// Helper method to check if filters are used
+        /// </summary>
+        /// <returns>Bool</returns>
         private bool NoFiltersAreSelected()
         {
             if (chkCreatedDate.IsChecked == false && chkModifiedDate.IsChecked == false && chkSize.IsChecked == false && chkFileType.IsChecked == false)
@@ -41,6 +57,11 @@ namespace Assignment6
             }
             return false;
         }
+        /// <summary>
+        /// Method to get checksum of a file
+        /// </summary>
+        /// <param name="fileName">File name</param>
+        /// <returns>Checksum of file</returns>
         private string GetChecksum(string fileName)
         {
             using (var md5 = MD5.Create())
@@ -60,26 +81,27 @@ namespace Assignment6
         /// <param name="fileId">File id to group duplicates</param>
         /// <param name="files">Files to compare with</param>
         /// <returns></returns>
-        private List<(FileInfo FileInfo, string Checksum, int DuplicateId)> GetDuplicates(string file, int fileId, ref List<string> files)
+        private List<(FileInfo FileInfo, string Checksum, int DuplicateId)> GetDuplicates(string file, int fileId, ref List<string> files, List<string> chosenAttributes)
         {
             List<(FileInfo FileInfo, string Checksum, int DuplicateId)> duplicates = new List<(FileInfo FileInfo, string Checksum, int DuplicateId)>();
             FileInfo fileInfo = new FileInfo(file);
-            bool AddedFile = false;
             foreach (string fileToCompare in files.ToList())
             {
                 FileInfo fileToCompareInfo = new FileInfo(fileToCompare);
                 bool isDuplicate = false;
                 // Loop over checkboxes and check if they are checked
-                var chkBoxes = LogicalTreeHelper.GetChildren(searchAttributes).OfType<CheckBox>();
-                foreach (CheckBox checkBox in chkBoxes)
-                {
-                    if (checkBox.IsChecked != true)
-                    {
-                        continue;
-                    }
+                //var chkBoxes = LogicalTreeHelper.GetChildren(searchAttributes).OfType<CheckBox>();
+                //foreach (CheckBox checkBox in chkBoxes)
+                //{
+                //    if (checkBox.IsChecked != true)
+                //    {
+                //        continue;
+                //    }
+                foreach(string attribute in chosenAttributes)
+                {   
                     // Set to true to be able to break out on first false
                     isDuplicate = true;
-                    isDuplicate = checkDuplicatesForChosenAttributes(checkBox, fileInfo, fileToCompareInfo);
+                    isDuplicate = checkDuplicatesForChosenAttributes(attribute, fileInfo, fileToCompareInfo);
                     // If one check fails, break loop
                     if (isDuplicate == false)
                     {
@@ -97,7 +119,6 @@ namespace Assignment6
                     } 
                     fileTuple = GetDuplicate(fileToCompareInfo, fileId);
                     duplicates.Add(fileTuple);
-                    // TODO Is this correct?
                     // Remove the file from files so we don't compare the same files multiple times
                     files.Remove(fileToCompare);
                 }
@@ -116,10 +137,10 @@ namespace Assignment6
             return fileTuple;
         }
 
-        private bool checkDuplicatesForChosenAttributes(CheckBox chkCast, FileInfo fileInfo, FileInfo fileToCompareInfo)
+        private bool checkDuplicatesForChosenAttributes(string attribute, FileInfo fileInfo, FileInfo fileToCompareInfo)
         {
             bool isDuplicate = false;
-            switch (chkCast.Name)
+            switch (attribute)
             {
                 case "chkCreatedDate":
                     isDuplicate = IsAttributeEqual(fileInfo.CreationTimeUtc, fileToCompareInfo.CreationTimeUtc);
@@ -157,19 +178,17 @@ namespace Assignment6
         /// Helper method to return all chosen directories, with subdirectories
         /// </summary>
         /// <returns>List of directories as strings</returns>
-        private IEnumerable<string> getChosenDirectories()
+        private IEnumerable<string> getChosenDirectories(List<string> chosenDirectories, bool? includeSubdirectories)
         {
-            List<string> chosenDirectories = new List<string>();
-            foreach (TreeViewItem item in selectedItems)
-            {
-                chosenDirectories.Add(item.Tag.ToString());                
-            }
+            //List<string> chosenDirectories = new List<string>();
+            //foreach (TreeViewItem item in selectedItems)
+            //{
+            //    chosenDirectories.Add(item.Tag.ToString());                
+            //}
 
-            // If include sub-dirs then loop
-            if (chkIncludeSubfolders.IsChecked == true)
+            // If include sub-dirs then loop those too
+            if (includeSubdirectories == true)
             {
-
-                // TODO recursive getdirs
                 try
                 {
                     var dirs = GetSubdirectories(chosenDirectories[0]).ToList();
