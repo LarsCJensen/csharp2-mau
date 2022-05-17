@@ -95,11 +95,13 @@ namespace Assignment6
         private void FolderExpanded(object sender, RoutedEventArgs e)
         {
             TreeViewItem item = (TreeViewItem)sender;
+            // If top node is expanded
             if (item.Items.Count == 1 && item.Items[0] == dummyNode)
             {
                 item.Items.Clear();
                 try
                 {
+                    // Add subfolders to list
                     foreach (string s in Directory.GetDirectories(item.Tag.ToString()))
                     {
                         TreeViewItem subitem = new TreeViewItem();
@@ -129,36 +131,8 @@ namespace Assignment6
             SpinnerVisible = true;
             btnFindDuplicates.IsEnabled = false;
 
-            await FindDuplicates();
-            //// Get all directories, with sub directories if needed
-            //List<string> chosenDirectories = new List<string>(getChosenDirectories());
-
-            //// Get all files in chosen directories
-            //List<string> files = new List<string>();
-            //foreach (string dir in chosenDirectories)
-            //{
-            //    files.AddRange(GetFilesInDir(dir));
-            //}
-
-            //List<(FileInfo FileInfo, string Checksum, int DuplicateId)> duplicates = new List<(FileInfo FileInfo, string Checksum, int DuplicateId)>();
-            //// Remove files which are marked as duplicates
-            //// For each file, check if it is duplicate(s)
-            //int i = 0;
-            //List<string> filesCopy = new List<string>(files);
-            //foreach (string file in files)
-            //{
-            //    // Remove file from list as not to compare to itself
-            //    filesCopy.Remove(file);
-            //    duplicates.AddRange(GetDuplicates(file, i, ref filesCopy));
-            //    i++;
-            //}
-
-            //List<FileClass> duplicateFiles = new List<FileClass>();
-            //foreach (var duplicate in duplicates)
-            //{                
-            //    FileClass file = new FileClass(duplicate);
-            //    duplicateFiles.Add(file);
-            //}
+            // Call async method 
+            await FindDuplicates();            
 
             string dirsString = GetDirsText();
             // Text to be shown regarding selected folders and filters
@@ -200,6 +174,8 @@ namespace Assignment6
         /// <returns></returns>
         private async Task FindDuplicates()
         {
+            // Since the task thread can't access UI I made this quick workaround
+            // Could use observable collection instead
             List<string> chosenDirectories = new List<string>();
             foreach (TreeViewItem item in selectedItems)
             {
@@ -208,7 +184,7 @@ namespace Assignment6
 
             bool? includeSubfolders = chkIncludeSubfolders.IsChecked;
 
-            // TODO Quick and dirty solution - refactor
+            // Quick and dirty solution - refactor
             var chkBoxes = LogicalTreeHelper.GetChildren(searchAttributes).OfType<CheckBox>();            
             List<string> chosenAttributes = new List<string>();
             foreach (CheckBox checkBox in chkBoxes)
