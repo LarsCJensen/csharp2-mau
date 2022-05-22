@@ -3,8 +3,11 @@
   <Comment CommentText="Won't be implemented in MVP">
     <Position X="3.25" Y="4" Height="0.75" Width="1.7" />
   </Comment>
-  <Comment CommentText="">
-    <Position X="8.049" Y="6.048" Height="0.75" Width="1.7" />
+  <Comment CommentText="Repository will handle all CRUD methods of each object, IE Game and Hardware">
+    <Position X="7.222" Y="5.882" Height="0.75" Width="1.7" />
+  </Comment>
+  <Comment CommentText="ViewModels to handle interaction between Views and Model, going through Repository">
+    <Position X="9.881" Y="1.309" Height="0.75" Width="1.7" />
   </Comment>
   <Class Name="Assignment7.Base">
     <Position X="5" Y="1.25" Width="1.5" />
@@ -28,7 +31,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Assignment7.MagazineGuide">
-    <Position X="3.25" Y="5.25" Width="1.5" />
+    <Position X="3.25" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>MagazineGuide.cs</FileName>

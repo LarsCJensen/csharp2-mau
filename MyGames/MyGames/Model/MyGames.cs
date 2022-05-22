@@ -22,15 +22,7 @@ namespace MyGames.Model
 
         public virtual DbSet<Game> Games { get; set; }
         public virtual DbSet<Genre> Genres { get; set; }
-
-        // TODO Set default values
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-            
-        //    //modelBuilder.Entity<Student>()
-        //    //    .Property(b => b.PostStatusID)
-        //    //    .HasDefaultValue(-1);
-        //}
+        
     }
 
     //public class MyEntity
