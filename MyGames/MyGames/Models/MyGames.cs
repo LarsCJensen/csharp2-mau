@@ -15,6 +15,8 @@ namespace MyGames.Model
         public MyGamesContext()
             : base("name=MyGamesConnectionString")
         {
+            // TODO replace this with migration
+            Database.SetInitializer<MyGamesContext>(new DropCreateDatabaseIfModelChanges<MyGamesContext>());
         }
 
         // Add a DbSet for each entity type that you want to include in your model. For more information 
@@ -22,7 +24,8 @@ namespace MyGames.Model
 
         public virtual DbSet<Game> Games { get; set; }
         public virtual DbSet<Genre> Genres { get; set; }
-        
+        public virtual DbSet<Platform> Platforms { get; set; }
+
     }
 
     //public class MyEntity

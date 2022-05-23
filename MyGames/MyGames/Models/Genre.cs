@@ -16,6 +16,7 @@ namespace MyGames.Model
         public int GenreId { get; set; }
         [StringLength(50)]
         public string GenreName { get; set; }
+        // TODO Is this needed?
         public virtual ICollection<Game> Games { get; set; }
         public Genre()
         {

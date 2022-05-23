@@ -3,7 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vw1="clr-namespace:MyGames"
     xmlns:vm="clr-namespace:MyGames.ViewModel"
-    xmlns:vw="clr-namespace:MyGames.View">
+    xmlns:vw="clr-namespace:MyGames.View" 
+    xmlns:local="clr-namespace:MyGames.Converter">
     <!-- This template applies an AllCustomersView to an instance 
     of the AllCustomersViewModel class shown in the main window. -->
     <!--<DataTemplate DataType="{x:Type vm:MainViewModel}">
@@ -15,4 +16,5 @@
         <vw:CustomerView />
     </wpf:DataTemplate>-->
     <!-- Other resources omitted for clarity... -->
+    <BooleanToVisibilityConverter x:Key="BoolToVis" />
 </ResourceDictionary>
