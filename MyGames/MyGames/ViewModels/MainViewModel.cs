@@ -6,7 +6,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 using MyGames.Model;
 
@@ -24,46 +23,11 @@ namespace MyGames.ViewModel
             set
             {
                 _gamesList = value;
-                base.OnPropertyChanged("GamesList");
-            }
-        }
-        private Game _selectedGame;
-        public Game SelectedGame { 
-            get
-            {
-                return _selectedGame;
-            } 
-            
-            set
-            {
-                if(value != null)
-                {
-                    _selectedGame = value;
-                    base.OnPropertyChanged("SelectedGame");
-                    this.IsGameDetailsShown = true;
-                } else
-                {
-                    _isGameDetailsShown = false;
-                }                
-            }
-                
-        }
-        private bool _isGameDetailsShown = false;
-        public bool IsGameDetailsShown 
-        { 
-            get
-            {
-                return _isGameDetailsShown;
-            }
-            set
-            {
-                _isGameDetailsShown = value;
-                base.OnPropertyChanged("IsGameDetailsShown");
+                NotifyPropertyChanged();
             }
         }
         public MainViewModel()
         {
-            AddCommand = new CommandRelay(o => AddGameClick("btnAddGame"));
             //using (var db = new MyGamesContext())
             //{
             //    var genre = new Genre { GenreName = "TestGenre" };
@@ -83,48 +47,41 @@ namespace MyGames.ViewModel
             //        _gamesList.Add(item);
             //    }
 
-                //Game newGame = db.Games.First(g => g.Title == "test");
+            //    //Game newGame = db.Games.First(g => g.Title == "test");
             //}            
         }
-        private void AddGameClick(object sender)
-        {
-            MessageBox.Show(sender.ToString());
-        }
         // TODO Is this to go here?
-        //private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
-        //{
-        //    if (base.OnPropertyChanged != null)
-        //    {
-        //        base.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        //    }
-        //}
-        //CommandRelay _saveCommand; public ICommand SaveCommand
-        //{
-        //    get
-        //    {
-        //        if (_saveCommand == null)
-        //        {
-        //            _saveCommand = new CommandRelay(param => this.Save(),
-        //                param => this.CanSave);
-        //        }
-        //        return _saveCommand;
-        //    }
-        //}
-
-        CommandRelay _closeCommand; public ICommand CloseCommand
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+        RelayCommand _saveCommand; public ICommand SaveCommand
         {
             get
             {
-                if (_closeCommand == null)
+                if (_saveCommand == null)
                 {
-                    _closeCommand = new CommandRelay(param => this.Close());
+                    //_saveCommand = new RelayCommand(param => this.Save(),
+                    //    param => this.CanSave);
                 }
-                return _closeCommand;
+                return _saveCommand;
             }
         }
-        private void Close()
+
+        RelayCommand _closeCommand; public ICommand CloseCommand
         {
-            MessageBox.Show("Closing");            
-        }        
+            get
+            {
+                if (_saveCommand == null)
+                {
+                    //_saveCommand = new RelayCommand(param => this.Save(),
+                    //    param => this.CanSave);
+                }
+                return _saveCommand;
+            }
+        }
     }
 }

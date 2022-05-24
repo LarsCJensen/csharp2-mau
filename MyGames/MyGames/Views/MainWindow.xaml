@@ -131,11 +131,89 @@
                         <Label Content="{Binding SelectedGame.Comment, FallbackValue='Here is comment section which is filled with fun stuff'}"/>
                     </StackPanel>
                 </Grid>
-            </Grid>            
+            </Grid>
+            <!--New game-->
+            <Grid x:Name="NewGameGrid" Margin="5,5" Visibility="{Binding IsNewGameShown, Converter={StaticResource BoolToVis}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="100" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Grid.ColumnSpan="4">
+                    <TextBox Text="{Binding SelectedGame.Title, FallbackValue='Here is the game title'}" FontSize="20" FontWeight="DemiBold"/>
+                </Grid>
+                <Grid Grid.Row="1" Grid.Column="0">
+                    <StackPanel Orientation="Vertical">
+                        <!--TODO Fix style for fonts-->
+                        <Label Content="Platform" FontWeight="ExtraBold"/>
+                        <!--TODO Fix combobox-->
+                        <Label Content="{Binding SelectedGame.Platform, FallbackValue='Playstation 3'}"/>
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
+                    <StackPanel Orientation="Vertical">
+                        <Label Content="Genre" FontWeight="ExtraBold"/>
+                        <!--TODO Fix combobox-->
+                        <Label Content="{Binding SelectedGame.Genre, FallbackValue='Adventure'}"/>
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Row="2" Grid.Column="0">
+                    <StackPanel Orientation="Vertical">
+                        <Label Content="Grade" FontWeight="ExtraBold"/>
+                        <!--TODO Fix combobox-->
+                        <Label Content="{Binding SelectedGame.Grade, FallbackValue='5/10'}"/>
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Row="2" Grid.Column="1">
+                    <StackPanel Orientation="Vertical">
+                        <Label Content="Release" FontWeight="ExtraBold"/>
+                        <TextBox Text="{Binding SelectedGame.ReleaseDate, FallbackValue='1994-01-01'}"/>
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Row="2" Grid.Column="2">
+                    <StackPanel Orientation="Vertical">
+                        <Label Content="Condition" FontWeight="ExtraBold"/>
+                        <!--TODO Fix combobox-->
+                        <Label Content="{Binding SelectedGame.Condition, FallbackValue='9/10'}"/>
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Row="3" Grid.Column="0">
+                    <StackPanel Orientation="Vertical">
+                        <Label Content="Grade" FontWeight="ExtraBold"/>
+                        <!--TODO Fix combobox-->
+                        <Label Content="{Binding SelectedGame.Box, FallbackValue='Yes'}"/>
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Row="3" Grid.Column="1">
+                    <StackPanel Orientation="Vertical">
+                        <Label Content="Release" FontWeight="ExtraBold"/>
+                        <TextBox Text="{Binding SelectedGame.Manual, FallbackValue='No'}"/>
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Row="3" Grid.Column="2">
+                    <StackPanel Orientation="Vertical">
+                        <Label Content="Region" FontWeight="ExtraBold"/>
+                        <!--TODO Fix combobox-->
+                        <Label Content="{Binding SelectedGame.Region, FallbackValue='N/A'}"/>
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3">
+                    <StackPanel Orientation="Vertical">
+                        <TextBox Text="{Binding SelectedGame.Comment, FallbackValue='Here is comment section which is filled with fun stuff'}"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
         </Grid>
         <Grid Grid.Row="3" Grid.Column="1">
             <StackPanel Orientation="Horizontal">
-                <Button Content="Add" Width="50" Height="20" Margin="5" Command="{Binding AddGame}"/>
+                <Button x:Name="btnAddGame" Content="Add" Width="50" Height="20" Margin="5" Command="{Binding NewGame}"/>
                 <Button Content="Edit" Width="50" Height="20" Margin="5"/>
                 <Button Content="Delete"  Width="50" Height="20" Margin="5"/>                
             </StackPanel>
