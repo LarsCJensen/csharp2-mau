@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace MyGames.ViewModel
 {
-    public class CommandRelay : ICommand
+    public class RelayCommand : ICommand
     {
         // TODO
         #region Fields 
@@ -16,8 +16,8 @@ namespace MyGames.ViewModel
         readonly Predicate<object> _canExecute;
         #endregion // Fields 
         #region Constructors 
-        public CommandRelay(Action<object> execute) : this(execute, null) { }
-        public CommandRelay(Action<object> execute, Predicate<object> canExecute)
+        public RelayCommand(Action<object> execute) : this(execute, null) { }
+        public RelayCommand(Action<object> execute, Predicate<object> canExecute)
         {
             if (execute == null)
                 throw new ArgumentNullException("execute");

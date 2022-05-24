@@ -16,6 +16,6 @@ namespace MyGames.Model
         // TODO Region
         public Game()
         {
-        }
+        }        
     }
 }
