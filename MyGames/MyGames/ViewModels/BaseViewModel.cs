@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyGames.ViewModel
+namespace MyGames.ViewModels
 {
     // TODO
     public abstract class BaseViewModel : INotifyPropertyChanged, IDisposable
@@ -20,7 +20,7 @@ namespace MyGames.ViewModel
             PropertyChangedEventHandler handler = this.PropertyChanged;
             if (handler != null)
             {
-                var e = new PropertyChangedEventArgs(propertyName);
+                PropertyChangedEventArgs e = new PropertyChangedEventArgs(propertyName);
                 handler(this, e);
             }
         }

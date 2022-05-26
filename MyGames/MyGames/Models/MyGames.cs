@@ -2,7 +2,7 @@ using System;
 using System.Data.Entity;
 using System.Linq;
 
-namespace MyGames.Model
+namespace MyGames.Models
 {
     public class MyGamesContext : DbContext
     {

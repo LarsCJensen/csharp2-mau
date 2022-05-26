@@ -1,11 +1,12 @@
-﻿using MyGames.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using MyGames.Views;
+using MyGames.ViewModels;
 
 
 namespace MyGames
@@ -17,21 +18,21 @@ namespace MyGames
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            //base.OnStartup(e);
-            //View.MainWindow window = new View.MainWindow();
-            //// Create the ViewModel to which 
-            //// the main window binds. 
-            //var viewModel = new MainViewModel();
-            //// When the ViewModel asks to be closed, 
-            //// close the window. 
-            //viewModel.RequestClose += delegate { window.Close(); };
-            //// Allow all controls in the window to 
-            //// bind to the ViewModel by setting the 
-            //// DataContext, which propagates down 
-            //// the element tree. 
-            
-            //window.DataContext = viewModel;
-            //window.Show();
+            base.OnStartup(e);
+            MainWindow window = new MainWindow();
+            // Create the ViewModel to which 
+            // the main window binds. 
+            MainViewModel viewModel = new MainViewModel();
+            // When the ViewModel asks to be closed, 
+            // close the window. 
+            viewModel.RequestClose += delegate { window.Close(); };
+            // Allow all controls in the window to 
+            // bind to the ViewModel by setting the 
+            // DataContext, which propagates down 
+            // the element tree. 
+
+            window.DataContext = viewModel;
+            window.Show();
         }
     }
 }

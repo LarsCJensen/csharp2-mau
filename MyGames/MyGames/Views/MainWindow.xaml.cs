@@ -1,4 +1,4 @@
-﻿using MyGames.Model;
+﻿using MyGames.Models;
 using System.Data.Entity;
 using System;
 using System.Collections.Generic;
@@ -14,9 +14,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using MyGames.ViewModel;
+using MyGames.ViewModels;
+using GalaSoft.MvvmLight.Messaging;
 
-namespace MyGames.View
+namespace MyGames.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -26,6 +27,30 @@ namespace MyGames.View
         public MainWindow()
         {
             InitializeComponent();
+            Messenger.Default.Register<NotificationMessage>(this, NotificationMessageReceived);
         }
+
+        private void NotificationMessageReceived(NotificationMessage msg)
+        {
+            if (msg.Notification == "ShowAddGame")
+            {
+                GameViewModel viewModel = new GameViewModel();
+                GameView gameView = new GameView();
+                gameView.DataContext = viewModel;
+                gameView.Show();
+            }
+        }
+
+        //private void btnAddGame_Click(object sender, RoutedEventArgs e)
+        //{
+        //    GameView addNewGame = new GameView();
+        //    if(addNewGame.ShowDialog() == true)
+        //    {
+
+        //    } else
+        //    {
+        //        // Cancel was clicked
+        //    }
+        //}
     }
 }

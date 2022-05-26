@@ -6,12 +6,17 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
-using MyGames.Model;
+using GalaSoft.MvvmLight.Messaging;
+using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Mvvm.Messaging;
+using MyGames.Models;
+using MyGames.Views;
 
-namespace MyGames.ViewModel
+namespace MyGames.ViewModels
 {
-    public class MainViewModel: BaseViewModel
+    public class MainViewModel : BaseViewModel
     {
         private ObservableCollection<Game> _gamesList = new ObservableCollection<Game>();
         public ObservableCollection<Game> GamesList
@@ -23,9 +28,10 @@ namespace MyGames.ViewModel
             set
             {
                 _gamesList = value;
-                NotifyPropertyChanged();
+                //NotifyPropertyChanged();
             }
         }
+        public RelayCommand<object> OpenWindowCommand { get; private set; }
         public MainViewModel()
         {
             //using (var db = new MyGamesContext())
@@ -48,16 +54,18 @@ namespace MyGames.ViewModel
             //    }
 
             //    //Game newGame = db.Games.First(g => g.Title == "test");
-            //}            
+            //}
+            OpenWindowCommand = new RelayCommand<object>(param => this.OpenWindowExecute(param));
         }
         // TODO Is this to go here?
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
+        //private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        //{
+        //    if (PropertyChanged != null)
+        //    {
+        //        PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        //    }
+        //}       
+
         RelayCommand _saveCommand; public ICommand SaveCommand
         {
             get
@@ -82,6 +90,14 @@ namespace MyGames.ViewModel
                 }
                 return _saveCommand;
             }
+        }
+        private void OpenWindowExecute(object state)
+        {
+            string str = state as string;
+            if(str == "Add")
+            {
+                Messenger.Default.Send(new NotificationMessage("ShowAddGame"));
+            }            
         }
     }
 }

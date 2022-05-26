@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Linq;
 
-namespace MyGames.Model
+namespace MyGames.Models
 {
     [Table("Platforms")]
     public class Platform
