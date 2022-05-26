@@ -28,34 +28,54 @@ namespace MyGames.ViewModels
             set
             {
                 _gamesList = value;
-                //NotifyPropertyChanged();
+                OnPropertyChanged("GamesList");
             }
         }
+
+        // TODO SKa alla view models ha sin egen databas-context?
         public RelayCommand<object> OpenWindowCommand { get; private set; }
         public MainViewModel()
         {
-            //using (var db = new MyGamesContext())
-            //{
-            //    var genre = new Genre { GenreName = "TestGenre" };
-            //    db.Genres.Add(genre);
-            //    db.SaveChanges();
-            //    var game = new Game { Title = "test", Genre = genre };
-            //    db.Games.Add(game);
-            //    db.SaveChanges();
+            Messenger.Default.Register<NotificationMessage>(this, NotificationMessageReceived);
+            using (var db = new MyGamesContext())
+            {
+                List<Game> allGames = db.Games.ToList();
+                //    var genre = new Genre { GenreName = "TestGenre" };
+                //    db.Genres.Add(genre);
+                //    db.SaveChanges();
+                //    var game = new Game { Title = "test", Genre = genre };
+                //    db.Games.Add(game);
+                //    db.SaveChanges();
 
-            //    // Display all Blogs from the database
-            //    var query = from b in db.Games
-            //                orderby b.Title
-            //                select b;
+                //    // Display all Blogs from the database
+                //    var query = from b in db.Games
+                //                orderby b.Title
+                //                select b;
 
-            //    foreach (var item in query)
-            //    {                    
-            //        _gamesList.Add(item);
-            //    }
+                foreach (Game game in allGames)
+                {
+                    _gamesList.Add(game);
+                }
 
-            //    //Game newGame = db.Games.First(g => g.Title == "test");
-            //}
+                //    //Game newGame = db.Games.First(g => g.Title == "test");
+            }
+        
             OpenWindowCommand = new RelayCommand<object>(param => this.OpenWindowExecute(param));
+        }
+
+        private void NotificationMessageReceived(NotificationMessage msg)
+        {
+            if (msg.Notification == "GameAddedOrUpdated")
+            {
+                using (var db = new MyGamesContext())
+                {
+                    List<Game> allGames = db.Games.ToList();
+                    foreach (Game game in allGames)
+                    {
+                        _gamesList.Add(game);
+                    }
+                }
+            }
         }
         // TODO Is this to go here?
         //private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
@@ -64,7 +84,7 @@ namespace MyGames.ViewModels
         //    {
         //        PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         //    }
-        //}       
+        //}
 
         RelayCommand _saveCommand; public ICommand SaveCommand
         {

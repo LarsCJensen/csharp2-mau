@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GalaSoft.MvvmLight.Messaging;
+using Microsoft.Toolkit.Mvvm.Input;
 using MyGames.Models;
 
 namespace MyGames.ViewModels
@@ -32,18 +34,34 @@ namespace MyGames.ViewModels
             get { return _detailsMode; }
             set { _detailsMode = value; }
         }
+        MyGamesContext _context = new MyGamesContext();
+        public RelayCommand SaveCommand { get; private set; }
         #endregion
 
         public GameViewModel()
         {
             _game = new Game();
-            _game.Title = "Test Game";
             _detailsMode = false;
             _editMode=true;
+            SaveCommand = new RelayCommand(SaveGame);
         }
+        
         public GameViewModel(Game game)
         {
             _game = game;
+            SaveCommand = new RelayCommand(SaveGame);
+        }
+        
+        private void SaveGame()
+        {
+            // Validate
+            // Save with context.SaveChanges()
+            _game.Genre = _context.Genres.First();
+            _context.Games.Add(_game);
+            _context.SaveChanges();
+            // SEND MESSAGE TO CLOSE
+            Messenger.Default.Send(new NotificationMessage("Close"));
+
         }
 
         // TODO REMOVE

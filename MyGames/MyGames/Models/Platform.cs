@@ -18,10 +18,11 @@ namespace MyGames.Models
         [StringLength(15)]
         public string PlatformShort{ get; set; }
         // TODO Is this needed?
-        public virtual ICollection<Game> Games { get; set; }
+        //public virtual ICollection<Game> Games { get; set; }
         public Platform()
         {
-            this.Games = new HashSet<Game>();
+            // TODO Is this needed?
+            //this.Games = new HashSet<Game>();
         }
 
     }

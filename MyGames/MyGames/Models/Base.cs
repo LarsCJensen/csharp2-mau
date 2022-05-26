@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace MyGames.Models
 {
-    public abstract class Base 
+    public abstract class Base: IDataErrorInfo 
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -25,6 +25,10 @@ namespace MyGames.Models
         public bool? Manual { get; set; }
         [StringLength(512)]
         public string Comment { get; set; }
+        // TODO
+        public string Error => throw new NotImplementedException();
+
+        public string this[string columnName] => throw new NotImplementedException();
 
         public Base()
         {

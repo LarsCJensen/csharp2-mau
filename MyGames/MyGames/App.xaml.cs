@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using MyGames.Views;
 using MyGames.ViewModels;
+using MyGames.Models;
+using System.Data.Entity;
 
 
 namespace MyGames
@@ -17,8 +19,9 @@ namespace MyGames
     public partial class App : Application
     {
         protected override void OnStartup(StartupEventArgs e)
-        {
+        {            
             base.OnStartup(e);
+            // Initialize Database           
             MainWindow window = new MainWindow();
             // Create the ViewModel to which 
             // the main window binds. 

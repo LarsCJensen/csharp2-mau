@@ -16,7 +16,8 @@ namespace MyGames.Models
             : base("name=MyGamesConnectionString")
         {
             // TODO replace this with migration
-            Database.SetInitializer<MyGamesContext>(new DropCreateDatabaseIfModelChanges<MyGamesContext>());
+            //Database.SetInitializer<MyGamesContext>(new DropCreateDatabaseIfModelChanges<MyGamesContext>());
+            Database.SetInitializer(new MyGamesInitializer());
         }
 
         // Add a DbSet for each entity type that you want to include in your model. For more information 

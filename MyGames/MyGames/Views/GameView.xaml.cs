@@ -31,7 +31,17 @@ namespace MyGames.Views
             InitializeComponent();
             // TODO What to listen for?
             // Edit, Close?
-        }        
+            Messenger.Default.Register<NotificationMessage>(this, NotificationMessageReceived);
+        }
+        private void NotificationMessageReceived(NotificationMessage msg)
+        {
+            if (msg.Notification == "Close")
+            {                
+                Messenger.Default.Send(new NotificationMessage("GameAddedOrUpdated"));
+                this.Close();
+                
+            }
+        }
         // TODO Use delegates
 
         //public GameView(Game game, bool editGame=false)

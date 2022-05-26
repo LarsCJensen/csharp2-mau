@@ -10,7 +10,18 @@
         <ResourceDictionary Source="MainWindowResources.xaml"/>
     </Window.Resources>
     <Grid x:Name="MainGrid">
-        <Grid x:Name="GameDetailsGrid" Margin="5,5" Visibility="{Binding DetailsMode, Converter={StaticResource BoolToVis}}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="10" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="75" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <Grid x:Name="GameDetailsGrid" Grid.Row="2" Grid.Column="1" Margin="5,5" Visibility="{Binding DetailsMode, Converter={StaticResource BoolToVis}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100" />
                 <ColumnDefinition Width="100" />
@@ -81,7 +92,7 @@
                 </StackPanel>
             </Grid>
         </Grid>
-        <Grid x:Name="NewGameGrid" Margin="5,5" Visibility="{Binding EditMode, Converter={StaticResource BoolToVis}}">
+        <Grid x:Name="NewGameGrid" Grid.Row="2" Grid.Column="1" Margin="5,5" Visibility="{Binding EditMode, Converter={StaticResource BoolToVis}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100" />
                 <ColumnDefinition Width="100" />
@@ -158,6 +169,12 @@
                 </StackPanel>
             </Grid>-->
         </Grid>
-        
+        <Grid Grid.Row="4" Grid.Column="1">
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Save" Command="{Binding SaveCommand}" Margin="5" Width="50" Height="25"/>
+                <Button Content="Close" Command="{Binding CloseCommand}" Margin="5" Width="50" Height="25"/>
+            </StackPanel>
+            
+        </Grid>
     </Grid>
 </Window>
