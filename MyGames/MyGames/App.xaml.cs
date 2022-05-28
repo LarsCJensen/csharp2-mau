@@ -19,7 +19,8 @@ namespace MyGames
     public partial class App : Application
     {
         protected override void OnStartup(StartupEventArgs e)
-        {            
+        {
+            //https://stackoverflow.com/questions/40461392/deploying-entity-framework-wpf-application
             base.OnStartup(e);
             // Initialize Database           
             MainWindow window = new MainWindow();
