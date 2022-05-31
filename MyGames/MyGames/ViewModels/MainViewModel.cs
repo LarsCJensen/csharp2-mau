@@ -32,12 +32,28 @@ namespace MyGames.ViewModels
             }
         }
 
+        private Game _selectedGame;
+        public Game SelectedGame
+        {
+            get { return _selectedGame; }
+            set { if(value != null)
+                {
+                    _selectedGame = value;
+                    OnPropertyChanged("SelectedGame");
+                } 
+            }
+        }
+
         // TODO SKa alla view models ha sin egen databas-context?
         public RelayCommand<object> OpenWindowCommand { get; private set; }
+        public event EventHandler OpenAddGame;
         public MainViewModel()
         {
             Messenger.Default.Register<NotificationMessage>(this, NotificationMessageReceived);
-            using (var db = new MyGamesContext())
+
+            // SQL Server
+            //using (var db = new MyGamesContext())
+            using (var db = new MyGamesSQLServerCompactContext())
             {
                 List<Game> allGames = db.Games.ToList();
                 //    var genre = new Genre { GenreName = "TestGenre" };
@@ -61,63 +77,45 @@ namespace MyGames.ViewModels
             }
         
             OpenWindowCommand = new RelayCommand<object>(param => this.OpenWindowExecute(param));
+            
         }
-
+        // TODO Delegate instead!
         private void NotificationMessageReceived(NotificationMessage msg)
         {
             if (msg.Notification == "GameAddedOrUpdated")
             {
-                using (var db = new MyGamesContext())
-                {
-                    List<Game> allGames = db.Games.ToList();
-                    foreach (Game game in allGames)
-                    {
-                        _gamesList.Add(game);
-                    }
-                }
+                // For SQL Server
+                //using (var db = new MyGamesContext())
+                RefreshGameList();
             }
-        }
-        // TODO Is this to go here?
-        //private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
-        //{
-        //    if (PropertyChanged != null)
-        //    {
-        //        PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        //    }
-        //}
-
-        RelayCommand _saveCommand; public ICommand SaveCommand
-        {
-            get
-            {
-                if (_saveCommand == null)
-                {
-                    //_saveCommand = new RelayCommand(param => this.Save(),
-                    //    param => this.CanSave);
-                }
-                return _saveCommand;
-            }
-        }
-
-        RelayCommand _closeCommand; public ICommand CloseCommand
-        {
-            get
-            {
-                if (_saveCommand == null)
-                {
-                    //_saveCommand = new RelayCommand(param => this.Save(),
-                    //    param => this.CanSave);
-                }
-                return _saveCommand;
-            }
-        }
+        }        
+        /// <summary>
+        /// Method to handle command for OpenWindowExecute, which does different things based on state
+        /// </summary>
+        /// <param name="state">Command parameter object</param>
         private void OpenWindowExecute(object state)
         {
             string str = state as string;
             if(str == "Add")
             {
-                Messenger.Default.Send(new NotificationMessage("ShowAddGame"));
+                // Using event handlers instead of message pattern
+                //Messenger.Default.Send(new NotificationMessage("ShowAddGame"));
+                if(OpenAddGame != null)
+                {
+                    // Execute event OpenAddGame
+                    OpenAddGame(this, EventArgs.Empty);
+                }                
             }            
         }
+
+        private void RefreshGameList()
+        {
+            using (var db = new MyGamesSQLServerCompactContext())
+            {
+                // TODO Error handling
+                _gamesList = new ObservableCollection<Game>(db.Games.ToList());                
+            }
+        }
+
     }
 }

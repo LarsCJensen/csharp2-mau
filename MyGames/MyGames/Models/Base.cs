@@ -7,31 +7,131 @@ using System.Linq;
 
 namespace MyGames.Models
 {
-    public abstract class Base: IDataErrorInfo 
+    public abstract class Base : INotifyPropertyChanged
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-        [Required, StringLength(150)]        
-        public string Title { get; set; }
-        // TODO I would prefer setting the default in the database, but it only seems to work in EF core
-        [Required]        
-        public DateTime? Timestamp { get; set; } = DateTime.Now;
-        public DateTime? ReleaseDate { get; set; }
-        public int? Condition { get; set; }
+        private int _id;        
+        public int Id
+        {
+            get
+            {
+                return _id;
+            }
+            set
+            {
+                _id = value;
+                OnPropertyChanged("Id");
+            }
+        }
+        [Required, StringLength(150)]
+        private string _title;        
+        public string Title
+        {
+            get
+            {
+                return _title;
+            }
+            set
+            {
+                _title = value;
+                OnPropertyChanged("Title");
+            }
+        }
+        [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        // TODO Why is this needed?
+        private DateTime _timestamp;
+        public DateTime Timestamp { get; set; } = DateTime.UtcNow;
+        private DateTime? _releaseDate;
+        public DateTime? ReleaseDate
+        {
+            get
+            {
+                return _releaseDate;
+            }
+            set
+            {
+                _releaseDate = value;
+                OnPropertyChanged("ReleaseDate");
+            } 
+        }
+        private int? _condition;
+        public int? Condition {
+            get
+            {
+                return _condition;
+            }
+            set 
+            { 
+                _condition = value;
+                OnPropertyChanged("Condition");
+            } 
+        }
         [StringLength(64)]
-        public string Image { get; set; }
-        public bool? Box { get; set; }
-        public bool? Manual { get; set; }
+        private string _image;
+        public string Image { 
+            get
+            {
+                return _image;
+            }
+            set
+            {
+                _image = value;
+                OnPropertyChanged("Image");
+            }
+        }
+        private bool? _box;
+        public bool? Box { 
+            get {
+                return _box;
+            } 
+            set 
+            { 
+                _box = value;
+                OnPropertyChanged("Box");
+            }
+        }
+        private bool? _manual;
+        public bool? Manual
+        {
+            get
+            {
+                return _manual;
+            }
+            set
+            {
+                _manual = value;
+                OnPropertyChanged("Manual");
+            }
+        }
         [StringLength(512)]
-        public string Comment { get; set; }
-        // TODO
-        public string Error => throw new NotImplementedException();
-
-        public string this[string columnName] => throw new NotImplementedException();
-
+        private string _comment;
+        public string Comment 
+        { 
+            get 
+            {
+                return _comment;
+            }
+            set 
+            {
+                _comment = value;
+                OnPropertyChanged("Comment");
+            } 
+        }
+       
         public Base()
         {
         }
+        #region INotifypropertyChangedMembers
+        public event PropertyChangedEventHandler PropertyChanged;
+        internal void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+        #endregion
     }
 }

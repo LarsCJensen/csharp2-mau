@@ -27,30 +27,32 @@ namespace MyGames.Views
         public MainWindow()
         {
             InitializeComponent();
-            Messenger.Default.Register<NotificationMessage>(this, NotificationMessageReceived);
+            // Tried out message pattern, but using event handlers instead
+            //Messenger.Default.Register<NotificationMessage>(this, NotificationMessageReceived);
+            MainViewModel vm = new MainViewModel();
+            this.DataContext = vm;
+            vm.OpenAddGame += OnOpenAddGame;
         }
-
-        private void NotificationMessageReceived(NotificationMessage msg)
-        {
-            if (msg.Notification == "ShowAddGame")
-            {
-                GameViewModel viewModel = new GameViewModel();
-                GameView gameView = new GameView();
-                gameView.DataContext = viewModel;
-                gameView.Show();
-            }
-        }
-
-        //private void btnAddGame_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Function if message pattern is used
+        /// </summary>
+        /// <param name="msg"></param>
+        //private void NotificationMessageReceived(NotificationMessage msg)
         //{
-        //    GameView addNewGame = new GameView();
-        //    if(addNewGame.ShowDialog() == true)
+        //    if (msg.Notification == "ShowAddGame")
         //    {
-
-        //    } else
-        //    {
-        //        // Cancel was clicked
+        //        GameViewModel viewModel = new GameViewModel();
+        //        GameView gameView = new GameView();
+        //        gameView.DataContext = viewModel;
+        //        gameView.Show();
         //    }
         //}
+        private void OnOpenAddGame(object sender, EventArgs e)
+        {
+            GameViewModel viewModel = new GameViewModel();
+            GameView gameView = new GameView();
+            gameView.DataContext = viewModel;
+            gameView.Show();
+        }
     }
 }

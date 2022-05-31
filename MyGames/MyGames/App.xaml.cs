@@ -20,22 +20,24 @@ namespace MyGames
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            // Set database initializer
+            Database.SetInitializer(new MyGamesInitializer());
             //https://stackoverflow.com/questions/40461392/deploying-entity-framework-wpf-application
             base.OnStartup(e);
             // Initialize Database           
             MainWindow window = new MainWindow();
             // Create the ViewModel to which 
             // the main window binds. 
-            MainViewModel viewModel = new MainViewModel();
+            //MainViewModel viewModel = new MainViewModel();
             // When the ViewModel asks to be closed, 
             // close the window. 
-            viewModel.RequestClose += delegate { window.Close(); };
+            //viewModel.RequestClose += delegate { window.Close(); };            
             // Allow all controls in the window to 
             // bind to the ViewModel by setting the 
             // DataContext, which propagates down 
             // the element tree. 
 
-            window.DataContext = viewModel;
+            //window.DataContext = viewModel;
             window.Show();
         }
     }

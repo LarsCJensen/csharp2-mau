@@ -4,16 +4,21 @@
     xmlns:vw1="clr-namespace:MyGames"
     xmlns:vm="clr-namespace:MyGames.ViewModels"
     xmlns:vw="clr-namespace:MyGames.Views">
+    <!--TODO Should this work?-->
     <!-- This template applies an AllCustomersView to an instance 
     of the AllCustomersViewModel class shown in the main window. -->
-    <!--<DataTemplate DataType="{x:Type vm:MainViewModel}">
+    <DataTemplate DataType="{x:Type vm:MainViewModel}">
         <vw:MainWindow />
-    </DataTemplate>-->
+    </DataTemplate>
     <!-- This template applies a CustomerView to an instance of 
     the CustomerViewModel class shown in the main window. -->
-    <!--<wpf:DataTemplate DataType="{x:Type vm:CustomerViewModel}">
-        <vw:CustomerView />
-    </wpf:DataTemplate>-->
-    <!-- Other resources omitted for clarity... -->
+    <DataTemplate DataType="{x:Type vm:GameViewModel}">
+        <vw:GameView />
+    </DataTemplate>
+    
     <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    <BitmapImage x:Key="DefaultImage" UriSource="/MyGames;component/Assets/no_game.png" />
+    <BitmapImage x:Key="ChooseImage" UriSource="/MyGames;component/Assets/choose_image.png" />
+
+    
 </ResourceDictionary>
