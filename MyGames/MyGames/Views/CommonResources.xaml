@@ -3,7 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vw1="clr-namespace:MyGames"
     xmlns:vm="clr-namespace:MyGames.ViewModels"
-    xmlns:vw="clr-namespace:MyGames.Views">
+    xmlns:vw="clr-namespace:MyGames.Views" 
+    xmlns:converters="clr-namespace:MyGames.Converters">
     <!--TODO Should this work?-->
     <!-- This template applies an AllCustomersView to an instance 
     of the AllCustomersViewModel class shown in the main window. -->
@@ -17,6 +18,8 @@
     </DataTemplate>
     
     <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    <converters:ImageConverter x:Key="ImageConverter" />
+    
     <BitmapImage x:Key="DefaultImage" UriSource="/MyGames;component/Assets/no_game.png" />
     <BitmapImage x:Key="ChooseImage" UriSource="/MyGames;component/Assets/choose_image.png" />
 

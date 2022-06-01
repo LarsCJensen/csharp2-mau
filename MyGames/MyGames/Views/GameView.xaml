@@ -117,7 +117,7 @@
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Grid.ColumnSpan="3">
                 <StackPanel Orientation="Vertical">
-                    <Image x:Name="imgNewGame" HorizontalAlignment="Center" VerticalAlignment="Top" Height="300" Width="400" Source="{Binding Game.Image, FallbackValue={StaticResource ChooseImage}, TargetNullValue={StaticResource ChooseImage}}">
+                    <Image x:Name="imgNewGame" HorizontalAlignment="Center" VerticalAlignment="Top" Height="300" Width="400" Source="{Binding Game.Image, Converter={StaticResource ImageConverter}, FallbackValue={StaticResource ChooseImage}, TargetNullValue={StaticResource ChooseImage}}">
                         <Image.Style>
                             <Style/>
                         </Image.Style>                        

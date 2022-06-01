@@ -5,8 +5,10 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 using GalaSoft.MvvmLight.Messaging;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Win32;
 using MyGames.Models;
 
 namespace MyGames.ViewModels
@@ -20,6 +22,15 @@ namespace MyGames.ViewModels
             get { return _game; }
             set { _game = value; }
         }
+        private BitmapImage _gameImage;
+        public BitmapImage BitmapImage
+        {
+            get { return _gameImage; }
+            set { 
+                _gameImage = value; 
+            }
+        }
+        
         private bool _editMode;
         public bool EditMode
         {
@@ -90,6 +101,7 @@ namespace MyGames.ViewModels
         #region Commands
         public RelayCommand SaveCommand { get; private set; }
         public RelayCommand CloseCommand { get; private set; }
+        public RelayCommand ChooseImageCommand { get; private set; }    
         #endregion
 
 
@@ -115,7 +127,7 @@ namespace MyGames.ViewModels
         // TODO??
         public event EventHandler GameSaved;
         #endregion
-
+        #region Constructors
         public GameViewModel()
         {
             _game = new Game();
@@ -123,6 +135,7 @@ namespace MyGames.ViewModels
             _editMode=true;
             SaveCommand = new RelayCommand(SaveGame);
             CloseCommand = new RelayCommand(Close);
+            ChooseImageCommand = new RelayCommand(ChooseImage);
             LoadPlatforms();
             LoadGenres();
             _gradesList = GetListOfIntValues(10);
@@ -134,7 +147,8 @@ namespace MyGames.ViewModels
             _game = game;
             SaveCommand = new RelayCommand(SaveGame);
         }
-        
+        #endregion
+        #region Command methods
         private void SaveGame()
         {
             // TODO Validate ??
@@ -150,6 +164,23 @@ namespace MyGames.ViewModels
         {            
             Messenger.Default.Send(new NotificationMessage("Close"));
         }
+        // TODO Violates this MVVM?
+        // https://www.c-sharpcorner.com/article/dialogs-in-wpf-mvvm/
+        private void ChooseImage()
+        {
+            FileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "BMP|*.bmp|JPG|*.jpg|PNG|*.png|All files (*.*)|*.*";
+            bool? result = dialog.ShowDialog();
+            if (result == true)
+            {
+                // TODO Source is to be bound to property, not Game.Image
+                // Game.Image is the file-path
+                //imgAnimal.Source = new BitmapImage(new Uri(dialog.FileName, UriKind.Absolute));
+                _game.Image = dialog.FileName;
+            }
+        }
+        #endregion
+        #region Private methods
         private void LoadPlatforms()
         {
             // TODO  use _context??
@@ -188,7 +219,18 @@ namespace MyGames.ViewModels
         {
             return String.IsNullOrEmpty(_game.Title) ? "Title cannot be empty" : String.Empty;
         }
-        
+        //private void SetImageData(byte[] data)
+        //{
+        //    var source = new BitmapImage();
+        //    source.BeginInit();
+        //    source.StreamSource = new MemoryStream(data);
+        //    source.EndInit();
+
+        //    // use public setter
+        //    Image = source;
+        //}
+        #endregion
+
 
 
     }

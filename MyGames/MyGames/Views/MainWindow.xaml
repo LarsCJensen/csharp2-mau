@@ -11,10 +11,8 @@
         <ResourceDictionary Source="CommonResources.xaml"/>
     </Window.Resources>    
     <Grid x:Name="MainGrid">        
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10" />
+        <Grid.ColumnDefinitions>            
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="300" />            
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
@@ -33,187 +31,38 @@
                     <MenuItem Header="_Help" />
                 </Menu>            
         </Grid>
-        <Grid Grid.Row="1" Grid.Column="1">
+        <Grid Grid.Row="1" Grid.Column="0">
             <TextBlock Text="Search" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,5,0,0"/>
-            <StackPanel Orientation="Horizontal">                
+            <StackPanel Orientation="Horizontal" Margin="5,5">                
                 <TextBox x:Name="Search" Height="30" Width="200" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,30,0,0"/>
                 <Button Content="Load data"  Width="100" Height="20" Margin="25,30,0,0"/>
             </StackPanel>
             
         </Grid>
-        <Grid Grid.Row="2" Grid.Column="1">
-            <GroupBox>
+        <Grid Grid.Row="2" Grid.Column="0">
+            <GroupBox Margin="5,5">
                 <ListView x:Name="lvGamesList" ItemsSource="{Binding GamesList, Mode=TwoWay}" SelectedItem="{Binding SelectedGame, Mode=TwoWay}">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn DisplayMemberBinding="{Binding Path=Title}" Width="200">
                                 <GridViewColumnHeader Tag="Title">Title</GridViewColumnHeader>
                             </GridViewColumn>
-                            <GridViewColumn DisplayMemberBinding="{Binding Path=PlatformShort}" Width="100">
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Game.PlatformShort}" Width="100">
                                 <GridViewColumnHeader Tag="Platform">Platform</GridViewColumnHeader>
                             </GridViewColumn>
                             <GridViewColumn DisplayMemberBinding="{Binding Path=Genre.GenreName}" Width="150">
                                 <GridViewColumnHeader Tag="Genre">Genre</GridViewColumnHeader>
                             </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Grade}" Width="150">
+                                <GridViewColumnHeader Tag="Grade">Grade</GridViewColumnHeader>
+                            </GridViewColumn>
                         </GridView>
                     </ListView.View>
                 </ListView>
             </GroupBox>
-        </Grid>
-        <Grid Grid.Row="2" Grid.Column="2">
-            <Grid x:Name="GameDetailsGrid" Margin="5,5" Visibility="{Binding IsGameDetailsShown, Converter={StaticResource BoolToVis}}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100" />
-                    <ColumnDefinition Width="100" />
-                    <ColumnDefinition Width="100" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="40" />
-                    <RowDefinition Height="60" />
-                    <RowDefinition Height="60" />
-                    <RowDefinition Height="60" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid Grid.Row="0" Grid.ColumnSpan="4">                    
-                    <TextBlock Text="{Binding SelectedGame.Title, FallbackValue='Here is the game title'}" FontSize="20" FontWeight="DemiBold"/>                    
-                </Grid>
-                <Grid Grid.Row="1" Grid.Column="0">
-                    <StackPanel Orientation="Vertical">
-                        <!--TODO Fix style for fonts-->
-                        <TextBlock Text="Platform" FontWeight="ExtraBold"/>
-                        <TextBlock Text="{Binding SelectedGame.Platform, FallbackValue='Playstation 3'}"/>
-                    </StackPanel>
-                </Grid>
-                <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Genre" FontWeight="ExtraBold"/>
-                        <TextBlock Text="{Binding SelectedGame.Genre, FallbackValue='Adventure'}"/>
-                    </StackPanel>
-                </Grid>
-                <Grid Grid.Row="2" Grid.Column="0">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Grade" FontWeight="ExtraBold"/>
-                        <TextBlock Text="{Binding SelectedGame.Grade, FallbackValue='5/10'}"/>
-                    </StackPanel>
-                </Grid>
-                <Grid Grid.Row="2" Grid.Column="1">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Release" FontWeight="ExtraBold"/>
-                        <TextBlock Text="{Binding SelectedGame.ReleaseDate, FallbackValue='1994-01-01'}"/>
-                    </StackPanel>
-                </Grid>
-                <Grid Grid.Row="2" Grid.Column="2">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Condition" FontWeight="ExtraBold"/>
-                        <TextBlock Text="{Binding SelectedGame.Condition, FallbackValue='9/10'}"/>
-                    </StackPanel>
-                </Grid>
-                <Grid Grid.Row="3" Grid.Column="0">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Grade" FontWeight="ExtraBold"/>
-                        <TextBlock Text="{Binding SelectedGame.Box, FallbackValue='Yes'}"/>
-                    </StackPanel>
-                </Grid>
-                <Grid Grid.Row="3" Grid.Column="1">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Release" FontWeight="ExtraBold"/>
-                        <TextBlock Text="{Binding SelectedGame.Manual, FallbackValue='No'}"/>
-                    </StackPanel>
-                </Grid>
-                <Grid Grid.Row="3" Grid.Column="2">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Region" FontWeight="ExtraBold"/>
-                        <TextBlock Text="{Binding SelectedGame.Region, FallbackValue='N/A'}"/>
-                    </StackPanel>
-                </Grid>
-                <Grid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{Binding SelectedGame.Comment, FallbackValue='Here is comment section which is filled with fun stuff'}"/>
-                    </StackPanel>
-                </Grid>
-            </Grid>
-            <!--New game-->
-            <Grid x:Name="NewGameGrid" Margin="5,5" Visibility="{Binding IsNewGameShown, Converter={StaticResource BoolToVis}}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100" />
-                    <ColumnDefinition Width="100" />
-                    <ColumnDefinition Width="100" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="40" />
-                    <RowDefinition Height="60" />
-                    <RowDefinition Height="60" />
-                    <RowDefinition Height="60" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid Grid.Row="0" Grid.ColumnSpan="4">
-                    <TextBox Text="{Binding SelectedGame.Title, FallbackValue='Here is the game title'}" FontSize="20" FontWeight="DemiBold"/>
-                </Grid>
-                <Grid Grid.Row="1" Grid.Column="0">
-                    <StackPanel Orientation="Vertical">
-                        <!--TODO Fix style for fonts-->
-                        <TextBlock Text="Platform" FontWeight="ExtraBold"/>
-                        <!--TODO Fix combobox-->
-                        <TextBlock Text="{Binding SelectedGame.Platform, FallbackValue='Playstation 3'}"/>
-                    </StackPanel>
-                </Grid>
-                <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Genre" FontWeight="ExtraBold"/>
-                        <!--TODO Fix combobox-->
-                        <TextBlock Text="{Binding SelectedGame.Genre, FallbackValue='Adventure'}"/>
-                    </StackPanel>
-                </Grid>
-                <Grid Grid.Row="2" Grid.Column="0">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Grade" FontWeight="ExtraBold"/>
-                        <!--TODO Fix combobox-->
-                        <TextBlock Text="{Binding SelectedGame.Grade, FallbackValue='5/10'}"/>
-                    </StackPanel>
-                </Grid>
-                <Grid Grid.Row="2" Grid.Column="1">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Release" FontWeight="ExtraBold"/>
-                        <TextBox Text="{Binding SelectedGame.ReleaseDate, FallbackValue='1994-01-01'}"/>
-                    </StackPanel>
-                </Grid>
-                <Grid Grid.Row="2" Grid.Column="2">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Condition" FontWeight="ExtraBold"/>
-                        <!--TODO Fix combobox-->
-                        <TextBlock Text="{Binding SelectedGame.Condition, FallbackValue='9/10'}"/>
-                    </StackPanel>
-                </Grid>
-                <Grid Grid.Row="3" Grid.Column="0">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Grade" FontWeight="ExtraBold"/>
-                        <!--TODO Fix combobox-->
-                        <TextBlock Text="{Binding SelectedGame.Box, FallbackValue='Yes'}"/>
-                    </StackPanel>
-                </Grid>
-                <Grid Grid.Row="3" Grid.Column="1">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Release" FontWeight="ExtraBold"/>
-                        <TextBox Text="{Binding SelectedGame.Manual, FallbackValue='No'}"/>
-                    </StackPanel>
-                </Grid>
-                <Grid Grid.Row="3" Grid.Column="2">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Region" FontWeight="ExtraBold"/>
-                        <!--TODO Fix combobox-->
-                        <TextBlock Text="{Binding SelectedGame.Region, FallbackValue='N/A'}"/>
-                    </StackPanel>
-                </Grid>
-                <Grid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3">
-                    <StackPanel Orientation="Vertical">
-                        <TextBox Text="{Binding SelectedGame.Comment, FallbackValue='Here is comment section which is filled with fun stuff'}"/>
-                    </StackPanel>
-                </Grid>
-            </Grid>
-        </Grid>
-        <Grid Grid.Row="3" Grid.Column="1">
-            <StackPanel Orientation="Horizontal">
-                <!--<Button x:Name="btnAddGame" Content="Add" Width="50" Height="20" Margin="5" Click="btnAddGame_Click"/>-->
+        </Grid>        
+        <Grid Grid.Row="3" Grid.Column="0">
+            <StackPanel Orientation="Horizontal" Margin="5,5">
                 <Button x:Name="btnAddGame" Content="Add" Width="50" Height="20" Margin="5" Command="{Binding OpenWindowCommand}" CommandParameter="Add"/>
                 <Button Content="Edit" Width="50" Height="20" Margin="5"/>
                 <Button Content="Delete"  Width="50" Height="20" Margin="5"/>                

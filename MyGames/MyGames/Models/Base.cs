@@ -3,7 +3,9 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
+using System.Windows.Media.Imaging;
 
 namespace MyGames.Models
 {
@@ -132,6 +134,6 @@ namespace MyGames.Models
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-        #endregion
+        #endregion        
     }
 }
