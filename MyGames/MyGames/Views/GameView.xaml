@@ -128,7 +128,7 @@
             <Grid Grid.Row="1" Grid.ColumnSpan="4">
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Title" FontWeight="ExtraBold"/>
-                    <TextBox Text="{Binding Game.Title, FallbackValue='Here is the game title', ValidatesOnDataErrors=True, NotifyOnValidationError=True, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" FontSize="16" FontWeight="DemiBold"/>
+                    <TextBox Text="{Binding Game.Title, FallbackValue='Here is the game title', ValidatesOnDataErrors=True, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" FontSize="16" FontWeight="DemiBold"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="2" Grid.Column="0">
@@ -165,13 +165,13 @@
             <Grid Grid.Row="4" Grid.Column="0">
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Box" FontWeight="ExtraBold"/>
-                    <CheckBox x:Name="chkBox" IsChecked="False"/>                    
+                    <CheckBox x:Name="chkBox" IsChecked="False" Command="{Binding BoxCheckedCommand }" CommandParameter="Box"/>                    
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="4" Grid.Column="1">
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Manual" FontWeight="ExtraBold"/>
-                    <CheckBox x:Name="chkManual" IsChecked="False"/>
+                    <CheckBox x:Name="chkManual" IsChecked="False" Command="{Binding BoxCheckedCommand }" CommandParameter="Manual"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="4" Grid.Column="2">

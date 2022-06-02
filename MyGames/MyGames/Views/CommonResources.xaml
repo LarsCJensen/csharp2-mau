@@ -19,6 +19,7 @@
     
     <BooleanToVisibilityConverter x:Key="BoolToVis" />
     <converters:ImageConverter x:Key="ImageConverter" />
+    <converters:BoolToStringConverter x:Key="BoolToStringConverter" />
     
     <BitmapImage x:Key="DefaultImage" UriSource="/MyGames;component/Assets/no_game.png" />
     <BitmapImage x:Key="ChooseImage" UriSource="/MyGames;component/Assets/choose_image.png" />

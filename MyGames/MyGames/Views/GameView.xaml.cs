@@ -34,7 +34,7 @@ namespace MyGames.Views
             // TODO Replace with Event or leave??
             Messenger.Default.Register<NotificationMessage>(this, NotificationMessageReceived);
         }
-        // TODO REMOVE
+        // TODO Events instead?
         private void NotificationMessageReceived(NotificationMessage msg)
         {
             if (msg.Notification == "Close")

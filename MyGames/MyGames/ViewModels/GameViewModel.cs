@@ -101,13 +101,14 @@ namespace MyGames.ViewModels
         #region Commands
         public RelayCommand SaveCommand { get; private set; }
         public RelayCommand CloseCommand { get; private set; }
-        public RelayCommand ChooseImageCommand { get; private set; }    
+        public RelayCommand ChooseImageCommand { get; private set; }
+        public RelayCommand<object> BoxCheckedCommand { get; private set; }
         #endregion
 
         // TODO remove
         //#region IDataErrorInfo
         //public string Error => throw new NotImplementedException();
-        
+
         //public string this[string property]
         //{
         //    get
@@ -136,6 +137,7 @@ namespace MyGames.ViewModels
             SaveCommand = new RelayCommand(SaveGame);
             CloseCommand = new RelayCommand(Close);
             ChooseImageCommand = new RelayCommand(ChooseImage);
+            BoxCheckedCommand = new RelayCommand<object>(param => BoxChecked(param));
             LoadPlatforms();
             LoadGenres();
             _gradesList = GetListOfIntValues(10);
@@ -187,6 +189,19 @@ namespace MyGames.ViewModels
                 // Game.Image is the file-path
                 //imgAnimal.Source = new BitmapImage(new Uri(dialog.FileName, UriKind.Absolute));
                 _game.Image = dialog.FileName;
+            }
+        }
+        private void BoxChecked(object chkBox) 
+        { 
+            string checkBox = chkBox.ToString();
+            switch (checkBox)
+            {
+                case "Box":
+                    _game.Box = true;
+                    break;
+                case "Manual":
+                    _game.Manual = true;
+                    break;                
             }
         }
         #endregion
