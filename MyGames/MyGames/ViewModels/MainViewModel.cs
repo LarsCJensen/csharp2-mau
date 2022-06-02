@@ -45,48 +45,31 @@ namespace MyGames.ViewModels
         }
 
         // TODO SKa alla view models ha sin egen databas-context?
+        #region EventHandlers
         public RelayCommand<object> OpenWindowCommand { get; private set; }
-        public event EventHandler OpenAddGame;
+        public event EventHandler OpenAddGame;        
+        #endregion
         public MainViewModel()
         {
+            // TODO Switch to events
             Messenger.Default.Register<NotificationMessage>(this, NotificationMessageReceived);
-
-            // SQL Server
-            //using (var db = new MyGamesContext())
-            using (var db = new MyGamesSQLServerCompactContext())
-            {
-                List<Game> allGames = db.Games.ToList();
-                //    var genre = new Genre { GenreName = "TestGenre" };
-                //    db.Genres.Add(genre);
-                //    db.SaveChanges();
-                //    var game = new Game { Title = "test", Genre = genre };
-                //    db.Games.Add(game);
-                //    db.SaveChanges();
-
-                //    // Display all Blogs from the database
-                //    var query = from b in db.Games
-                //                orderby b.Title
-                //                select b;
-
-                foreach (Game game in allGames)
-                {
-                    _gamesList.Add(game);
-                }
-
-                //    //Game newGame = db.Games.First(g => g.Title == "test");
-            }
-        
-            OpenWindowCommand = new RelayCommand<object>(param => this.OpenWindowExecute(param));
             
+            LoadGameList();
+
+            OpenWindowCommand = new RelayCommand<object>(param => this.OpenWindowExecute(param));
         }
-        // TODO Delegate instead!
+        // TODO Delegate instead??
+        /// <summary>
+        /// Method to react to messages
+        /// </summary>
+        /// <param name="msg"></param>
         private void NotificationMessageReceived(NotificationMessage msg)
         {
             if (msg.Notification == "GameAddedOrUpdated")
             {
                 // For SQL Server
                 //using (var db = new MyGamesContext())
-                RefreshGameList();
+                LoadGameList();
             }
         }        
         /// <summary>
@@ -106,14 +89,19 @@ namespace MyGames.ViewModels
                     OpenAddGame(this, EventArgs.Empty);
                 }                
             }            
-        }
-
-        private void RefreshGameList()
+        }       
+        /// <summary>
+        /// Helper method to load games from DB
+        /// </summary>
+        private void LoadGameList()
         {
+            // SQL Server
+            //using (var db = new MyGamesContext())
             using (var db = new MyGamesSQLServerCompactContext())
             {
                 // TODO Error handling
-                _gamesList = new ObservableCollection<Game>(db.Games.ToList());                
+                // Using public property for NotifyProperty
+                GamesList = new ObservableCollection<Game>(db.Games.Include("Genre").Include("Platform").ToList());                
             }
         }
 

@@ -48,7 +48,8 @@ namespace MyGames.Models
             set
             {
                 _genre = value;
-                OnPropertyChanged("Genre");
+                // TODO Is this needed??
+                //OnPropertyChanged("Genre");
             }
         }
         // TODO Is the id necessary?
@@ -67,7 +68,7 @@ namespace MyGames.Models
             }
         }
         private Platform _platform;
-        public Platform Platform
+        public virtual Platform Platform
         {
             get
             {
@@ -76,7 +77,8 @@ namespace MyGames.Models
             set
             {
                 _platform = value;
-                OnPropertyChanged("Platform");
+                // TODO Is this needed??
+                //OnPropertyChanged("Platform");
             }
         }
 

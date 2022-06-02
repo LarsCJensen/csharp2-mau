@@ -51,7 +51,7 @@ namespace MyGames.Views
         {
             GameViewModel viewModel = new GameViewModel();
             GameView gameView = new GameView();
-            gameView.DataContext = viewModel;
+            gameView.DataContext = viewModel;            
             gameView.Show();
         }
     }

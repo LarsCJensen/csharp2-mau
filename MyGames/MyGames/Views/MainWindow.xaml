@@ -47,13 +47,22 @@
                             <GridViewColumn DisplayMemberBinding="{Binding Path=Title}" Width="200">
                                 <GridViewColumnHeader Tag="Title">Title</GridViewColumnHeader>
                             </GridViewColumn>
-                            <GridViewColumn DisplayMemberBinding="{Binding Path=Game.PlatformShort}" Width="100">
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Platform.PlatformShort}" Width="100">
                                 <GridViewColumnHeader Tag="Platform">Platform</GridViewColumnHeader>
                             </GridViewColumn>
                             <GridViewColumn DisplayMemberBinding="{Binding Path=Genre.GenreName}" Width="150">
                                 <GridViewColumnHeader Tag="Genre">Genre</GridViewColumnHeader>
                             </GridViewColumn>
-                            <GridViewColumn DisplayMemberBinding="{Binding Path=Grade}" Width="150">
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=ReleaseDate, StringFormat='yyyy-MM-dd'}" Width="100">
+                                <GridViewColumnHeader Tag="ReleaseDate">Release</GridViewColumnHeader>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Box}" Width="50">
+                                <GridViewColumnHeader Tag="Box">Box</GridViewColumnHeader>
+                            </GridViewColumn>                            
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Manual}" Width="50">
+                                <GridViewColumnHeader Tag="Manual">Manual</GridViewColumnHeader>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Grade}" Width="50">
                                 <GridViewColumnHeader Tag="Grade">Grade</GridViewColumnHeader>
                             </GridViewColumn>
                         </GridView>

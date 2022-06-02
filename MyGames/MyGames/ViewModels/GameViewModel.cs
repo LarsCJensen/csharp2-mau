@@ -13,7 +13,7 @@ using MyGames.Models;
 
 namespace MyGames.ViewModels
 {
-    public class GameViewModel: BaseViewModel, IDataErrorInfo
+    public class GameViewModel: BaseViewModel
     {
         #region Properties
         private Game _game;
@@ -104,28 +104,28 @@ namespace MyGames.ViewModels
         public RelayCommand ChooseImageCommand { get; private set; }    
         #endregion
 
-
-        #region IDataErrorInfo
-        public string Error => throw new NotImplementedException();
+        // TODO remove
+        //#region IDataErrorInfo
+        //public string Error => throw new NotImplementedException();
         
-        public string this[string property]
-        {
-            get
-            {
-                string validationResult = String.Empty;
-                switch (property)
-                {
-                    case "Title":
-                        validationResult = ValidateTitle();
-                        break;
-                }
-                return validationResult;
-            }
-        }
-        #endregion
+        //public string this[string property]
+        //{
+        //    get
+        //    {
+        //        string validationResult = String.Empty;
+        //        switch (property)
+        //        {
+        //            case "Title":
+        //                validationResult = ValidateTitle();
+        //                break;
+        //        }
+        //        return validationResult;
+        //    }
+        //}
+        //#endregion
         #region Events
-        // TODO??
-        public event EventHandler GameSaved;
+        // TODO or keep message pattern??
+        //public event EventHandler Close;
         #endregion
         #region Constructors
         public GameViewModel()
@@ -148,20 +148,30 @@ namespace MyGames.ViewModels
             SaveCommand = new RelayCommand(SaveGame);
         }
         #endregion
+        // TODO Or leave as message??
+        //#region EventHandlers
+        //public event EventHandler GameSaved;
+        //#endregion
         #region Command methods
         private void SaveGame()
         {
-            // TODO Validate ??
             // TODO Error handling
-            //Genre genre = _context.Genres.FirstOrDefault(g => g.GenreId == _game.Genre.GenreId);
-            
-            _context.Games.Add(_game);
-            _context.SaveChanges();
+            try
+            {
+                _context.Games.Add(_game);
+                _context.SaveChanges();
+                Messenger.Default.Send(new NotificationMessage("GameAddedOrUpdated"));
+            }
+            catch (Exception ex)
+            {
+                // respond to error
+            }
             Close();
         }
 
         private void Close()
         {            
+            // TODO Use event? Or keep for test??
             Messenger.Default.Send(new NotificationMessage("Close"));
         }
         // TODO Violates this MVVM?
@@ -192,7 +202,6 @@ namespace MyGames.ViewModels
                 _platforms = new ObservableCollection<Platform>(sortedPlatforms);                
             }
         }
-
         private void LoadGenres()
         {
             // TODO  use _context??
@@ -213,12 +222,7 @@ namespace MyGames.ViewModels
             }
             return values;
         }
-        
         // TODO REMOVE
-        private string ValidateTitle()
-        {
-            return String.IsNullOrEmpty(_game.Title) ? "Title cannot be empty" : String.Empty;
-        }
         //private void SetImageData(byte[] data)
         //{
         //    var source = new BitmapImage();

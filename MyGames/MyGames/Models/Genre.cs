@@ -19,6 +19,7 @@ namespace MyGames.Models
         public string GenreName { get; set; }
         // TODO Is this needed?
         //public virtual ICollection<Game> Games { get; set; }
+        public virtual ICollection<Game> game { get; set; }
         public Genre()
         {
             //this.Games = new HashSet<Game>();
