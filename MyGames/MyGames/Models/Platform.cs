@@ -19,6 +19,8 @@ namespace MyGames.Models
         public string PlatformShort{ get; set; }
         // TODO Is this needed?
         //public virtual ICollection<Game> Games { get; set; }
+        public virtual ICollection<Game> game { get; set; }
+        //TODO Add hardware
         public Platform()
         {
             // TODO Is this needed?

@@ -8,9 +8,9 @@ using System.Data.Entity;
 
 namespace MyGames.Models
 {
-    public class MyGamesInitializer : DropCreateDatabaseIfModelChanges<MyGamesContext>
+    public class MyGamesInitializer : DropCreateDatabaseIfModelChanges<MyGamesSQLServerCompactContext>
     {
-        protected override void Seed(MyGamesContext context)
+        protected override void Seed(MyGamesSQLServerCompactContext context)
         {
             GetGenres().ForEach(g => context.Genres.Add(g));
             GetPlatforms().ForEach(p => context.Platforms.Add(p));
