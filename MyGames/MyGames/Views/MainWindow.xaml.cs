@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MyGames.ViewModels;
 using GalaSoft.MvvmLight.Messaging;
+using MyGames.Helpers;
 
 namespace MyGames.Views
 {
@@ -31,7 +32,7 @@ namespace MyGames.Views
             //Messenger.Default.Register<NotificationMessage>(this, NotificationMessageReceived);
             MainViewModel vm = new MainViewModel();
             this.DataContext = vm;
-            vm.OpenAddGame += OnOpenAddGame;
+            vm.OpenAddEditGame += OnOpenAddEditGame;
         }
         /// <summary>
         /// Function if message pattern is used
@@ -47,9 +48,25 @@ namespace MyGames.Views
         //        gameView.Show();
         //    }
         //}
-        private void OnOpenAddGame(object sender, EventArgs e)
+        private void OnOpenAddEditGame(object sender, ButtonCommandEventArgs e)
         {
-            GameViewModel viewModel = new GameViewModel();
+            MainViewModel mVm = (MainViewModel)sender;
+            // If no selected game, open Add new game
+            GameViewModel viewModel;
+            if (mVm.SelectedGame == null)
+            {
+                viewModel = new GameViewModel();
+            } else
+            {
+                if(e.ButtonCommand == "Open")
+                {
+                    viewModel = new GameViewModel(mVm.SelectedGame);
+                } else if (e.ButtonCommand =="Edit")
+                {
+                    viewModel = new GameViewModel(mVm.SelectedGame, true);
+                }
+            }
+            
             GameView gameView = new GameView();
             gameView.DataContext = viewModel;            
             gameView.Show();

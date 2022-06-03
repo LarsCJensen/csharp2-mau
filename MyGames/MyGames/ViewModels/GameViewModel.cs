@@ -38,7 +38,7 @@ namespace MyGames.ViewModels
             set
             {
                 _editMode = value;
-                // NotifyPropertyChanged
+                OnPropertyChanged("EditMode");
             }
         }
         private bool _detailsMode;
@@ -132,8 +132,8 @@ namespace MyGames.ViewModels
         public GameViewModel()
         {
             _game = new Game();
-            _detailsMode = false;
-            _editMode=true;
+            EditMode = false;
+            DetailsMode = true;
             SaveCommand = new RelayCommand(SaveGame);
             CloseCommand = new RelayCommand(Close);
             ChooseImageCommand = new RelayCommand(ChooseImage);
@@ -144,11 +144,13 @@ namespace MyGames.ViewModels
             _conditionList = GetListOfIntValues(10);
         }
         
-        public GameViewModel(Game game)
+        public GameViewModel(Game game, bool edit=false)
         {
             _game = game;
+            EditMode = edit;
             SaveCommand = new RelayCommand(SaveGame);
         }
+
         #endregion
         // TODO Or leave as message??
         //#region EventHandlers

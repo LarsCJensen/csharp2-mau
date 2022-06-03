@@ -11,6 +11,7 @@ using System.Windows.Input;
 using GalaSoft.MvvmLight.Messaging;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
+using MyGames.Helpers;
 using MyGames.Models;
 using MyGames.Views;
 
@@ -46,8 +47,9 @@ namespace MyGames.ViewModels
 
         // TODO SKa alla view models ha sin egen databas-context?
         #region EventHandlers
-        public RelayCommand<object> OpenWindowCommand { get; private set; }
-        public event EventHandler OpenAddGame;        
+        public RelayCommand OpenGameCommand { get; private set; }
+        public RelayCommand AddGameCommand { get; private set; }
+        public event EventHandler<ButtonCommandEventArgs> OpenAddEditGame;        
         #endregion
         public MainViewModel()
         {
@@ -56,7 +58,8 @@ namespace MyGames.ViewModels
             
             LoadGameList();
 
-            OpenWindowCommand = new RelayCommand<object>(param => this.OpenWindowExecute(param));
+            OpenGameCommand = new RelayCommand(this.OpenGameExecute);
+            AddGameCommand = new RelayCommand(this.AddGameExecute);
         }
         // TODO Delegate instead??
         /// <summary>
@@ -71,25 +74,68 @@ namespace MyGames.ViewModels
                 //using (var db = new MyGamesContext())
                 LoadGameList();
             }
-        }        
+        }
+        #region CommandExecutors
+        private void AddGameExecute()
+        {
+            if (OpenAddEditGame != null)
+            {
+                // Execute event OpenAddGame
+                OpenAddEditGame(this, ButtonCommandEventArgs.Empty);
+            }
+        }
         /// <summary>
         /// Method to handle command for OpenWindowExecute, which does different things based on state
         /// </summary>
         /// <param name="state">Command parameter object</param>
-        private void OpenWindowExecute(object state)
+        private void OpenGameExecute()
         {
-            string str = state as string;
-            if(str == "Add")
+            if (OpenAddEditGame != null)
             {
-                // Using event handlers instead of message pattern
-                //Messenger.Default.Send(new NotificationMessage("ShowAddGame"));
-                if(OpenAddGame != null)
-                {
-                    // Execute event OpenAddGame
-                    OpenAddGame(this, EventArgs.Empty);
-                }                
-            }            
-        }       
+                OpenAddEditGame(this, new ButtonCommandEventArgs("Open"));
+            }
+        }
+        
+            //Game game = obj as Game;
+            //if(game != null)
+            //{
+            //    if (OpenAddGame != null)
+            //    {
+            //        // Execute event OpenAddGame
+            //        OpenAddGame(this, EventArgs.Empty);
+            //    }
+            //}
+            //else
+            //{
+            //    // Using event handlers instead of message pattern
+            //    //Messenger.Default.Send(new NotificationMessage("ShowAddGame"));
+            //    if (OpenAddGame != null)
+            //    {
+            //        // Execute event OpenAddGame
+            //        OpenAddGame(this, EventArgs.Empty);
+            //    }
+            //}
+            //string str = state as string;
+            //if(str == "Add")
+            //{
+            //    // Using event handlers instead of message pattern
+            //    //Messenger.Default.Send(new NotificationMessage("ShowAddGame"));
+            //    if(OpenAddGame != null)
+            //    {
+            //        // Execute event OpenAddGame
+            //        OpenAddGame(this, EventArgs.Empty);
+            //    }                
+            //}            
+            //if(str == "Open")
+            //{
+            //    if (OpenAddGame != null)
+            //    {
+            //        // Execute event OpenAddGame
+            //        OpenAddGame(this, EventArgs.Empty);
+            //    }
+            //}
+        #endregion
+
         /// <summary>
         /// Helper method to load games from DB
         /// </summary>
