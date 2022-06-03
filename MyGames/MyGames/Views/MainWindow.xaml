@@ -40,7 +40,7 @@
         </Grid>
         <Grid Grid.Row="2" Grid.Column="0">
             <GroupBox Margin="5,5">
-                <ListView x:Name="lvGamesList" ItemsSource="{Binding GamesList, Mode=TwoWay}" SelectedItem="{Binding SelectedGame, Mode=TwoWay}">
+                <ListView x:Name="lvGamesList" ItemsSource="{Binding GamesList, Mode=TwoWay}" SelectedItem="{Binding SelectedGame, FallbackValue=null}">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn DisplayMemberBinding="{Binding Path=Title}" Width="200">
@@ -71,9 +71,10 @@
         </Grid>        
         <Grid Grid.Row="3" Grid.Column="0">
             <StackPanel Orientation="Horizontal" Margin="5,5">
-                <Button x:Name="btnAddGame" Content="Add" Width="50" Height="20" Margin="5" Command="{Binding OpenWindowCommand}" CommandParameter="Add"/>
-                <Button Content="Edit" Width="50" Height="20" Margin="5"/>
-                <Button Content="Delete"  Width="50" Height="20" Margin="5"/>                
+                <Button x:Name="btnOpenGame" Content="Open" Width="50" Height="20" Margin="5" Command="{Binding OpenGameCommand}" IsEnabled="{Binding SelectedGame, Converter={StaticResource ObjectNullConverter}, FallbackValue=False}"/>
+                <Button x:Name="btnAddGame" Content="Add" Width="50" Height="20" Margin="5" Command="{Binding AddGameCommand}"/>
+                <Button Content="Edit" Width="50" Height="20" Margin="5" Command="{Binding EditGameCommand}" IsEnabled="{Binding SelectedGame, Converter={StaticResource ObjectNullConverter}, FallbackValue=False}"/>
+                <Button Content="Delete"  Width="50" Height="20" Margin="5" Command="{Binding DeleteGameCommand}" IsEnabled="{Binding SelectedGame, Converter={StaticResource ObjectNullConverter}, FallbackValue=False}"/>                
             </StackPanel>
         </Grid>
     </Grid>
