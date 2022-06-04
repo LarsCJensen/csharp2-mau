@@ -45,6 +45,16 @@ namespace MyGames.ViewModels
             }
         }
 
+        private string _searchFilter;
+        public string SearchFilter
+        {
+            get { return _searchFilter; }
+            set 
+            { 
+
+            }
+        }
+
         // TODO SKa alla view models ha sin egen databas-context?
         #region EventHandlers
         public RelayCommand OpenGameCommand { get; private set; }

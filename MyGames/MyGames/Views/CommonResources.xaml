@@ -21,8 +21,9 @@
     <converters:ImageConverter x:Key="ImageConverter" />
     <converters:BoolToStringConverter x:Key="BoolToStringConverter" />
     <converters:ObjectNullConverter x:Key="ObjectNullConverter" />
-    
-    
+    <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+
+
     <BitmapImage x:Key="DefaultImage" UriSource="/MyGames;component/Assets/no_game.png" />
     <BitmapImage x:Key="ChooseImage" UriSource="/MyGames;component/Assets/choose_image.png" />
 

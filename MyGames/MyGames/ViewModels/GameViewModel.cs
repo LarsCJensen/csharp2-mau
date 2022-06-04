@@ -132,8 +132,8 @@ namespace MyGames.ViewModels
         public GameViewModel()
         {
             _game = new Game();
-            EditMode = false;
-            DetailsMode = true;
+            EditMode = true;
+            DetailsMode = false;
             SaveCommand = new RelayCommand(SaveGame);
             CloseCommand = new RelayCommand(Close);
             ChooseImageCommand = new RelayCommand(ChooseImage);
@@ -144,11 +144,12 @@ namespace MyGames.ViewModels
             _conditionList = GetListOfIntValues(10);
         }
         
-        public GameViewModel(Game game, bool edit=false)
+        public GameViewModel(Game game, bool edit=false, bool details=false)
         {
             _game = game;
             EditMode = edit;
-            SaveCommand = new RelayCommand(SaveGame);
+            DetailsMode = details;
+            CloseCommand = new RelayCommand(Close);
         }
 
         #endregion

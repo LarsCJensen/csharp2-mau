@@ -26,6 +26,26 @@ namespace MyGames.Models
                 new Genre
                 {
                     GenreName = "Adventure"
+                },
+                new Genre
+                {
+                    GenreName = "RPG"
+                },
+                new Genre
+                {
+                    GenreName = "MMO"
+                },
+                new Genre
+                {
+                    GenreName = "Racing"
+                },
+                new Genre
+                {
+                    GenreName = "RTS"
+                },
+                new Genre
+                {
+                    GenreName = "Strategy"
                 }
             };
             return genres;
@@ -43,6 +63,41 @@ namespace MyGames.Models
             {
                 PlatformName = "PC",
                 PlatformShort = "PC"
+            },
+            new Platform
+            {
+                PlatformName = "Playstation 2",
+                PlatformShort = "PS2"
+            },
+            new Platform
+            {
+                PlatformName = "Playstation 3",
+                PlatformShort = "PS3"
+            },
+            new Platform
+            {
+                PlatformName = "Xbox",
+                PlatformShort = "Xbox"
+            },
+            new Platform
+            {
+                PlatformName = "Nintendo Entertainment System",
+                PlatformShort = "NES"
+            },
+            new Platform
+            {
+                PlatformName = "Super Nintendo Entertainment System",
+                PlatformShort = "SNES"
+            },
+            new Platform
+            {
+                PlatformName = "Sega Master System",
+                PlatformShort = "SMS"
+            },
+            new Platform
+            {
+                PlatformName = "Sega Mega Drive",
+                PlatformShort = "SMD"
             }
         };
             return platforms;

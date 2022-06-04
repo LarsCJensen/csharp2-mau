@@ -49,54 +49,54 @@
                 <StackPanel Orientation="Vertical">
                     <!--TODO Fix style for fonts-->
                     <TextBlock Text="Platform" FontWeight="ExtraBold"/>
-                    <TextBlock Text="{Binding SelectedGame.Platform, FallbackValue='Playstation 3'}"/>
+                    <TextBlock Text="{Binding Game.Platform.PlatformShort, FallbackValue='Playstation 3'}"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2">
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Genre" FontWeight="ExtraBold"/>
-                    <TextBlock Text="{Binding SelectedGame.Genre, FallbackValue='Adventure'}"/>
+                    <TextBlock Text="{Binding Game.Genre.GenreName, FallbackValue='Adventure'}"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="3" Grid.Column="0">
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Grade" FontWeight="ExtraBold"/>
-                    <TextBlock Text="{Binding SelectedGame.Grade, FallbackValue='5/10'}"/>
+                    <TextBlock Text="{Binding Game.Grade, FallbackValue='5/10', StringFormat= '\{0\}/10', TargetNullValue='?/10'}"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="3" Grid.Column="1">
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Release" FontWeight="ExtraBold"/>
-                    <TextBlock Text="{Binding SelectedGame.ReleaseDate, FallbackValue='1994-01-01'}"/>
+                    <TextBlock Text="{Binding Game.ReleaseDate, FallbackValue='1994-01-01', StringFormat='yyyy-MM-dd',TargetNullValue='?'}"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="3" Grid.Column="2">
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Condition" FontWeight="ExtraBold"/>
-                    <TextBlock Text="{Binding SelectedGame.Condition, FallbackValue='9/10'}"/>
+                    <TextBlock Text="{Binding Game.Condition, FallbackValue='9/10', StringFormat= '\{0\}/10', TargetNullValue='?/10'}"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="4" Grid.Column="0">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Text="Grade" FontWeight="ExtraBold"/>
-                    <TextBlock Text="{Binding SelectedGame.Box, FallbackValue='Yes'}"/>
+                    <TextBlock Text="Box" FontWeight="ExtraBold"/>
+                    <TextBlock Text="{Binding Game.Box, FallbackValue='Yes', TargetNullValue='?'}"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="4" Grid.Column="1">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Text="Release" FontWeight="ExtraBold"/>
-                    <TextBlock Text="{Binding SelectedGame.Manual, FallbackValue='No'}"/>
+                    <TextBlock Text="Manual" FontWeight="ExtraBold"/>
+                    <TextBlock Text="{Binding Game.Manual, FallbackValue='No', TargetNullValue='?'}"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="4" Grid.Column="2">
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Region" FontWeight="ExtraBold"/>
-                    <TextBlock Text="{Binding SelectedGame.Region, FallbackValue='N/A'}"/>
+                    <TextBlock Text="{Binding Game.Region, FallbackValue='N/A', TargetNullValue='N/A'}"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Text="{Binding SelectedGame.Comment, FallbackValue='Here is comment section which is filled with fun stuff'}"/>
+                    <TextBlock Text="{Binding Game.Comment, FallbackValue='Here is comment section which is filled with fun stuff'}" TextWrapping="Wrap"/>
                 </StackPanel>
             </Grid>
         
@@ -153,7 +153,8 @@
             <Grid Grid.Row="3" Grid.Column="1">
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Release" FontWeight="ExtraBold"/>
-                    <TextBox Text="{Binding Game.ReleaseDate, FallbackValue='1994-01-01', StringFormat='yyyy-MM-dd', ValidatesOnDataErrors=True}" Margin="0,0,5,0"/>
+                    <!--<TextBox Text="{Binding Game.ReleaseDate, FallbackValue='1994-01-01', StringFormat='yyyy-MM-dd', ValidatesOnDataErrors=True}" Margin="0,0,5,0"/>-->
+                    <DatePicker SelectedDate="{Binding Game.ReleaseDate, FallbackValue='1994-01-01', StringFormat='yyyy-MM-dd', ValidatesOnDataErrors=True}" Margin="0,0,5,0"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="3" Grid.Column="2">
@@ -188,7 +189,7 @@
         </Grid>
         <Grid Grid.Row="4" Grid.Column="1">
             <StackPanel Orientation="Horizontal">
-                <Button Content="Save" Command="{Binding SaveCommand}" Margin="5" Width="50" Height="25"/>
+                <Button Content="Save" Command="{Binding SaveCommand}" IsEnabled="{Binding DetailsMode, Converter={StaticResource InverseBoolConverter}}" Margin="5" Width="50" Height="25"/>
                 <Button Content="Close" Command="{Binding CloseCommand}" Margin="5" Width="50" Height="25"/>
             </StackPanel>
             

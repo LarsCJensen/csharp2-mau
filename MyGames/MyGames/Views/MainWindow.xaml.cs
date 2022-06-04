@@ -52,7 +52,7 @@ namespace MyGames.Views
         {
             MainViewModel mVm = (MainViewModel)sender;
             // If no selected game, open Add new game
-            GameViewModel viewModel;
+            GameViewModel viewModel = null;
             if (mVm.SelectedGame == null)
             {
                 viewModel = new GameViewModel();
@@ -60,10 +60,11 @@ namespace MyGames.Views
             {
                 if(e.ButtonCommand == "Open")
                 {
-                    viewModel = new GameViewModel(mVm.SelectedGame);
+                    // TODO Better way?
+                    viewModel = new GameViewModel(mVm.SelectedGame,false, true);
                 } else if (e.ButtonCommand =="Edit")
                 {
-                    viewModel = new GameViewModel(mVm.SelectedGame, true);
+                    viewModel = new GameViewModel(mVm.SelectedGame, true, false);
                 }
             }
             

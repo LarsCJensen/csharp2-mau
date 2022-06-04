@@ -139,6 +139,7 @@
     </ApplicationDefinition>
     <Compile Include="Converters\BoolToStringConverter.cs" />
     <Compile Include="Converters\ImageConverter.cs" />
+    <Compile Include="Converters\InverseBoolConverter.cs" />
     <Compile Include="Converters\ObjectNullConverter.cs" />
     <Compile Include="Helpers\ButtonCommandEventArgs.cs" />
     <Compile Include="Models\MyGamesInitializer.cs" />
