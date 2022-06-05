@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Messaging;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -32,6 +33,11 @@ namespace MyGames.ViewModels
                 OnPropertyChanged("GamesList");
             }
         }
+        private ICollectionView _gamesView;
+        public ICollectionView GamesView
+        {
+            get { return _gamesView; }
+        }
 
         private Game _selectedGame;
         public Game SelectedGame
@@ -50,24 +56,34 @@ namespace MyGames.ViewModels
         {
             get { return _searchFilter; }
             set 
-            { 
+            {
+                _searchFilter = value;
 
+                _gamesView.Refresh();
+                OnPropertyChanged("SearchFilter");
             }
         }
 
         // TODO SKa alla view models ha sin egen databas-context?
-        #region EventHandlers
+        #region Commands
         public RelayCommand OpenGameCommand { get; private set; }
         public RelayCommand AddGameCommand { get; private set; }
+        #endregion
+        #region EventHandlers
         public event EventHandler<ButtonCommandEventArgs> OpenAddEditGame;        
         #endregion
         public MainViewModel()
         {
             // TODO Switch to events
             Messenger.Default.Register<NotificationMessage>(this, NotificationMessageReceived);
-            
-            LoadGameList();
 
+            GamesList = GetGamesList();
+            // Get default view for gamesView
+            _gamesView = CollectionViewSource.GetDefaultView(_gamesList);
+            //TODO Starts with eller contains?
+            // Bind filter to Search textbox
+            _gamesView.Filter = o => String.IsNullOrEmpty(SearchFilter) ? true : ((Game)o).Title.Contains(SearchFilter);
+            // Commands
             OpenGameCommand = new RelayCommand(this.OpenGameExecute);
             AddGameCommand = new RelayCommand(this.AddGameExecute);
         }
@@ -82,7 +98,7 @@ namespace MyGames.ViewModels
             {
                 // For SQL Server
                 //using (var db = new MyGamesContext())
-                LoadGameList();
+                GamesList = GetGamesList();
             }
         }
         #region CommandExecutors
@@ -149,7 +165,7 @@ namespace MyGames.ViewModels
         /// <summary>
         /// Helper method to load games from DB
         /// </summary>
-        private void LoadGameList()
+        private ObservableCollection<Game> GetGamesList()
         {
             // SQL Server
             //using (var db = new MyGamesContext())
@@ -157,7 +173,7 @@ namespace MyGames.ViewModels
             {
                 // TODO Error handling
                 // Using public property for NotifyProperty
-                GamesList = new ObservableCollection<Game>(db.Games.Include("Genre").Include("Platform").ToList());                
+                return new ObservableCollection<Game>(db.Games.Include("Genre").Include("Platform").ToList());                
             }
         }
 

@@ -69,8 +69,15 @@ namespace MyGames.Views
             }
             
             GameView gameView = new GameView();
-            gameView.DataContext = viewModel;            
+            // TODO Ta bort??
+            //viewModel.OnClose += OnClose;
+            //gameView.DataContext = viewModel;            
             gameView.Show();
+        }
+        // TODO Ta bort
+        private void OnClose(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

@@ -105,28 +105,11 @@ namespace MyGames.ViewModels
         public RelayCommand<object> BoxCheckedCommand { get; private set; }
         #endregion
 
-        // TODO remove
-        //#region IDataErrorInfo
-        //public string Error => throw new NotImplementedException();
 
-        //public string this[string property]
-        //{
-        //    get
-        //    {
-        //        string validationResult = String.Empty;
-        //        switch (property)
-        //        {
-        //            case "Title":
-        //                validationResult = ValidateTitle();
-        //                break;
-        //        }
-        //        return validationResult;
-        //    }
-        //}
-        //#endregion
-        #region Events
+        #region EventsHandlers
         // TODO or keep message pattern??
         //public event EventHandler Close;
+        public event EventHandler OnClose;
         #endregion
         #region Constructors
         public GameViewModel()
@@ -151,12 +134,7 @@ namespace MyGames.ViewModels
             DetailsMode = details;
             CloseCommand = new RelayCommand(Close);
         }
-
         #endregion
-        // TODO Or leave as message??
-        //#region EventHandlers
-        //public event EventHandler GameSaved;
-        //#endregion
         #region Command methods
         private void SaveGame()
         {
@@ -176,8 +154,12 @@ namespace MyGames.ViewModels
 
         private void Close()
         {            
-            // TODO Use event? Or keep for test??
-            Messenger.Default.Send(new NotificationMessage("Close"));
+            // Message pattern, not used
+            //Messenger.Default.Send(new NotificationMessage("Close"));
+            if(OnClose != null)
+            {
+                OnClose(this, EventArgs.Empty);
+            }
         }
         // TODO Violates this MVVM?
         // https://www.c-sharpcorner.com/article/dialogs-in-wpf-mvvm/
