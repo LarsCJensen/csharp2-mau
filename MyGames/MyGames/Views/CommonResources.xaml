@@ -17,7 +17,8 @@
         <vw:GameView />
     </DataTemplate>
     
-    <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    <!--<BooleanToVisibilityConverter x:Key="BoolToVis" />-->
+    <converters:BoolToVisibilityConverter x:Key="BoolToVis" />
     <converters:ImageConverter x:Key="ImageConverter" />
     <converters:BoolToStringConverter x:Key="BoolToStringConverter" />
     <converters:ObjectNullConverter x:Key="ObjectNullConverter" />
@@ -26,6 +27,7 @@
 
     <BitmapImage x:Key="DefaultImage" UriSource="/MyGames;component/Assets/no_game.png" />
     <BitmapImage x:Key="ChooseImage" UriSource="/MyGames;component/Assets/choose_image.png" />
-
+    <BitmapImage x:Key="BGImage" UriSource="/MyGames;component/Assets/rq_bg.gif" />
+    
     
 </ResourceDictionary>

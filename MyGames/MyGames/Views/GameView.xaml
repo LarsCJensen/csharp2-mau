@@ -5,18 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyGames.Views"
         mc:Ignorable="d"
-        Title="Game" Height="850" Width="600">
+        Title="Game" Height="800" Width="600">
     <Window.Resources>
         <ResourceDictionary Source="CommonResources.xaml"/>        
     </Window.Resources>
+    <Window.Background>
+        <ImageBrush ImageSource="/MyGames;component/Assets/rq_bg.gif" TileMode="Tile" ViewportUnits="Absolute" Viewport="0,0,31,42"/>
+    </Window.Background>
     <Grid x:Name="MainGrid">
+        <Grid.Resources>
+            <Style TargetType="TextBlock">
+                <Setter Property="Foreground" Value="White"/>
+            </Style>
+        </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="50" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>            
-            <RowDefinition Height="50" />
+            <RowDefinition Height="20" />
             <RowDefinition Height="*" />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
@@ -35,8 +43,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Grid.ColumnSpan="3">
-                <Image x:Name="imgGame" HorizontalAlignment="Center" VerticalAlignment="Top" Height="300" Width="400" Source="{Binding Game.Image,FallbackValue={StaticResource DefaultImage},
-                                TargetNullValue={StaticResource DefaultImage}}">
+                <Image x:Name="imgGame" HorizontalAlignment="Center" VerticalAlignment="Top" Height="300" Width="400" Source="{Binding Game.Image,FallbackValue={StaticResource DefaultImage}, TargetNullValue={StaticResource DefaultImage}}">
                     <Image.Style>
                         <Style/>
                     </Image.Style>                    
@@ -79,13 +86,13 @@
             <Grid Grid.Row="4" Grid.Column="0">
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Box" FontWeight="ExtraBold"/>
-                    <TextBlock Text="{Binding Game.Box, FallbackValue='Yes', TargetNullValue='?'}"/>
+                    <TextBlock Text="{Binding Game.Box, Converter={StaticResource BoolToStringConverter},FallbackValue='Yes', TargetNullValue='?'}"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="4" Grid.Column="1">
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Manual" FontWeight="ExtraBold"/>
-                    <TextBlock Text="{Binding Game.Manual, FallbackValue='No', TargetNullValue='?'}"/>
+                    <TextBlock Text="{Binding Game.Manual, Converter={StaticResource BoolToStringConverter}, FallbackValue='No', TargetNullValue='?'}"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="4" Grid.Column="2">
@@ -166,13 +173,13 @@
             <Grid Grid.Row="4" Grid.Column="0">
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Box" FontWeight="ExtraBold"/>
-                    <CheckBox x:Name="chkBox" IsChecked="False" Command="{Binding BoxCheckedCommand }" CommandParameter="Box"/>                    
+                    <CheckBox x:Name="chkBox" IsChecked="{Binding Game.Box, FallbackValue=false}" Command="{Binding BoxCheckedCommand }" CommandParameter="Box"/>                    
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="4" Grid.Column="1">
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Manual" FontWeight="ExtraBold"/>
-                    <CheckBox x:Name="chkManual" IsChecked="False" Command="{Binding BoxCheckedCommand }" CommandParameter="Manual"/>
+                    <CheckBox x:Name="chkManual" IsChecked="{Binding Game.Manual, FallbackValue=false}" Command="{Binding BoxCheckedCommand }" CommandParameter="Manual"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="4" Grid.Column="2">

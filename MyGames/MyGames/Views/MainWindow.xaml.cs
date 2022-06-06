@@ -71,13 +71,24 @@ namespace MyGames.Views
             GameView gameView = new GameView();
             // TODO Ta bort??
             //viewModel.OnClose += OnClose;
-            //gameView.DataContext = viewModel;            
+            viewModel.OnClose += delegate { gameView.Close(); };
+            gameView.DataContext = viewModel;
             gameView.Show();
         }
         // TODO Ta bort
-        private void OnClose(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+        //private void OnClose(object sender, EventArgs e)
+        //{
+        //    var button = sender as Button;
+        //    if(button == null)
+        //    {
+        //        return;
+        //    }
+        //    var win = Window.GetWindow(button);
+        //    if (win == null)
+        //    {
+        //        return;
+        //    }
+        //    win.Close();
+        //}
     }
 }

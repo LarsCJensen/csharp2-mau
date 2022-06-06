@@ -33,10 +33,12 @@ namespace MyGames.Views
             // For Message pattern which I was trying. Not used
             //Messenger.Default.Register<NotificationMessage>(this, NotificationMessageReceived);
             
-            GameViewModel vm = new GameViewModel();
-            this.DataContext = vm;
+            // TODO this is set from MainWondow, ok?
+            //GameViewModel vm = new GameViewModel();
+            //this.DataContext = vm;
             // Bind to OnClose event
-            vm.OnClose += OnClose;
+            // TODO BIND CLOSE!!
+            //vm.OnClose += OnClose;
         }
         /// <summary>
         /// Method for MessagePattern, is not used.

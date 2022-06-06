@@ -121,7 +121,21 @@ namespace MyGames.Models
                 OnPropertyChanged("Comment");
             } 
         }
-       
+        [StringLength(16)]
+        private string _region;
+        public string Region
+        {
+            get
+            {
+                return _region;
+            }
+            set
+            {
+                _region = value;
+                OnPropertyChanged("Region");
+            }
+        }
+
         public Base()
         {
         }

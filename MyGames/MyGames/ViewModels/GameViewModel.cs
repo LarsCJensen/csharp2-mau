@@ -20,7 +20,10 @@ namespace MyGames.ViewModels
         public Game Game
         {
             get { return _game; }
-            set { _game = value; }
+            set { 
+                _game = value;
+                OnPropertyChanged("Game");
+            }
         }
         private BitmapImage _gameImage;
         public BitmapImage BitmapImage
@@ -45,7 +48,10 @@ namespace MyGames.ViewModels
         public bool DetailsMode
         {
             get { return _detailsMode; }
-            set { _detailsMode = value; }
+            set { 
+                _detailsMode = value;
+                OnPropertyChanged("DetailsMode");
+            }
         }
         private ObservableCollection<Platform> _platforms;
         public ObservableCollection<Platform> Platforms
@@ -129,10 +135,21 @@ namespace MyGames.ViewModels
         
         public GameViewModel(Game game, bool edit=false, bool details=false)
         {
-            _game = game;
+            if (edit)
+            {
+                LoadPlatforms();
+                LoadGenres();
+                _gradesList = GetListOfIntValues(10);
+                _conditionList = GetListOfIntValues(10);
+                SaveCommand = new RelayCommand(SaveGame);                
+                ChooseImageCommand = new RelayCommand(ChooseImage);
+                BoxCheckedCommand = new RelayCommand<object>(param => BoxChecked(param));
+            }
+            Game = game;
             EditMode = edit;
             DetailsMode = details;
             CloseCommand = new RelayCommand(Close);
+            
         }
         #endregion
         #region Command methods

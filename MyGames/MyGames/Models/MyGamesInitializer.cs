@@ -46,6 +46,10 @@ namespace MyGames.Models
                 new Genre
                 {
                     GenreName = "Strategy"
+                },
+                new Genre
+                {
+                    GenreName = "Platform"
                 }
             };
             return genres;
@@ -98,6 +102,11 @@ namespace MyGames.Models
             {
                 PlatformName = "Sega Mega Drive",
                 PlatformShort = "SMD"
+            },
+            new Platform
+            {
+                PlatformName = "Atari 2600",
+                PlatformShort = "Atari 2600"
             }
         };
             return platforms;

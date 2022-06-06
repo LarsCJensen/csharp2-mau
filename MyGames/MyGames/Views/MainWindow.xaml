@@ -9,7 +9,10 @@
         Title="MyGames" Height="450" Width="800">
     <Window.Resources>
         <ResourceDictionary Source="CommonResources.xaml"/>
-    </Window.Resources>    
+    </Window.Resources>
+    <Window.Background>
+        <ImageBrush ImageSource="/MyGames;component/Assets/rq_bg.gif" TileMode="Tile" ViewportUnits="Absolute" Viewport="0,0,31,42"/>
+    </Window.Background>
     <Grid x:Name="MainGrid">        
         <Grid.ColumnDefinitions>            
             <ColumnDefinition Width="*" />
@@ -35,7 +38,7 @@
             <TextBlock Text="Search" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,5,0,0"/>
             <StackPanel Orientation="Horizontal" Margin="5,5">                
                 <TextBox x:Name="Search" Height="30" Width="200" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,30,0,0" Text="{Binding SearchFilter, UpdateSourceTrigger=PropertyChanged}"/>
-                <Button Content="Load data"  Width="100" Height="20" Margin="25,30,0,0"/>
+                <Button Content="Load test data" Command="{Binding LoadTestData}"  Width="100" Height="20" Margin="25,30,0,0"/>
             </StackPanel>            
         </Grid>
         <Grid Grid.Row="2" Grid.Column="0">
@@ -72,8 +75,8 @@
         </Grid>        
         <Grid Grid.Row="3" Grid.Column="0">
             <StackPanel Orientation="Horizontal" Margin="5,5">
-                <Button x:Name="btnOpenGame" Content="Open" Width="50" Height="20" Margin="5" Command="{Binding OpenGameCommand}" IsEnabled="{Binding SelectedGame, Converter={StaticResource ObjectNullConverter}, FallbackValue=False}"/>
-                <Button x:Name="btnAddGame" Content="Add" Width="50" Height="20" Margin="5" Command="{Binding AddGameCommand}"/>
+                <Button Content="Open" Width="50" Height="20" Margin="5" Command="{Binding OpenGameCommand}" IsEnabled="{Binding SelectedGame, Converter={StaticResource ObjectNullConverter}, FallbackValue=False}"/>
+                <Button Content="Add" Width="50" Height="20" Margin="5" Command="{Binding AddGameCommand}"/>
                 <Button Content="Edit" Width="50" Height="20" Margin="5" Command="{Binding EditGameCommand}" IsEnabled="{Binding SelectedGame, Converter={StaticResource ObjectNullConverter}, FallbackValue=False}"/>
                 <Button Content="Delete"  Width="50" Height="20" Margin="5" Command="{Binding DeleteGameCommand}" IsEnabled="{Binding SelectedGame, Converter={StaticResource ObjectNullConverter}, FallbackValue=False}"/>                
             </StackPanel>
