@@ -16,7 +16,15 @@
         <Grid.Resources>
             <Style TargetType="TextBlock">
                 <Setter Property="Foreground" Value="White"/>
-            </Style>
+                <Setter Property="FontWeight" Value="ExtraBold" />
+                <Style.Triggers>
+                    <!--The Comboboxes should have their foreground set to black, and not white as TextBlocks-->
+                    <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource AncestorType=ComboBox}}" Value="True">
+                        <Setter Property="Foreground" Value="Black"/>
+                        <Setter Property="FontWeight" Value="Normal" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>            
         </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50" />
@@ -28,7 +36,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <Grid x:Name="GameDetailsGrid" Grid.Row="1" Grid.Column="1" Margin="5,5" Visibility="{Binding DetailsMode, Converter={StaticResource BoolToVis}, FallbackValue=Collapsed}">
+        <Grid x:Name="GameDetailsGrid" Grid.Row="1" Grid.Column="1" Margin="5,5" Visibility="{Binding DetailsMode, Converter={StaticResource BoolToVis}, FallbackValue=Collapsed}">            
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150" />
                 <ColumnDefinition Width="150" />
@@ -54,50 +62,49 @@
             </Grid>
             <Grid Grid.Row="2" Grid.Column="0">
                 <StackPanel Orientation="Vertical">
-                    <!--TODO Fix style for fonts-->
-                    <TextBlock Text="Platform" FontWeight="ExtraBold"/>
+                    <TextBlock Text="Platform" />
                     <TextBlock Text="{Binding Game.Platform.PlatformShort, FallbackValue='Playstation 3'}"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Text="Genre" FontWeight="ExtraBold"/>
+                    <TextBlock Text="Genre"/>
                     <TextBlock Text="{Binding Game.Genre.GenreName, FallbackValue='Adventure'}"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="3" Grid.Column="0">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Text="Grade" FontWeight="ExtraBold"/>
+                    <TextBlock Text="Grade"/>
                     <TextBlock Text="{Binding Game.Grade, FallbackValue='5/10', StringFormat= '\{0\}/10', TargetNullValue='?/10'}"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="3" Grid.Column="1">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Text="Release" FontWeight="ExtraBold"/>
+                    <TextBlock Text="Release"/>
                     <TextBlock Text="{Binding Game.ReleaseDate, FallbackValue='1994-01-01', StringFormat='yyyy-MM-dd',TargetNullValue='?'}"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="3" Grid.Column="2">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Text="Condition" FontWeight="ExtraBold"/>
+                    <TextBlock Text="Condition"/>
                     <TextBlock Text="{Binding Game.Condition, FallbackValue='9/10', StringFormat= '\{0\}/10', TargetNullValue='?/10'}"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="4" Grid.Column="0">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Text="Box" FontWeight="ExtraBold"/>
+                    <TextBlock Text="Box"/>
                     <TextBlock Text="{Binding Game.Box, Converter={StaticResource BoolToStringConverter},FallbackValue='Yes', TargetNullValue='?'}"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="4" Grid.Column="1">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Text="Manual" FontWeight="ExtraBold"/>
+                    <TextBlock Text="Manual"/>
                     <TextBlock Text="{Binding Game.Manual, Converter={StaticResource BoolToStringConverter}, FallbackValue='No', TargetNullValue='?'}"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="4" Grid.Column="2">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Text="Region" FontWeight="ExtraBold"/>
+                    <TextBlock Text="Region"/>
                     <TextBlock Text="{Binding Game.Region, FallbackValue='N/A', TargetNullValue='N/A'}"/>
                 </StackPanel>
             </Grid>
@@ -140,7 +147,6 @@
             </Grid>
             <Grid Grid.Row="2" Grid.Column="0">
                 <StackPanel Orientation="Vertical">
-                    <!--TODO Fix style for fonts-->
                     <TextBlock Text="Platform" FontWeight="ExtraBold"/>
                     <ComboBox x:Name="cboPlatform" ItemsSource="{Binding Platforms}" DisplayMemberPath="PlatformShort" SelectedValuePath="PlatformId" SelectedValue="{Binding Game.PlatformId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Margin="0,0,5,0"/>
                 </StackPanel>
@@ -154,13 +160,12 @@
             <Grid Grid.Row="3" Grid.Column="0">
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Grade" FontWeight="ExtraBold"/>
-                    <ComboBox x:Name="cboGrade" ItemsSource="{Binding GradesList}" SelectedItem="{Binding Game.Grade, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,5,0"/>
+                    <ComboBox x:Name="cboGrade" ItemsSource="{Binding GradesList}" SelectedItem="{Binding Game.Grade, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,5,0" />
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="3" Grid.Column="1">
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Release" FontWeight="ExtraBold"/>
-                    <!--<TextBox Text="{Binding Game.ReleaseDate, FallbackValue='1994-01-01', StringFormat='yyyy-MM-dd', ValidatesOnDataErrors=True}" Margin="0,0,5,0"/>-->
                     <DatePicker SelectedDate="{Binding Game.ReleaseDate, FallbackValue='1994-01-01', StringFormat='yyyy-MM-dd', ValidatesOnDataErrors=True}" Margin="0,0,5,0"/>
                 </StackPanel>
             </Grid>
@@ -184,7 +189,7 @@
             </Grid>
             <Grid Grid.Row="4" Grid.Column="2">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Text="Region code" FontWeight="ExtraBold"/>
+                    <TextBlock Text="Region code" />
                     <TextBox Text="{Binding Game.Region, FallbackValue='N/A'}"/>
                 </StackPanel>
             </Grid>

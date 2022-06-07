@@ -33,7 +33,6 @@ namespace MyGames.ViewModels
                 OnPropertyChanged("GamesList");
             }
         }
-        // TODO COlllection COunt!
         private ICollectionView _gamesView;
         public ICollectionView GamesView
         {
@@ -43,6 +42,12 @@ namespace MyGames.ViewModels
                 _gamesView = value;
                 OnPropertyChanged("GamesView");
             }
+        }
+        public int Count {
+            get 
+            {
+                return _gamesList.Count;
+            } 
         }
 
         private Game _selectedGame;
@@ -75,11 +80,14 @@ namespace MyGames.ViewModels
         public RelayCommand AddGameCommand { get; private set; }
         public RelayCommand EditGameCommand { get; private set; }
         public RelayCommand DeleteGameCommand { get; private set; }
+        public RelayCommand CloseCommand { get; private set; }
         public RelayCommand LoadTestData { get; private set; }
         #endregion
         #region EventHandlers
-        public event EventHandler<ButtonCommandEventArgs> OpenAddEditGame;        
+        public event EventHandler<ButtonCommandEventArgs> OpenAddEditGame;
+        public event EventHandler OnClose;
         #endregion
+        #region Constructor
         public MainViewModel()
         {
             // TODO Switch to events
@@ -93,41 +101,47 @@ namespace MyGames.ViewModels
             // Bind filter to Search textbox
             _gamesView.Filter = o => String.IsNullOrEmpty(SearchFilter) ? true : ((Game)o).Title.Contains(SearchFilter);
             // Commands
-            OpenGameCommand = new RelayCommand(this.OpenGameExecute);
-            AddGameCommand = new RelayCommand(this.AddGameExecute);
-            EditGameCommand = new RelayCommand(this.EditGameExecute);
-            DeleteGameCommand = new RelayCommand(this.DeleteGameExecute);
-            LoadTestData = new RelayCommand(this.LoadTestDataExecute);
+            OpenGameCommand = new RelayCommand(OpenGameExecute);
+            AddGameCommand = new RelayCommand(AddGameExecute);
+            EditGameCommand = new RelayCommand(EditGameExecute);
+            DeleteGameCommand = new RelayCommand(DeleteGameExecute);
+            LoadTestData = new RelayCommand(LoadTestDataExecute);
+            CloseCommand = new RelayCommand(Close);
         }
-        // TODO Delegate instead??
+        #endregion
         /// <summary>
-        /// Method to react to messages
+        /// Method to react to messages sent
         /// </summary>
-        /// <param name="msg"></param>
+        /// <param name="msg">Message being received</param>
+        // Wanted to test this patter out, so for this event I don't have "regular"
+        // EventHandler
         private void NotificationMessageReceived(NotificationMessage msg)
         {
+            // On GameAddedOrUpdated
             if (msg.Notification == "GameAddedOrUpdated")
             {
-                // For SQL Server
-                //using (var db = new MyGamesContext())
+                // Refresh CollectionView
                 GamesList = GetGamesList();                
+                // TODO Seems weird to have to do this
                 GamesView = CollectionViewSource.GetDefaultView(GamesList);                
                 GamesView.Filter = o => String.IsNullOrEmpty(SearchFilter) ? true : ((Game)o).Title.Contains(SearchFilter);
             }
         }
         #region CommandExecutors
+        /// <summary>
+        /// Command executor for command Add
+        /// </summary>
         private void AddGameExecute()
         {
             if (OpenAddEditGame != null)
             {
-                // Execute event OpenAddGame
-                OpenAddEditGame(this, ButtonCommandEventArgs.Empty);
+                // Execute event OpenAddGame and pass in event arg
+                OpenAddEditGame(this, new ButtonCommandEventArgs("Add"));
             }
         }
         /// <summary>
-        /// Method to handle command for OpenWindowExecute, which does different things based on state
+        /// Command executor for command Open
         /// </summary>
-        /// <param name="state">Command parameter object</param>
         private void OpenGameExecute()
         {
             if (OpenAddEditGame != null)
@@ -142,18 +156,21 @@ namespace MyGames.ViewModels
                 OpenAddEditGame(this, new ButtonCommandEventArgs("Edit"));
             }
         }
-
+        /// <summary>
+        /// Command executor for delete game
+        /// </summary>
         private void DeleteGameExecute()
         {
-            // TODO Just delete game
             using (var db = new MyGamesSQLServerCompactContext())
             {
                 // TODO Error handling
-                // Using public property for NotifyProperty
+                // Needs to be attached to the db context
+                // before it is removed
                 db.Games.Attach(SelectedGame);
                 db.Games.Remove(SelectedGame);
                 db.SaveChanges();
             }
+            // TODO Remove
             //using(_gamesView.DeferRefresh())
             //{
             //    GamesList = GetGamesList();                
@@ -164,8 +181,16 @@ namespace MyGames.ViewModels
             GamesView = CollectionViewSource.GetDefaultView(GamesList);
             GamesView.Filter = o => String.IsNullOrEmpty(SearchFilter) ? true : ((Game)o).Title.Contains(SearchFilter);
             //GamesView.Refresh();
-
+        }        
+        private void Close()
+        {
+            if (OnClose != null)
+            {
+                OnClose(this, EventArgs.Empty);
+            }
         }
+        #endregion
+        #region TestData
         private void LoadTestDataExecute()
         {
             using(var db = new MyGamesSQLServerCompactContext())

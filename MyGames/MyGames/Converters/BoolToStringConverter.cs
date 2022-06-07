@@ -8,12 +8,17 @@ using System.Windows.Data;
 
 namespace MyGames.Converters
 {
+    /// <summary>
+    /// Convert boolean to string
+    /// </summary>
     public class BoolToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(targetType == typeof(string) && value != null)
-            {                
+            
+            if(targetType == typeof(bool) && value != null)
+            {            
+                // If true return 'Yes', else 'No'
                 if ((bool)value == true)
                 {
                     return "Yes";
@@ -22,8 +27,7 @@ namespace MyGames.Converters
                 {
                     return "No";
                 }
-            }
-            
+            }            
             return value;
         }
 

@@ -33,6 +33,7 @@ namespace MyGames.Views
             MainViewModel vm = new MainViewModel();
             this.DataContext = vm;
             vm.OpenAddEditGame += OnOpenAddEditGame;
+            vm.OnClose += delegate { this.Close(); };
         }
         /// <summary>
         /// Function if message pattern is used
@@ -53,20 +54,21 @@ namespace MyGames.Views
             MainViewModel mVm = (MainViewModel)sender;
             // If no selected game, open Add new game
             GameViewModel viewModel = null;
-            if (mVm.SelectedGame == null)
+            switch(e.ButtonCommand)
             {
-                viewModel = new GameViewModel();
-            } else
-            {
-                if(e.ButtonCommand == "Open")
-                {
-                    // TODO Better way?
-                    viewModel = new GameViewModel(mVm.SelectedGame,false, true);
-                } else if (e.ButtonCommand =="Edit")
-                {
+                case "Open":
+                    viewModel = new GameViewModel(mVm.SelectedGame, false, true);
+                    break;
+                case "Edit":
                     viewModel = new GameViewModel(mVm.SelectedGame, true, false);
-                }
-            }
+                    break;
+                case "Add":
+                    viewModel = new GameViewModel();
+                    break;
+                default:
+                    viewModel = new GameViewModel();
+                    break;
+            }            
             
             GameView gameView = new GameView();
             // TODO Ta bort??

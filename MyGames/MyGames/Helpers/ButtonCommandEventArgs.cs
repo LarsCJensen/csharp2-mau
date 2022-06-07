@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace MyGames.Helpers
 {
+    /// <summary>
+    /// Class to enable passing av EventArgs with commands
+    /// </summary>
     public class ButtonCommandEventArgs: EventArgs
     {
-        public static readonly ButtonCommandEventArgs Empty;
         private string _buttonCommand;
         public string ButtonCommand
         {

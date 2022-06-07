@@ -13,7 +13,20 @@
     <Window.Background>
         <ImageBrush ImageSource="/MyGames;component/Assets/rq_bg.gif" TileMode="Tile" ViewportUnits="Absolute" Viewport="0,0,31,42"/>
     </Window.Background>
-    <Grid x:Name="MainGrid">        
+    <Grid x:Name="MainGrid">
+        <Grid.Resources>
+            <Style TargetType="TextBlock">
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="FontWeight" Value="ExtraBold" />
+                <Style.Triggers>
+                    <!--The ListView should have their foreground set to black, and not white as TextBlocks and not be bold-->
+                    <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource AncestorType=ListView}}" Value="True">
+                        <Setter Property="Foreground" Value="Black"/>
+                        <Setter Property="FontWeight" Value="Normal" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Resources>
         <Grid.ColumnDefinitions>            
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
@@ -26,52 +39,55 @@
         <Grid Grid.Row="0" Grid.ColumnSpan="3">            
                 <Menu>
                     <MenuItem Header="_File">
-                        <MenuItem Header="_Exit" 
-                    Command="{Binding Path=CloseCommand}" />
+                        <MenuItem Header="_Exit" Command="{Binding CloseCommand}" />
                     </MenuItem>
-                    <MenuItem Header="_Edit" />
-                    <MenuItem Header="_Options" />
-                    <MenuItem Header="_Help" />
+                    <MenuItem Header="_Options">
+                        <MenuItem Header="_None Yet" />
+                    </MenuItem>
+                <MenuItem Header="_Help" />
                 </Menu>            
         </Grid>
         <Grid Grid.Row="1" Grid.Column="0">
-            <TextBlock Text="Search" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,5,0,0"/>
+            <TextBlock Text="Filter" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,15,0,0"/>
             <StackPanel Orientation="Horizontal" Margin="5,5">                
-                <TextBox x:Name="Search" Height="30" Width="200" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,30,0,0" Text="{Binding SearchFilter, UpdateSourceTrigger=PropertyChanged}"/>
-                <Button Content="Load test data" Command="{Binding LoadTestData}"  Width="100" Height="20" Margin="25,30,0,0"/>
+                <TextBox Height="30" Width="200" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,30,0,0" Text="{Binding SearchFilter, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Text="{Binding Count, FallbackValue='0 games in collection' , StringFormat= '\{0\} games in your collection'}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,30,0,10"/>
+                <Button Content="Load test data" Command="{Binding LoadTestData}"  Width="100" Height="20" Margin="200,30,0,0"/>
             </StackPanel>            
         </Grid>
         <Grid Grid.Row="2" Grid.Column="0">
-            <GroupBox Margin="5,5">
-                <!--<ListView x:Name="lvGamesList" ItemsSource="{Binding GamesList, Mode=TwoWay}" SelectedItem="{Binding SelectedGame, FallbackValue=null}">-->
-                <ListView x:Name="lvGamesList" ItemsSource="{Binding GamesView}" SelectedItem="{Binding SelectedGame, FallbackValue=null}">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn DisplayMemberBinding="{Binding Path=Title}" Width="200">
-                                <GridViewColumnHeader Tag="Title">Title</GridViewColumnHeader>
-                            </GridViewColumn>
-                            <GridViewColumn DisplayMemberBinding="{Binding Path=Platform.PlatformShort}" Width="100">
-                                <GridViewColumnHeader Tag="Platform">Platform</GridViewColumnHeader>
-                            </GridViewColumn>
-                            <GridViewColumn DisplayMemberBinding="{Binding Path=Genre.GenreName}" Width="150">
-                                <GridViewColumnHeader Tag="Genre">Genre</GridViewColumnHeader>
-                            </GridViewColumn>
-                            <GridViewColumn DisplayMemberBinding="{Binding Path=ReleaseDate, StringFormat='yyyy-MM-dd'}" Width="100">
-                                <GridViewColumnHeader Tag="ReleaseDate">Release</GridViewColumnHeader>
-                            </GridViewColumn>
-                            <GridViewColumn DisplayMemberBinding="{Binding Path=Box, Converter={StaticResource BoolToStringConverter}}" Width="50">
-                                <GridViewColumnHeader Tag="Box">Box</GridViewColumnHeader>
-                            </GridViewColumn>
-                            <GridViewColumn DisplayMemberBinding="{Binding Path=Manual, Converter={StaticResource BoolToStringConverter}}" Width="50">
-                                <GridViewColumnHeader Tag="Manual">Manual</GridViewColumnHeader>
-                            </GridViewColumn>
-                            <GridViewColumn DisplayMemberBinding="{Binding Path=Grade}" Width="50">
-                                <GridViewColumnHeader Tag="Grade">Grade</GridViewColumnHeader>
-                            </GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            </GroupBox>
+            <!--<TabControl  >-->
+                <GroupBox Margin="5,5">
+                    <!--<ListView x:Name="lvGamesList" ItemsSource="{Binding GamesList, Mode=TwoWay}" SelectedItem="{Binding SelectedGame, FallbackValue=null}">-->
+                    <ListView x:Name="lvGamesList" ItemsSource="{Binding GamesView}" SelectedItem="{Binding SelectedGame, FallbackValue=null}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Title}" Width="200">
+                                    <GridViewColumnHeader Tag="Title">Title</GridViewColumnHeader>
+                                </GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Platform.PlatformShort}" Width="100">
+                                    <GridViewColumnHeader Tag="Platform">Platform</GridViewColumnHeader>
+                                </GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Genre.GenreName}" Width="150">
+                                    <GridViewColumnHeader Tag="Genre">Genre</GridViewColumnHeader>
+                                </GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=ReleaseDate, StringFormat='yyyy-MM-dd'}" Width="100">
+                                    <GridViewColumnHeader Tag="ReleaseDate">Release</GridViewColumnHeader>
+                                </GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Box, Converter={StaticResource BoolToStringConverter}}" Width="50">
+                                    <GridViewColumnHeader Tag="Box">Box</GridViewColumnHeader>
+                                </GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Manual, Converter={StaticResource BoolToStringConverter}}" Width="50">
+                                    <GridViewColumnHeader Tag="Manual">Manual</GridViewColumnHeader>
+                                </GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Grade}" Width="50">
+                                    <GridViewColumnHeader Tag="Grade">Grade</GridViewColumnHeader>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </GroupBox>
+            <!--</TabControl>-->
         </Grid>        
         <Grid Grid.Row="3" Grid.Column="0">
             <StackPanel Orientation="Horizontal" Margin="5,5">

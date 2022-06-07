@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,9 @@ using MyGames.Models;
 
 namespace MyGames.ViewModels
 {
+    /// <summary>
+    /// Viewmodel for Games
+    /// </summary>
     public class GameViewModel: BaseViewModel
     {
         #region Properties
@@ -113,26 +117,35 @@ namespace MyGames.ViewModels
 
 
         #region EventsHandlers
-        // TODO or keep message pattern??
-        //public event EventHandler Close;
         public event EventHandler OnClose;
         #endregion
         #region Constructors
+        /// <summary>
+        /// Constructor for Add new game
+        /// </summary>
         public GameViewModel()
         {
             _game = new Game();
             EditMode = true;
             DetailsMode = false;
+            // Bind relay commands
             SaveCommand = new RelayCommand(SaveGame);
             CloseCommand = new RelayCommand(Close);
             ChooseImageCommand = new RelayCommand(ChooseImage);
             BoxCheckedCommand = new RelayCommand<object>(param => BoxChecked(param));
+            // Load comboboxes with data from database
             LoadPlatforms();
             LoadGenres();
+            // Load static comboboxes with numerical values
             _gradesList = GetListOfIntValues(10);
             _conditionList = GetListOfIntValues(10);
         }
-        
+        /// <summary>
+        /// Constructor for edit or open game
+        /// </summary>
+        /// <param name="game">Game object</param>
+        /// <param name="edit">If edit mode</param>
+        /// <param name="details">If details mode</param> //TODO Behövs flera bool?
         public GameViewModel(Game game, bool edit=false, bool details=false)
         {
             if (edit)
@@ -152,14 +165,30 @@ namespace MyGames.ViewModels
             
         }
         #endregion
-        #region Command methods
+        #region Command methods        
+        /// <summary>
+        /// Method for SaveGame
+        /// </summary>
         private void SaveGame()
         {
             // TODO Error handling
             try
             {
-                _context.Games.Add(_game);
-                _context.SaveChanges();
+                // TODO Delete
+                //if(_game.Id > 0)
+                //{
+                //_context.Entry(Game).CurrentValues.SetValues(_game);
+                using (var db = new MyGamesSQLServerCompactContext())
+                {
+                    db.Games.AddOrUpdate(_game);
+                    db.SaveChanges();
+                }
+                //} else
+                //{
+                //    _context.Games.Add(_game);
+                //}
+                
+                // Testing Messenger to pass information about events, instead of EventHandler
                 Messenger.Default.Send(new NotificationMessage("GameAddedOrUpdated"));
             }
             catch (Exception ex)
@@ -168,9 +197,12 @@ namespace MyGames.ViewModels
             }
             Close();
         }
-
+        /// <summary>
+        /// Method for Close command
+        /// </summary>
         private void Close()
-        {            
+        {          
+            // TODO Is this ever called?
             // Message pattern, not used
             //Messenger.Default.Send(new NotificationMessage("Close"));
             if(OnClose != null)
@@ -180,10 +212,13 @@ namespace MyGames.ViewModels
         }
         // TODO Violates this MVVM?
         // https://www.c-sharpcorner.com/article/dialogs-in-wpf-mvvm/
+        /// <summary>
+        /// Method to choose image from disk
+        /// </summary>
         private void ChooseImage()
         {
             FileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "BMP|*.bmp|JPG|*.jpg|PNG|*.png|All files (*.*)|*.*";
+            dialog.Filter = "JPG|*.jpg|BMP|*.bmp|PNG|*.png|All files (*.*)|*.*";
             bool? result = dialog.ShowDialog();
             if (result == true)
             {
@@ -193,6 +228,10 @@ namespace MyGames.ViewModels
                 _game.Image = dialog.FileName;
             }
         }
+        /// <summary>
+        /// Command to handle checkboxes
+        /// </summary>
+        /// <param name="chkBox">Which checkbox</param>
         private void BoxChecked(object chkBox) 
         { 
             string checkBox = chkBox.ToString();
@@ -207,10 +246,12 @@ namespace MyGames.ViewModels
             }
         }
         #endregion
-        #region Private methods
+        #region Methods
+        /// <summary>
+        /// Helper to load platforms from database // TODO Returnera lista istället?
+        /// </summary>
         private void LoadPlatforms()
         {
-            // TODO  use _context??
             using (var db = new MyGamesSQLServerCompactContext())
             {
                 // TODO Error handling
@@ -219,9 +260,11 @@ namespace MyGames.ViewModels
                 _platforms = new ObservableCollection<Platform>(sortedPlatforms);                
             }
         }
+        /// <summary>
+        /// Helper to load genres from database // TODO Returnera lista istället?
+        /// </summary>
         private void LoadGenres()
         {
-            // TODO  use _context??
             using (var db = new MyGamesSQLServerCompactContext())
             {
                 // TODO Error handling
@@ -230,6 +273,12 @@ namespace MyGames.ViewModels
                 _genres = new ObservableCollection<Genre>(sortedGenres);
             }
         }
+        /// <summary>
+        /// Helper method to create list of ints
+        /// </summary>
+        /// <param name="length">Length of list</param>
+        /// <param name="startValue">Which startvalue</param>
+        /// <returns>List[int]</returns>
         private List<int> GetListOfIntValues(int length, int startValue=1)
         {
             List<int> values = new List<int>();

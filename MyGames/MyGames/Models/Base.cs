@@ -9,8 +9,12 @@ using System.Windows.Media.Imaging;
 
 namespace MyGames.Models
 {
+    /// <summary>
+    /// Base model with common properties
+    /// </summary>
     public abstract class Base : INotifyPropertyChanged
     {
+        // Let id be incremented automatically and used as key
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         private int _id;        
@@ -23,9 +27,11 @@ namespace MyGames.Models
             set
             {
                 _id = value;
+                // Notify if property changed
                 OnPropertyChanged("Id");
             }
         }
+        // Title is required
         [Required, StringLength(150)]
         private string _title;        
         public string Title
@@ -44,6 +50,7 @@ namespace MyGames.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         // TODO Why is this needed?
         private DateTime _timestamp;
+        // Set default timestamp value
         public DateTime Timestamp { get; set; } = DateTime.UtcNow;
         private DateTime? _releaseDate;
         public DateTime? ReleaseDate
@@ -140,6 +147,7 @@ namespace MyGames.Models
         {
         }
         #region INotifypropertyChangedMembers
+        // Property changed EventHandler
         public event PropertyChangedEventHandler PropertyChanged;
         internal void OnPropertyChanged(string propertyName)
         {

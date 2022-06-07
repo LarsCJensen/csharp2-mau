@@ -9,13 +9,16 @@ using System.Windows.Data;
 
 namespace MyGames.Converters
 {
+    /// <summary>
+    /// Convert boolean to Visibility
+    /// </summary>
     public class BoolToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (targetType == typeof(Visibility) && value != null)
             {
-            
+                // If true, set to Visible, else collapsed
                 if ((bool)value == true)
                 {
                     return Visibility.Visible;

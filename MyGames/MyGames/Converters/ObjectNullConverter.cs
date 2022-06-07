@@ -8,6 +8,9 @@ using System.Windows.Data;
 
 namespace MyGames.Converters
 {
+    /// <summary>
+    /// Converter for if object us null
+    /// </summary>
     public class ObjectNullConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

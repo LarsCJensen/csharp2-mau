@@ -15,24 +15,17 @@ namespace MyGames.Converters
     /// </summary>
     public class ImageConverter : IValueConverter
     {
-        // TODO Write
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="targetType"></param>
-        /// <param name="parameter"></param>
-        /// <param name="culture"></param>
-        /// <returns></returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (targetType == typeof(ImageSource))
             {
+                // Handle if value is string (always in our case)
                 if (value is string)
                 {
                     string str = (string)value;
                     return new BitmapImage(new Uri(str, UriKind.RelativeOrAbsolute));
                 }
+                // Handle if value is Uri
                 else if (value is Uri)
                 {
                     Uri uri = (Uri)value;

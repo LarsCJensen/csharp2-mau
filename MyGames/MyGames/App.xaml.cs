@@ -24,8 +24,10 @@ namespace MyGames
             Database.SetInitializer(new MyGamesInitializer());
             //https://stackoverflow.com/questions/40461392/deploying-entity-framework-wpf-application
             base.OnStartup(e);
-            // Initialize Database           
+            // TODO Remove
+            // Initialize Database
             MainWindow window = new MainWindow();
+            // TODO Remove
             // Create the ViewModel to which 
             // the main window binds. 
             //MainViewModel viewModel = new MainViewModel();
