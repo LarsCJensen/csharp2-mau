@@ -39,8 +39,9 @@
         <Grid Grid.Row="0" Grid.ColumnSpan="3">            
                 <Menu>
                     <MenuItem Header="_File">
+                        <MenuItem Header="_Export" Command="{Binding ExportCommand}" />
                         <MenuItem Header="_Exit" Command="{Binding CloseCommand}" />
-                    </MenuItem>
+                </MenuItem>
                     <MenuItem Header="_Options">
                         <MenuItem Header="_None Yet" />
                     </MenuItem>

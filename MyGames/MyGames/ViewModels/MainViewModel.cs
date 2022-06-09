@@ -85,6 +85,7 @@ namespace MyGames.ViewModels
         public RelayCommand DeleteGameCommand { get; private set; }
         public RelayCommand CloseCommand { get; private set; }
         public RelayCommand LoadTestData { get; private set; }
+        public RelayCommand ExportCommand { get; private set; }
         #endregion
         #region EventHandlers
         public event EventHandler<ButtonCommandEventArgs> OpenAddEditGame;
@@ -108,6 +109,7 @@ namespace MyGames.ViewModels
             DeleteGameCommand = new RelayCommand(DeleteGameExecute);
             LoadTestData = new RelayCommand(LoadTestDataExecute);
             CloseCommand = new RelayCommand(Close);
+            ExportCommand = new RelayCommand(ExportExecute);
         }
         #endregion
         /// <summary>
@@ -123,7 +125,7 @@ namespace MyGames.ViewModels
             {
                 // Refresh CollectionView
                 GamesList = GetGamesList();                
-                // TODO Seems weird to have to do this
+                // FUTURE Seems weird to have to do this
                 GamesView = CollectionViewSource.GetDefaultView(GamesList);                
                 GamesView.Filter = o => String.IsNullOrEmpty(SearchFilter) ? true : ((Game)o).Title.Contains(SearchFilter);
             }
@@ -172,7 +174,7 @@ namespace MyGames.ViewModels
                 db.SaveChanges();
             }
             GamesList = GetGamesList();
-            // TODO Is there a better way?
+            // FUTURE Is there a better way?
             GamesView = CollectionViewSource.GetDefaultView(GamesList);
             GamesView.Filter = o => String.IsNullOrEmpty(SearchFilter) ? true : ((Game)o).Title.Contains(SearchFilter);
             //GamesView.Refresh();
@@ -183,6 +185,11 @@ namespace MyGames.ViewModels
             {
                 OnClose(this, EventArgs.Empty);
             }
+        }
+        private void ExportExecute()
+        {
+            // TODO Test error handling
+            throw new NotImplementedException();
         }
         #endregion
         #region TestData

@@ -143,7 +143,7 @@ namespace MyGames.ViewModels
         /// <param name="game">Game object</param>
         /// <param name="edit">If edit mode</param>
         /// <param name="details">If details mode</param> 
-        //TODO Behövs flera bool?
+        // FUTURE Is multiple bools needed?
         public GameViewModel(Game game, bool edit=false, bool details=false)
         {
             if (edit)
@@ -195,8 +195,6 @@ namespace MyGames.ViewModels
                 OnClose(this, EventArgs.Empty);
             }
         }
-        // TODO Violates this MVVM?
-        // https://www.c-sharpcorner.com/article/dialogs-in-wpf-mvvm/
         /// <summary>
         /// Method to choose image from disk
         /// </summary>
