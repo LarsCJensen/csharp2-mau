@@ -36,12 +36,11 @@ namespace MyGames.Models
             set
             {
                 _platform = value;
-                // TODO Is this needed??
-                //OnPropertyChanged("Platform");
+                OnPropertyChanged("Platform");
             }
         }
         #endregion
-        // TODO Not yet implemented
+        // FUTURE Not yet implemented
         #region IDataErrorInfo
         public string Error => throw new NotImplementedException();
 

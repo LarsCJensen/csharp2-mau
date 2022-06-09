@@ -26,15 +26,5 @@ namespace MyGames.Views
         {
             InitializeComponent();            
         }        
-        /// <summary>
-        /// Method to handle close event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnClose(object sender, EventArgs e)
-        {
-            // TODO is this used?
-            this.Close();
-        }
     }
 }

@@ -51,11 +51,9 @@ namespace MyGames.Models
             set
             {
                 _genre = value;
-                // TODO Is this needed??
-                //OnPropertyChanged("Genre");
+                OnPropertyChanged("Genre");
             }
         }
-        // TODO Is the id necessary?        
         private int _platformId;
         public int PlatformId
         {
@@ -80,8 +78,7 @@ namespace MyGames.Models
             set
             {
                 _platform = value;
-                // TODO Is this needed??
-                //OnPropertyChanged("Platform");
+                OnPropertyChanged("Platform");
             }
         }
 

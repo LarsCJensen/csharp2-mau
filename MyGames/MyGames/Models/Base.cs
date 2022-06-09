@@ -48,7 +48,9 @@ namespace MyGames.Models
         }
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        // TODO Why is this needed?
+        // FUTURE
+        // This doesn't work without the private declaration.
+        // Not sure why
         private DateTime _timestamp;
         // Set default timestamp value
         public DateTime Timestamp { get; set; } = DateTime.UtcNow;

@@ -23,9 +23,6 @@ namespace MyGames.Models
         public virtual ICollection<Game> game { get; set; }
         public Genre()
         {
-            // TODO Is this needed?
-            // TODO Is this relevant?
-            //this.Games = new HashSet<Game>();
         }
     }
 }

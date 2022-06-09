@@ -21,11 +21,9 @@ namespace MyGames.Models
         [StringLength(15)]
         public string PlatformShort{ get; set; }
         public virtual ICollection<Game> game { get; set; }
-        //TODO Add hardware
+        // FUTURE Add hardware
         public Platform()
-        {
-            // TODO Is this needed?
-            //this.Games = new HashSet<Game>();
+        {            
         }
 
     }
