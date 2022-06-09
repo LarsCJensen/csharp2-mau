@@ -112,7 +112,6 @@ namespace MyGames.ViewModels
         public RelayCommand SaveCommand { get; private set; }
         public RelayCommand CloseCommand { get; private set; }
         public RelayCommand ChooseImageCommand { get; private set; }
-        public RelayCommand<object> BoxCheckedCommand { get; private set; }
         #endregion
 
         #region EventsHandlers
@@ -131,10 +130,9 @@ namespace MyGames.ViewModels
             SaveCommand = new RelayCommand(SaveGame);
             CloseCommand = new RelayCommand(Close);
             ChooseImageCommand = new RelayCommand(ChooseImage);
-            BoxCheckedCommand = new RelayCommand<object>(param => BoxChecked(param));
             // Load comboboxes with data from database
-            LoadPlatforms();
-            LoadGenres();
+            Platforms = new ObservableCollection<Platform>(GetPlatforms());
+            Genres = new ObservableCollection<Genre>(GetGenres());
             // Load static comboboxes with numerical values
             _gradesList = GetListOfIntValues(10);
             _conditionList = GetListOfIntValues(10);
@@ -150,13 +148,12 @@ namespace MyGames.ViewModels
         {
             if (edit)
             {
-                LoadPlatforms();
-                LoadGenres();
+                Platforms = new ObservableCollection<Platform>(GetPlatforms());
+                Genres = new ObservableCollection<Genre>(GetGenres()); 
                 _gradesList = GetListOfIntValues(10);
                 _conditionList = GetListOfIntValues(10);
                 SaveCommand = new RelayCommand(SaveGame);                
                 ChooseImageCommand = new RelayCommand(ChooseImage);
-                BoxCheckedCommand = new RelayCommand<object>(param => BoxChecked(param));
             }
             Game = game;
             EditMode = edit;
@@ -213,49 +210,32 @@ namespace MyGames.ViewModels
                 _game.Image = dialog.FileName;
             }
         }
-        /// <summary>
-        /// Command to handle checkboxes
-        /// </summary>
-        /// <param name="chkBox">Which checkbox</param>
-        private void BoxChecked(object chkBox) 
-        { 
-            string checkBox = chkBox.ToString();
-            switch (checkBox)
-            {
-                case "Box":
-                    _game.Box = true;
-                    break;
-                case "Manual":
-                    _game.Manual = true;
-                    break;                
-            }
-        }
         #endregion
         #region Methods
         /// <summary>
-        /// Helper to load platforms from database // TODO Returnera lista istället?
+        /// Helper to load platforms from database
         /// </summary>
-        private void LoadPlatforms()
+        private List<Platform> GetPlatforms()
         {
             using (var db = new MyGamesSQLServerCompactContext())
             {
                 // TODO Error handling
                 List<Platform> platformsList = db.Platforms.ToList();
                 List<Platform> sortedPlatforms = platformsList.OrderBy(o => o.PlatformShort).ToList();
-                _platforms = new ObservableCollection<Platform>(sortedPlatforms);                
+                return sortedPlatforms;
             }
         }
         /// <summary>
-        /// Helper to load genres from database // TODO Returnera lista istället?
+        /// Helper to load genres from database
         /// </summary>
-        private void LoadGenres()
+        private List<Genre> GetGenres()
         {
             using (var db = new MyGamesSQLServerCompactContext())
             {
                 // TODO Error handling
                 List<Genre> genreList = db.Genres.ToList();
                 List<Genre> sortedGenres = genreList.OrderBy(g => g.GenreName).ToList();
-                _genres = new ObservableCollection<Genre>(sortedGenres);
+                return sortedGenres;                
             }
         }
         /// <summary>

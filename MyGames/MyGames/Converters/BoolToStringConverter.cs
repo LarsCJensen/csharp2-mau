@@ -16,7 +16,7 @@ namespace MyGames.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             
-            if(targetType == typeof(bool) && value != null)
+            if(targetType == typeof(string) && value != null)
             {            
                 // If true return 'Yes', else 'No'
                 if ((bool)value == true)
@@ -27,7 +27,12 @@ namespace MyGames.Converters
                 {
                     return "No";
                 }
-            }            
+            }         
+            // Also return "No" if null
+            if(value == null)
+            {
+                return "No";
+            }
             return value;
         }
 

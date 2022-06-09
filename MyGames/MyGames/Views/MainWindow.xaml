@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MyGames" 
         xmlns:viewmodel="clr-namespace:MyGames.ViewModels"
         mc:Ignorable="d"
-        Title="MyGames" Height="450" Width="800">
+        Title="MyGames" SizeToContent="WidthAndHeight" Width="Auto" Height="Auto" MaxHeight="600" MaxWidth="800">
     <Window.Resources>
         <ResourceDictionary Source="CommonResources.xaml"/>
     </Window.Resources>
@@ -50,14 +50,14 @@
         <Grid Grid.Row="1" Grid.Column="0">
             <TextBlock Text="Filter" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,15,0,0"/>
             <StackPanel Orientation="Horizontal" Margin="5,5">                
-                <TextBox Height="30" Width="200" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,30,0,0" Text="{Binding SearchFilter, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Height="30" Width="200" Padding="5,5"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,30,0,0" Text="{Binding SearchFilter, UpdateSourceTrigger=PropertyChanged}"/>
                 <TextBlock Text="{Binding Count, FallbackValue='0 games in collection' , StringFormat= '\{0\} games in your collection'}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,30,0,10"/>
                 <Button Content="Load test data" Command="{Binding LoadTestData}"  Width="100" Height="20" Margin="200,30,0,0"/>
             </StackPanel>            
         </Grid>
-        <Grid Grid.Row="2" Grid.Column="0">
+        <Grid Grid.Row="2" Grid.Column="0" Margin="10,5">
             <!--<TabControl  >-->
-                <GroupBox Margin="5,5">
+                <!--<GroupBox Margin="5,5">-->
                     <!--<ListView x:Name="lvGamesList" ItemsSource="{Binding GamesList, Mode=TwoWay}" SelectedItem="{Binding SelectedGame, FallbackValue=null}">-->
                     <ListView x:Name="lvGamesList" ItemsSource="{Binding GamesView}" SelectedItem="{Binding SelectedGame, FallbackValue=null}">
                         <ListView.View>
@@ -74,10 +74,10 @@
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=ReleaseDate, StringFormat='yyyy-MM-dd'}" Width="100">
                                     <GridViewColumnHeader Tag="ReleaseDate">Release</GridViewColumnHeader>
                                 </GridViewColumn>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=Box, Converter={StaticResource BoolToStringConverter}}" Width="50">
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Box, Converter={StaticResource BoolToStringConverter}, TargetNullValue=False}" Width="50">
                                     <GridViewColumnHeader Tag="Box">Box</GridViewColumnHeader>
                                 </GridViewColumn>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=Manual, Converter={StaticResource BoolToStringConverter}}" Width="50">
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Manual, Converter={StaticResource BoolToStringConverter}, TargetNullValue=False}" Width="50">
                                     <GridViewColumnHeader Tag="Manual">Manual</GridViewColumnHeader>
                                 </GridViewColumn>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Grade}" Width="50">
@@ -86,7 +86,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                </GroupBox>
+                <!--</GroupBox>-->
             <!--</TabControl>-->
         </Grid>        
         <Grid Grid.Row="3" Grid.Column="0">

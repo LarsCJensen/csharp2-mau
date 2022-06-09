@@ -100,7 +100,7 @@ namespace MyGames.ViewModels
             // Get default view for gamesView
             _gamesView = CollectionViewSource.GetDefaultView(GamesList);
             // Bind filter to Search textbox
-            _gamesView.Filter = o => String.IsNullOrEmpty(SearchFilter) ? true : ((Game)o).Title.Contains(SearchFilter);
+            _gamesView.Filter = o => String.IsNullOrEmpty(SearchFilter) ? true : ((Game)o).Title.ToLower().Contains(SearchFilter.ToLower());
             // Commands
             OpenGameCommand = new RelayCommand(OpenGameExecute);
             AddGameCommand = new RelayCommand(AddGameExecute);

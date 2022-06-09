@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyGames.Helpers
 {
-    // TODO
+    // FUTURE
     /// <summary>
     /// Database helper class. Not sure if needed
     /// </summary>
