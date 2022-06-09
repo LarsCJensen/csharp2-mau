@@ -22,35 +22,10 @@ namespace MyGames.Views
     /// </summary>
     public partial class GameView : Window
     {
-        //#region EventHandlers
-        //public event PropertyChangedEventHandler PropertyChanged;
-
-        //#endregion
-        
         public GameView()
         {
-            InitializeComponent();
-            // For Message pattern which I was trying. Not used
-            //Messenger.Default.Register<NotificationMessage>(this, NotificationMessageReceived);
-            
-            // TODO this is set from MainWondow, ok?
-            //GameViewModel vm = new GameViewModel();
-            //this.DataContext = vm;
-            // Bind to OnClose event
-            // TODO BIND CLOSE!!
-            //vm.OnClose += OnClose;
-        }
-        /// <summary>
-        /// Method for MessagePattern, is not used.
-        /// </summary>
-        /// <param name="msg"></param>
-        //private void NotificationMessageReceived(NotificationMessage msg)
-        //{
-        //    if (msg.Notification == "Close")
-        //    {
-        //        this.Close();
-        //    }
-        //}
+            InitializeComponent();            
+        }        
         /// <summary>
         /// Method to handle close event
         /// </summary>
@@ -58,6 +33,7 @@ namespace MyGames.Views
         /// <param name="e"></param>
         private void OnClose(object sender, EventArgs e)
         {
+            // TODO is this used?
             this.Close();
         }
     }

@@ -115,7 +115,6 @@ namespace MyGames.ViewModels
         public RelayCommand<object> BoxCheckedCommand { get; private set; }
         #endregion
 
-
         #region EventsHandlers
         public event EventHandler OnClose;
         #endregion
@@ -145,7 +144,8 @@ namespace MyGames.ViewModels
         /// </summary>
         /// <param name="game">Game object</param>
         /// <param name="edit">If edit mode</param>
-        /// <param name="details">If details mode</param> //TODO Behövs flera bool?
+        /// <param name="details">If details mode</param> 
+        //TODO Behövs flera bool?
         public GameViewModel(Game game, bool edit=false, bool details=false)
         {
             if (edit)
@@ -174,20 +174,11 @@ namespace MyGames.ViewModels
             // TODO Error handling
             try
             {
-                // TODO Delete
-                //if(_game.Id > 0)
-                //{
-                //_context.Entry(Game).CurrentValues.SetValues(_game);
                 using (var db = new MyGamesSQLServerCompactContext())
                 {
                     db.Games.AddOrUpdate(_game);
                     db.SaveChanges();
                 }
-                //} else
-                //{
-                //    _context.Games.Add(_game);
-                //}
-                
                 // Testing Messenger to pass information about events, instead of EventHandler
                 Messenger.Default.Send(new NotificationMessage("GameAddedOrUpdated"));
             }
@@ -202,9 +193,6 @@ namespace MyGames.ViewModels
         /// </summary>
         private void Close()
         {          
-            // TODO Is this ever called?
-            // Message pattern, not used
-            //Messenger.Default.Send(new NotificationMessage("Close"));
             if(OnClose != null)
             {
                 OnClose(this, EventArgs.Empty);
@@ -222,9 +210,6 @@ namespace MyGames.ViewModels
             bool? result = dialog.ShowDialog();
             if (result == true)
             {
-                // TODO Source is to be bound to property, not Game.Image
-                // Game.Image is the file-path
-                //imgAnimal.Source = new BitmapImage(new Uri(dialog.FileName, UriKind.Absolute));
                 _game.Image = dialog.FileName;
             }
         }
@@ -288,17 +273,6 @@ namespace MyGames.ViewModels
             }
             return values;
         }
-        // TODO REMOVE
-        //private void SetImageData(byte[] data)
-        //{
-        //    var source = new BitmapImage();
-        //    source.BeginInit();
-        //    source.StreamSource = new MemoryStream(data);
-        //    source.EndInit();
-
-        //    // use public setter
-        //    Image = source;
-        //}
         #endregion
 
 

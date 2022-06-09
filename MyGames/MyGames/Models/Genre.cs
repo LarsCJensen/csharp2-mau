@@ -9,6 +9,9 @@ using System.Linq;
 
 namespace MyGames.Models
 {
+    /// <summary>
+    /// Model for genres
+    /// </summary>
     [Table("Genres")]
     public class Genre
     {
@@ -17,11 +20,11 @@ namespace MyGames.Models
         public int GenreId { get; set; }
         [StringLength(50)]
         public string GenreName { get; set; }
-        // TODO Is this needed?
-        //public virtual ICollection<Game> Games { get; set; }
         public virtual ICollection<Game> game { get; set; }
         public Genre()
         {
+            // TODO Is this needed?
+            // TODO Is this relevant?
             //this.Games = new HashSet<Game>();
         }
     }

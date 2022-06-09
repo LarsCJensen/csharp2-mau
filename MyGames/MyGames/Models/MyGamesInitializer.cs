@@ -8,11 +8,18 @@ using System.Data.Entity;
 
 namespace MyGames.Models
 {
+    /// <summary>
+    /// Database initializer to create records on database create
+    /// </summary>
     public class MyGamesInitializer : DropCreateDatabaseIfModelChanges<MyGamesSQLServerCompactContext>
     {
         protected override void Seed(MyGamesSQLServerCompactContext context)
         {
+            // Create genres
+            // TODO Will be added through form in future
             GetGenres().ForEach(g => context.Genres.Add(g));
+            // Create platforms
+            // TODO Will be added through form in future
             GetPlatforms().ForEach(p => context.Platforms.Add(p));
         }
         private static List<Genre> GetGenres()

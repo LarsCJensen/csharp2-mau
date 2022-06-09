@@ -18,6 +18,9 @@ using MyGames.Views;
 
 namespace MyGames.ViewModels
 {
+    /// <summary>
+    /// ViewModel for MainWindow
+    /// </summary>
     public class MainViewModel : BaseViewModel
     {
         private ObservableCollection<Game> _gamesList = new ObservableCollection<Game>();
@@ -41,6 +44,7 @@ namespace MyGames.ViewModels
             {
                 _gamesView = value;
                 OnPropertyChanged("GamesView");
+                OnPropertyChanged("Count");
             }
         }
         public int Count {
@@ -74,7 +78,6 @@ namespace MyGames.ViewModels
             }
         }
 
-        // TODO SKa alla view models ha sin egen databas-context?
         #region Commands
         public RelayCommand OpenGameCommand { get; private set; }
         public RelayCommand AddGameCommand { get; private set; }
@@ -90,14 +93,12 @@ namespace MyGames.ViewModels
         #region Constructor
         public MainViewModel()
         {
-            // TODO Switch to events
-            // Is this used??
+            // Using message pattern for this event
             Messenger.Default.Register<NotificationMessage>(this, NotificationMessageReceived);
 
             GamesList = GetGamesList();
             // Get default view for gamesView
             _gamesView = CollectionViewSource.GetDefaultView(GamesList);
-            //TODO Starts with eller contains?
             // Bind filter to Search textbox
             _gamesView.Filter = o => String.IsNullOrEmpty(SearchFilter) ? true : ((Game)o).Title.Contains(SearchFilter);
             // Commands
@@ -170,12 +171,6 @@ namespace MyGames.ViewModels
                 db.Games.Remove(SelectedGame);
                 db.SaveChanges();
             }
-            // TODO Remove
-            //using(_gamesView.DeferRefresh())
-            //{
-            //    GamesList = GetGamesList();                
-            //}
-            //_gamesView.Refresh();
             GamesList = GetGamesList();
             // TODO Is there a better way?
             GamesView = CollectionViewSource.GetDefaultView(GamesList);
@@ -191,6 +186,9 @@ namespace MyGames.ViewModels
         }
         #endregion
         #region TestData
+        /// <summary>
+        /// Command to load test data
+        /// </summary>
         private void LoadTestDataExecute()
         {
             using(var db = new MyGamesSQLServerCompactContext())

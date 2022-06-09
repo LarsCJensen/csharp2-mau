@@ -7,6 +7,9 @@ using System.Linq;
 
 namespace MyGames.Models
 {
+    /// <summary>
+    /// Model for Game
+    /// </summary>
     [Table("Games")]
     public class Game : Base, IDataErrorInfo
     {
@@ -52,7 +55,7 @@ namespace MyGames.Models
                 //OnPropertyChanged("Genre");
             }
         }
-        // TODO Is the id necessary?
+        // TODO Is the id necessary?        
         private int _platformId;
         public int PlatformId
         {
@@ -84,7 +87,11 @@ namespace MyGames.Models
 
         #region IDataErrorInfo
         public string Error => throw new NotImplementedException();
-
+        /// <summary>
+        /// Validation of properties
+        /// </summary>
+        /// <param name="property">Property to validate</param>
+        /// <returns>string</returns>
         public string this[string property]
         {
             get
@@ -105,16 +112,26 @@ namespace MyGames.Models
                 return validationResult;
             }
         }
+        /// <summary>
+        /// Method for validating title
+        /// </summary>
+        /// <returns>string</returns>
         private string ValidateTitle()
         {
             return String.IsNullOrEmpty(Title) ? "Title cannot be empty" : String.Empty;
         }
-
+        /// <summary>
+        /// Method for validating genre
+        /// </summary>
+        /// <returns>string</returns>
         private string ValidateGenre()
         {
             return _genreId == 0 ? "Please select Genre" : String.Empty;
         }
-
+        /// <summary>
+        /// Method for validating platform
+        /// </summary>
+        /// <returns>string</returns>
         private string ValidatePlatform()
         {
             return _platformId == 0 ? "Please select Platform" : String.Empty;

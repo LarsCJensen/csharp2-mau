@@ -34,7 +34,6 @@ namespace MyGames.Converters
             }
             return value;
         }
-        //TODO Implement
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();

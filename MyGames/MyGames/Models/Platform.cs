@@ -7,6 +7,9 @@ using System.Linq;
 
 namespace MyGames.Models
 {
+    /// <summary>
+    /// Model for platforms
+    /// </summary>
     [Table("Platforms")]
     public class Platform
     {
@@ -17,8 +20,6 @@ namespace MyGames.Models
         public string PlatformName { get; set; }
         [StringLength(15)]
         public string PlatformShort{ get; set; }
-        // TODO Is this needed?
-        //public virtual ICollection<Game> Games { get; set; }
         public virtual ICollection<Game> game { get; set; }
         //TODO Add hardware
         public Platform()

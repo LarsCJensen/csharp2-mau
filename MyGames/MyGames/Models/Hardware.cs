@@ -4,6 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyGames.Models
 {
+    /// <summary>
+    /// Model for hardware
+    /// NOT YET IMPLEMENTED
+    /// </summary>
     [Table("Hardware")]
     public class Hardware: Base, IDataErrorInfo
     {

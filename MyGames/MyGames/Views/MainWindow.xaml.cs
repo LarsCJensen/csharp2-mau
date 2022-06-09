@@ -28,32 +28,21 @@ namespace MyGames.Views
         public MainWindow()
         {
             InitializeComponent();
-            // Tried out message pattern, but using event handlers instead
-            //Messenger.Default.Register<NotificationMessage>(this, NotificationMessageReceived);
             MainViewModel vm = new MainViewModel();
             this.DataContext = vm;
             vm.OpenAddEditGame += OnOpenAddEditGame;
             vm.OnClose += delegate { this.Close(); };
-        }
+        }        
         /// <summary>
-        /// Function if message pattern is used
+        /// Method to handle OpenAddEditGame events
         /// </summary>
-        /// <param name="msg"></param>
-        //private void NotificationMessageReceived(NotificationMessage msg)
-        //{
-        //    if (msg.Notification == "ShowAddGame")
-        //    {
-        //        GameViewModel viewModel = new GameViewModel();
-        //        GameView gameView = new GameView();
-        //        gameView.DataContext = viewModel;
-        //        gameView.Show();
-        //    }
-        //}
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnOpenAddEditGame(object sender, ButtonCommandEventArgs e)
         {
             MainViewModel mVm = (MainViewModel)sender;
-            // If no selected game, open Add new game
             GameViewModel viewModel = null;
+            // Which ButtonCommand was sent?
             switch(e.ButtonCommand)
             {
                 case "Open":
@@ -71,26 +60,10 @@ namespace MyGames.Views
             }            
             
             GameView gameView = new GameView();
-            // TODO Ta bort??
-            //viewModel.OnClose += OnClose;
+            // Bind OnClose event
             viewModel.OnClose += delegate { gameView.Close(); };
             gameView.DataContext = viewModel;
             gameView.Show();
-        }
-        // TODO Ta bort
-        //private void OnClose(object sender, EventArgs e)
-        //{
-        //    var button = sender as Button;
-        //    if(button == null)
-        //    {
-        //        return;
-        //    }
-        //    var win = Window.GetWindow(button);
-        //    if (win == null)
-        //    {
-        //        return;
-        //    }
-        //    win.Close();
-        //}
+        }        
     }
 }

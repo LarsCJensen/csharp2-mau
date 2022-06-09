@@ -8,11 +8,13 @@ using System.Threading.Tasks;
 
 namespace MyGames.ViewModels
 {
-    // TODO
+    /// <summary>
+    /// Base ViewModel
+    /// </summary>
     public abstract class BaseViewModel : INotifyPropertyChanged
     {
         public string DisplayName { get; set; }
-        
+        // Property changed event handler
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {
@@ -31,11 +33,10 @@ namespace MyGames.ViewModels
             // public, instance property on this object. 
             if (TypeDescriptor.GetProperties(this)[propertyName] == null)
             {
-            string msg = "Invalid property name: " + propertyName;
-            //if (this.ThrowOnInvalidPropertyName)
-            //    throw new Exception(msg);
-            //else
-            //    Debug.Fail(msg);
+                string msg = "Invalid property name: " + propertyName;                
+                // TODO Narrow it down?
+                // Custom Error Message?                
+                throw new Exception(msg);                
             }
         }        
     }

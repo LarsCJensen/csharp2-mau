@@ -143,6 +143,7 @@
     <Compile Include="Converters\ObjectNullConverter.cs" />
     <Compile Include="Helpers\ButtonCommandEventArgs.cs" />
     <Compile Include="Helpers\DatabaseHelpers.cs" />
+    <Compile Include="Helpers\IListManager.cs" />
     <Compile Include="Models\Hardware.cs" />
     <Compile Include="Models\MyGamesInitializer.cs" />
     <Compile Include="Models\MyGamesSQLiteContext.cs" />
@@ -161,7 +162,6 @@
     </Compile>
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
-    <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
