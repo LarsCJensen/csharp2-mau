@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MyGames" 
         xmlns:viewmodel="clr-namespace:MyGames.ViewModels"
         mc:Ignorable="d"
-        Title="MyGames" SizeToContent="WidthAndHeight" Width="Auto" Height="Auto" MaxHeight="600" MaxWidth="800">
+        Title="MyGames" SizeToContent="WidthAndHeight" Width="Auto" Height="400" MaxHeight="800" MaxWidth="800">
     <Window.Resources>
         <ResourceDictionary Source="CommonResources.xaml"/>
     </Window.Resources>
