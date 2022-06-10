@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.Entity.Migrations;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -168,7 +169,6 @@ namespace MyGames.ViewModels
         /// </summary>
         private void SaveGame()
         {
-            // TODO Error handling
             try
             {
                 using (var db = new MyGamesSQLServerCompactContext())
@@ -179,9 +179,9 @@ namespace MyGames.ViewModels
                 // Testing Messenger to pass information about events, instead of EventHandler
                 Messenger.Default.Send(new NotificationMessage("GameAddedOrUpdated"));
             }
-            catch (Exception ex)
+            catch (SqlException exc)
             {
-                // respond to error
+                // TODO respond to error
             }
             Close();
         }
@@ -215,26 +215,41 @@ namespace MyGames.ViewModels
         /// </summary>
         private List<Platform> GetPlatforms()
         {
-            using (var db = new MyGamesSQLServerCompactContext())
+            try
             {
-                // TODO Error handling
-                List<Platform> platformsList = db.Platforms.ToList();
-                List<Platform> sortedPlatforms = platformsList.OrderBy(o => o.PlatformShort).ToList();
-                return sortedPlatforms;
-            }
+                using (var db = new MyGamesSQLServerCompactContext())
+                {
+                    // TODO Error handling
+                    List<Platform> platformsList = db.Platforms.ToList();
+                    List<Platform> sortedPlatforms = platformsList.OrderBy(o => o.PlatformShort).ToList();
+                    return sortedPlatforms;
+                }
+            }            
+            catch (SqlException exc)
+            {
+                // TODO respond to error
+            }            
+            return new List<Platform>();            
         }
         /// <summary>
         /// Helper to load genres from database
         /// </summary>
         private List<Genre> GetGenres()
         {
-            using (var db = new MyGamesSQLServerCompactContext())
+            try
             {
-                // TODO Error handling
-                List<Genre> genreList = db.Genres.ToList();
-                List<Genre> sortedGenres = genreList.OrderBy(g => g.GenreName).ToList();
-                return sortedGenres;                
+                using (var db = new MyGamesSQLServerCompactContext())
+                {
+                    List<Genre> genreList = db.Genres.ToList();
+                    List<Genre> sortedGenres = genreList.OrderBy(g => g.GenreName).ToList();
+                    return sortedGenres;
+                }
+            }            
+            catch (SqlException exc)
+            {
+                // TODO respond to error
             }
+            return new List<Genre>();
         }
         /// <summary>
         /// Helper method to create list of ints

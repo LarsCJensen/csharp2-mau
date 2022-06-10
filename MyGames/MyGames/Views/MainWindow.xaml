@@ -4,9 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyGames" 
-        xmlns:viewmodel="clr-namespace:MyGames.ViewModels"
+        xmlns:viewmodel="clr-namespace:MyGames.ViewModels" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
-        Title="MyGames" SizeToContent="WidthAndHeight" Width="Auto" Height="400" MaxHeight="800" MaxWidth="800">
+        Title="MyGames" Width="800" Height="600" MaxHeight="1000" MaxWidth="800">
     <Window.Resources>
         <ResourceDictionary Source="CommonResources.xaml"/>
     </Window.Resources>
@@ -14,6 +14,12 @@
         <ImageBrush ImageSource="/MyGames;component/Assets/rq_bg.gif" TileMode="Tile" ViewportUnits="Absolute" Viewport="0,0,31,42"/>
     </Window.Background>
     <Grid x:Name="MainGrid">
+        <!--TODO-->
+        <!--<i:Interaction.Triggers>
+            <i:EventTrigger EventName="MouseUp">
+                <i:InvokeCommandAction Command="{Binding MouseDown}" />
+            </i:EventTrigger>
+        </i:Interaction.Triggers>-->
         <Grid.Resources>
             <Style TargetType="TextBlock">
                 <Setter Property="Foreground" Value="White" />
@@ -25,7 +31,7 @@
                         <Setter Property="FontWeight" Value="Normal" />
                     </DataTrigger>
                 </Style.Triggers>
-            </Style>
+            </Style>            
         </Grid.Resources>
         <Grid.ColumnDefinitions>            
             <ColumnDefinition Width="*" />
@@ -36,8 +42,8 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Grid.ColumnSpan="3">            
-                <Menu>
+        <Grid Grid.Row="0" Grid.ColumnSpan="3">
+            <Menu>
                     <MenuItem Header="_File">
                         <MenuItem Header="_Export" Command="{Binding ExportCommand}" />
                         <MenuItem Header="_Exit" Command="{Binding CloseCommand}" />
@@ -90,7 +96,7 @@
                 <!--</GroupBox>-->
             <!--</TabControl>-->
         </Grid>        
-        <Grid Grid.Row="3" Grid.Column="0">
+        <Grid Grid.Row="3" Grid.Column="0">            
             <StackPanel Orientation="Horizontal" Margin="5,5">
                 <Button Content="Open" Width="50" Height="20" Margin="5" Command="{Binding OpenGameCommand}" IsEnabled="{Binding SelectedGame, Converter={StaticResource ObjectNullConverter}, FallbackValue=False}"/>
                 <Button Content="Add" Width="50" Height="20" Margin="5" Command="{Binding AddGameCommand}"/>

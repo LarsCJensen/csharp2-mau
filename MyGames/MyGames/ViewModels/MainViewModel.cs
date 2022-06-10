@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -58,11 +59,10 @@ namespace MyGames.ViewModels
         public Game SelectedGame
         {
             get { return _selectedGame; }
-            set { if(value != null)
-                {
-                    _selectedGame = value;
-                    OnPropertyChanged("SelectedGame");
-                } 
+            set 
+            {                 
+                _selectedGame = value;
+                OnPropertyChanged("SelectedGame");                
             }
         }
         private string _searchFilter;
@@ -86,6 +86,7 @@ namespace MyGames.ViewModels
         public RelayCommand CloseCommand { get; private set; }
         public RelayCommand LoadTestData { get; private set; }
         public RelayCommand ExportCommand { get; private set; }
+        public RelayCommand MouseDown { get; private set; }
         #endregion
         #region EventHandlers
         public event EventHandler<ButtonCommandEventArgs> OpenAddEditGame;
@@ -99,9 +100,9 @@ namespace MyGames.ViewModels
 
             GamesList = GetGamesList();
             // Get default view for gamesView
-            _gamesView = CollectionViewSource.GetDefaultView(GamesList);
+            GamesView = CollectionViewSource.GetDefaultView(GamesList);
             // Bind filter to Search textbox
-            _gamesView.Filter = o => String.IsNullOrEmpty(SearchFilter) ? true : ((Game)o).Title.ToLower().Contains(SearchFilter.ToLower());
+            GamesView.Filter = o => String.IsNullOrEmpty(SearchFilter) ? true : ((Game)o).Title.ToLower().Contains(SearchFilter.ToLower());
             // Commands
             OpenGameCommand = new RelayCommand(OpenGameExecute);
             AddGameCommand = new RelayCommand(AddGameExecute);
@@ -110,6 +111,7 @@ namespace MyGames.ViewModels
             LoadTestData = new RelayCommand(LoadTestDataExecute);
             CloseCommand = new RelayCommand(Close);
             ExportCommand = new RelayCommand(ExportExecute);
+            MouseDown = new RelayCommand(MouseDownExecute);
         }
         #endregion
         /// <summary>
@@ -127,7 +129,7 @@ namespace MyGames.ViewModels
                 GamesList = GetGamesList();                
                 // FUTURE Seems weird to have to do this
                 GamesView = CollectionViewSource.GetDefaultView(GamesList);                
-                GamesView.Filter = o => String.IsNullOrEmpty(SearchFilter) ? true : ((Game)o).Title.Contains(SearchFilter);
+                GamesView.Filter = o => String.IsNullOrEmpty(SearchFilter) ? true : ((Game)o).Title.ToLower().Contains(SearchFilter.ToLower());
             }
         }
         #region CommandExecutors
@@ -164,20 +166,25 @@ namespace MyGames.ViewModels
         /// </summary>
         private void DeleteGameExecute()
         {
-            using (var db = new MyGamesSQLServerCompactContext())
+            try
             {
-                // TODO Error handling
-                // Needs to be attached to the db context
-                // before it is removed
-                db.Games.Attach(SelectedGame);
-                db.Games.Remove(SelectedGame);
-                db.SaveChanges();
+                using (var db = new MyGamesSQLServerCompactContext())
+                {
+                    // Needs to be attached to the db context
+                    // before it is removed
+                    db.Games.Attach(SelectedGame);
+                    db.Games.Remove(SelectedGame);
+                    db.SaveChanges();
+                }
             }
+            catch (SqlException exc)
+            {
+                // TODO respond to error
+            }            
             GamesList = GetGamesList();
             // FUTURE Is there a better way?
             GamesView = CollectionViewSource.GetDefaultView(GamesList);
-            GamesView.Filter = o => String.IsNullOrEmpty(SearchFilter) ? true : ((Game)o).Title.Contains(SearchFilter);
-            //GamesView.Refresh();
+            GamesView.Filter = o => String.IsNullOrEmpty(SearchFilter) ? true : ((Game)o).Title.ToLower().Contains(SearchFilter.ToLower());            
         }        
         private void Close()
         {
@@ -191,6 +198,11 @@ namespace MyGames.ViewModels
             // TODO Test error handling
             throw new NotImplementedException();
         }
+        // FUTURE
+        private void MouseDownExecute()
+        {
+            SelectedGame = null;
+        }
         #endregion
         #region TestData
         /// <summary>
@@ -198,123 +210,130 @@ namespace MyGames.ViewModels
         /// </summary>
         private void LoadTestDataExecute()
         {
-            using(var db = new MyGamesSQLServerCompactContext())
+            try
             {
-                var platform_pc = db.Platforms.Where(p => p.PlatformShort.Equals("PC")).FirstOrDefault();
-                var platform_smd = db.Platforms.Where(p => p.PlatformShort.Equals("SMD")).FirstOrDefault();
-                var platform_nes = db.Platforms.Where(p => p.PlatformShort.Equals("NES")).FirstOrDefault();
-                var platform_a2600 = db.Platforms.Where(p => p.PlatformShort.Equals("Atari 2600")).FirstOrDefault();
-                var platform_snes = db.Platforms.Where(p => p.PlatformShort.Equals("SNES")).FirstOrDefault();
+                using (var db = new MyGamesSQLServerCompactContext())
+                {
+                    var platform_pc = db.Platforms.Where(p => p.PlatformShort.Equals("PC")).FirstOrDefault();
+                    var platform_smd = db.Platforms.Where(p => p.PlatformShort.Equals("SMD")).FirstOrDefault();
+                    var platform_nes = db.Platforms.Where(p => p.PlatformShort.Equals("NES")).FirstOrDefault();
+                    var platform_a2600 = db.Platforms.Where(p => p.PlatformShort.Equals("Atari 2600")).FirstOrDefault();
+                    var platform_snes = db.Platforms.Where(p => p.PlatformShort.Equals("SNES")).FirstOrDefault();
 
-                var genre_adv = db.Genres.Where(g => g.GenreName.Equals("Adventure")).FirstOrDefault();
-                var genre_rpg = db.Genres.Where(g => g.GenreName.Equals("RPG")).FirstOrDefault();
-                var genre_plat = db.Genres.Where(g => g.GenreName.Equals("Platform")).FirstOrDefault();
-                var genre_act = db.Genres.Where(g => g.GenreName.Equals("Action")).FirstOrDefault();
-                var genre_race = db.Genres.Where(g => g.GenreName.Equals("Racing")).FirstOrDefault();
+                    var genre_adv = db.Genres.Where(g => g.GenreName.Equals("Adventure")).FirstOrDefault();
+                    var genre_rpg = db.Genres.Where(g => g.GenreName.Equals("RPG")).FirstOrDefault();
+                    var genre_plat = db.Genres.Where(g => g.GenreName.Equals("Platform")).FirstOrDefault();
+                    var genre_act = db.Genres.Where(g => g.GenreName.Equals("Action")).FirstOrDefault();
+                    var genre_race = db.Genres.Where(g => g.GenreName.Equals("Racing")).FirstOrDefault();
 
-                Game game = new Game();
-                game.Title = "Quest for Glory: So you want to be a Hero";                
-                game.GenreId = genre_adv.GenreId;
-                game.PlatformId = platform_pc.PlatformId;
-                game.ReleaseDate = DateTime.Parse("1993-01-01");
-                game.Condition = 10;
-                game.Box = true;
-                game.Manual = true;
-                game.Grade = 10;
-                game.Region = "N/A";
-                game.Comment = "Unopened";
-                game.Image = "/assets/qfg_pc.jpg";
-                db.Games.Add(game);
+                    Game game = new Game();
+                    game.Title = "Quest for Glory: So you want to be a Hero";
+                    game.GenreId = genre_adv.GenreId;
+                    game.PlatformId = platform_pc.PlatformId;
+                    game.ReleaseDate = DateTime.Parse("1993-01-01");
+                    game.Condition = 10;
+                    game.Box = true;
+                    game.Manual = true;
+                    game.Grade = 10;
+                    game.Region = "N/A";
+                    game.Comment = "Unopened";
+                    game.Image = "/assets/qfg_pc.jpg";
+                    db.Games.Add(game);
 
-                game = new Game();
-                game.Title = "Sam & Max: Hit the Road";
-                game.GenreId = genre_adv.GenreId;
-                game.PlatformId = platform_pc.PlatformId;
-                game.ReleaseDate = DateTime.Parse("1993-01-01");
-                game.Condition = 9;
-                game.Box = true;
-                game.Manual = true;
-                game.Grade = 8;
-                game.Region = "N/A";
-                game.Comment = "Includes official hitbook";
-                game.Image = "/assets/sam_n_max_pc.jpg";
-                db.Games.Add(game);
+                    game = new Game();
+                    game.Title = "Sam & Max: Hit the Road";
+                    game.GenreId = genre_adv.GenreId;
+                    game.PlatformId = platform_pc.PlatformId;
+                    game.ReleaseDate = DateTime.Parse("1993-01-01");
+                    game.Condition = 9;
+                    game.Box = true;
+                    game.Manual = true;
+                    game.Grade = 8;
+                    game.Region = "N/A";
+                    game.Comment = "Includes official hitbook";
+                    game.Image = "/assets/sam_n_max_pc.jpg";
+                    db.Games.Add(game);
 
-                game = new Game();
-                game.Title = "Shining Force";
-                game.GenreId = genre_rpg.GenreId;
-                game.PlatformId = platform_smd.PlatformId;
-                game.ReleaseDate = DateTime.Parse("1993-01-01");
-                game.Condition = 9;
-                game.Box = true;
-                game.Manual = true;
-                game.Grade = 9;
-                game.Region = "PAL";
-                game.Comment = "Includes official hitbook";
-                game.Image = "/assets/shining_force_smd.jpg";
-                db.Games.Add(game);
+                    game = new Game();
+                    game.Title = "Shining Force";
+                    game.GenreId = genre_rpg.GenreId;
+                    game.PlatformId = platform_smd.PlatformId;
+                    game.ReleaseDate = DateTime.Parse("1993-01-01");
+                    game.Condition = 9;
+                    game.Box = true;
+                    game.Manual = true;
+                    game.Grade = 9;
+                    game.Region = "PAL";
+                    game.Comment = "Includes official hitbook";
+                    game.Image = "/assets/shining_force_smd.jpg";
+                    db.Games.Add(game);
 
-                game = new Game();
-                game.Title = "Super Mario Bros.";
-                game.GenreId = genre_plat.GenreId;
-                game.PlatformId = platform_nes.PlatformId;
-                game.ReleaseDate = DateTime.Parse("1985-10-01");
-                game.Condition = 9;
-                game.Box = false;
-                game.Manual = false;
-                game.Grade = 9;
-                game.Region = "NTSC-US";
-                game.Comment = "Also have bundled with Duck Hunt";
-                game.Image = "/assets/smb_nes.jpg";
-                db.Games.Add(game);
+                    game = new Game();
+                    game.Title = "Super Mario Bros.";
+                    game.GenreId = genre_plat.GenreId;
+                    game.PlatformId = platform_nes.PlatformId;
+                    game.ReleaseDate = DateTime.Parse("1985-10-01");
+                    game.Condition = 9;
+                    game.Box = false;
+                    game.Manual = false;
+                    game.Grade = 9;
+                    game.Region = "NTSC-US";
+                    game.Comment = "Also have bundled with Duck Hunt";
+                    game.Image = "/assets/smb_nes.jpg";
+                    db.Games.Add(game);
 
-                game = new Game();
-                game.Title = "Solaris";
-                game.GenreId = genre_act.GenreId;
-                game.PlatformId = platform_a2600.PlatformId;
-                game.ReleaseDate = DateTime.Parse("1986-01-01");
-                game.Condition = 6;
-                game.Box = true;
-                game.Manual = true;
-                game.Grade = null;
-                game.Region = "PAL";
-                game.Comment = "Box has wear and tape at the bottom";
-                game.Image = "/assets/solaris_2600.jpg";
-                db.Games.Add(game);
+                    game = new Game();
+                    game.Title = "Solaris";
+                    game.GenreId = genre_act.GenreId;
+                    game.PlatformId = platform_a2600.PlatformId;
+                    game.ReleaseDate = DateTime.Parse("1986-01-01");
+                    game.Condition = 6;
+                    game.Box = true;
+                    game.Manual = true;
+                    game.Grade = null;
+                    game.Region = "PAL";
+                    game.Comment = "Box has wear and tape at the bottom";
+                    game.Image = "/assets/solaris_2600.jpg";
+                    db.Games.Add(game);
 
-                game = new Game();
-                game.Title = "Stonekeep";
-                game.GenreId = genre_rpg.GenreId;
-                game.PlatformId = platform_pc.PlatformId;
-                game.ReleaseDate = DateTime.Parse("1986-01-01");
-                game.Condition = 9;
-                game.Box = true;
-                game.Manual = true;
-                game.Grade = 8;
-                game.Region = "N/A";
-                game.Comment = "Requires patch";
-                game.Image = "/assets/stonekeep_pc.jpg";
-                db.Games.Add(game);
+                    game = new Game();
+                    game.Title = "Stonekeep";
+                    game.GenreId = genre_rpg.GenreId;
+                    game.PlatformId = platform_pc.PlatformId;
+                    game.ReleaseDate = DateTime.Parse("1986-01-01");
+                    game.Condition = 9;
+                    game.Box = true;
+                    game.Manual = true;
+                    game.Grade = 8;
+                    game.Region = "N/A";
+                    game.Comment = "Requires patch";
+                    game.Image = "/assets/stonekeep_pc.jpg";
+                    db.Games.Add(game);
 
-                game = new Game();
-                game.Title = "Super Mario Kart";
-                game.GenreId = genre_race.GenreId;
-                game.PlatformId = platform_snes.PlatformId;
-                game.ReleaseDate = DateTime.Parse("1992-09-01");
-                game.Condition = 9;
-                game.Box = true;
-                game.Manual = true;
-                game.Grade = null;
-                game.Region = "NTSC-US";
-                game.Comment = "Mint condition";
-                game.Image = "/assets/super_mario_kart_snes.jpg";
-                db.Games.Add(game);
+                    game = new Game();
+                    game.Title = "Super Mario Kart";
+                    game.GenreId = genre_race.GenreId;
+                    game.PlatformId = platform_snes.PlatformId;
+                    game.ReleaseDate = DateTime.Parse("1992-09-01");
+                    game.Condition = 9;
+                    game.Box = true;
+                    game.Manual = true;
+                    game.Grade = null;
+                    game.Region = "NTSC-US";
+                    game.Comment = "Mint condition";
+                    game.Image = "/assets/super_mario_kart_snes.jpg";
+                    db.Games.Add(game);
 
-                db.SaveChanges();
+                    db.SaveChanges();
+                }
+            }
+            catch (SqlException exc)
+            {
+                // TODO respond to error
             }
             GamesList = GetGamesList();
             GamesView = CollectionViewSource.GetDefaultView(GamesList);
-            GamesView.Filter = o => String.IsNullOrEmpty(SearchFilter) ? true : ((Game)o).Title.Contains(SearchFilter);
+            GamesView.Filter = o => String.IsNullOrEmpty(SearchFilter) ? true : ((Game)o).Title.ToLower().Contains(SearchFilter.ToLower());
         }
         #endregion
 
@@ -323,14 +342,21 @@ namespace MyGames.ViewModels
         /// </summary>
         private ObservableCollection<Game> GetGamesList()
         {
-            // SQL Server
-            //using (var db = new MyGamesContext())
-            using (var db = new MyGamesSQLServerCompactContext())
+            try
             {
-                // TODO Error handling
-                // Using public property for NotifyProperty
-                return new ObservableCollection<Game>(db.Games.Include("Genre").Include("Platform").ToList());                
+                // SQL Server
+                //using (var db = new MyGamesContext())
+                using (var db = new MyGamesSQLServerCompactContext())
+                {
+                    // Using public property for NotifyProperty
+                    return new ObservableCollection<Game>(db.Games.Include("Genre").Include("Platform").ToList());
+                }
+            }            
+            catch (SqlException exc)
+            {
+                // TODO respond to error
             }
+            return new ObservableCollection<Game>();
         }
         
 
