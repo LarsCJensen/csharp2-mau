@@ -196,7 +196,10 @@ namespace MyGames.ViewModels
         private void ExportExecute()
         {
             // TODO Test error handling
+            Dialogs.DialogService.DialogViewModelBase vm = new Dialogs.DialogYesNo.DialogYesNoViewModel();
+            Dialogs.DialogService.DialogResult result = Dialogs.DialogService.DialogService.OpenDialog(vm);
             throw new NotImplementedException();
+
         }
         // FUTURE
         private void MouseDownExecute()
