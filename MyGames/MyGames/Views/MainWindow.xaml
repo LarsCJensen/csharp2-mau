@@ -71,25 +71,25 @@
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Title}" Width="200">
-                                    <GridViewColumnHeader Tag="Title">Title</GridViewColumnHeader>
+                                    <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="Title">Title</GridViewColumnHeader>
                                 </GridViewColumn>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Platform.PlatformShort}" Width="100">
-                                    <GridViewColumnHeader Tag="Platform">Platform</GridViewColumnHeader>
+                            <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="Platform.PlatformShort">Platform</GridViewColumnHeader>
                                 </GridViewColumn>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Genre.GenreName}" Width="150">
-                                    <GridViewColumnHeader Tag="Genre">Genre</GridViewColumnHeader>
+                                    <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="Genre.GenreName">Genre</GridViewColumnHeader>
                                 </GridViewColumn>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=ReleaseDate, StringFormat='yyyy-MM-dd'}" Width="100">
-                                    <GridViewColumnHeader Tag="ReleaseDate">Release</GridViewColumnHeader>
+                                    <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="ReleaseDate">Release</GridViewColumnHeader>
                                 </GridViewColumn>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Box, Converter={StaticResource BoolToStringConverter}, TargetNullValue=False}" Width="50">
-                                    <GridViewColumnHeader Tag="Box">Box</GridViewColumnHeader>
+                                    <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="Box">Box</GridViewColumnHeader>
                                 </GridViewColumn>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Manual, Converter={StaticResource BoolToStringConverter}, TargetNullValue=False}" Width="50">
-                                    <GridViewColumnHeader Tag="Manual">Manual</GridViewColumnHeader>
+                                    <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="Manual">Manual</GridViewColumnHeader>
                                 </GridViewColumn>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Grade}" Width="50">
-                                    <GridViewColumnHeader Tag="Grade">Grade</GridViewColumnHeader>
+                                    <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="Grade">Grade</GridViewColumnHeader>
                                 </GridViewColumn>
                             </GridView>
                         </ListView.View>

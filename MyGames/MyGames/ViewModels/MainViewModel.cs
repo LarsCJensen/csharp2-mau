@@ -87,6 +87,7 @@ namespace MyGames.ViewModels
         public RelayCommand LoadTestData { get; private set; }
         public RelayCommand ExportCommand { get; private set; }
         public RelayCommand MouseDown { get; private set; }
+        public RelayCommand<string> SortCommand { get; private set; }
         #endregion
         #region EventHandlers
         public event EventHandler<ButtonCommandEventArgs> OpenAddEditGame;
@@ -112,6 +113,7 @@ namespace MyGames.ViewModels
             CloseCommand = new RelayCommand(Close);
             ExportCommand = new RelayCommand(ExportExecute);
             MouseDown = new RelayCommand(MouseDownExecute);
+            SortCommand = new RelayCommand<string>(param => SortCommandExecute(param));
         }
         #endregion
         /// <summary>
@@ -216,6 +218,29 @@ namespace MyGames.ViewModels
         private void MouseDownExecute()
         {
             SelectedGame = null;
+        }
+        /// <summary>
+        /// Helper to sort by column header
+        /// </summary>
+        /// <param name="param">Command paramter with property to sort by</param>
+        private void SortCommandExecute(string param)
+        {
+            SortDescription sort = new SortDescription(param, ListSortDirection.Ascending);
+            // If property already in collection then reverse sort
+            if (GamesView.SortDescriptions.Contains(sort))
+            {
+                sort = new SortDescription(param, ListSortDirection.Descending);
+            } else
+            {
+                sort = new SortDescription(param, ListSortDirection.Ascending);
+                if (GamesView.SortDescriptions.Contains(sort))
+                {
+                    sort = new SortDescription(param, ListSortDirection.Descending);
+                }
+            }
+            // Clear previous sortings
+            GamesView.SortDescriptions.Clear();
+            GamesView.SortDescriptions.Add(sort);            
         }
         #endregion
         #region TestData
