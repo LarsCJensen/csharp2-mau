@@ -14,7 +14,7 @@ namespace MyGames.ViewModels
     /// </summary>
     public abstract class BaseViewModel : INotifyPropertyChanged
     {
-        public string DisplayName { get; set; }
+        #region INotifyPropertyChanged
         // Property changed event handler
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
@@ -24,7 +24,7 @@ namespace MyGames.ViewModels
             if (handler != null)
             {
                 PropertyChangedEventArgs e = new PropertyChangedEventArgs(propertyName);
-                handler(this, e);
+                handler(this, e);                
             }
         }
         public void VerifyPropertyName(string propertyName)
@@ -35,6 +35,7 @@ namespace MyGames.ViewModels
                 string msg = "Invalid property name: " + propertyName;                                               
                 throw new VerifyPropertyException(msg);                
             }
-        }        
+        }
+        #endregion        
     }
 }

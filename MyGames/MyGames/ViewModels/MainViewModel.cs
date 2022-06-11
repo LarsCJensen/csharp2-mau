@@ -166,25 +166,37 @@ namespace MyGames.ViewModels
         /// </summary>
         private void DeleteGameExecute()
         {
-            try
+            string message = "Are you sure you want to delete the entry?";
+            Dialogs.DialogService.DialogViewModelBase vm = new Dialogs.DialogYesNo.DialogYesNoViewModel("Delete?", message);
+            Dialogs.DialogService.DialogResult result = Dialogs.DialogService.DialogService.OpenDialog(vm);
+            if(result == Dialogs.DialogService.DialogResult.Yes)
             {
-                using (var db = new MyGamesSQLServerCompactContext())
+                try
                 {
-                    // Needs to be attached to the db context
-                    // before it is removed
-                    db.Games.Attach(SelectedGame);
-                    db.Games.Remove(SelectedGame);
-                    db.SaveChanges();
+                    using (var db = new MyGamesSQLServerCompactContext())
+                    {
+                        // Needs to be attached to the db context
+                        // before it is removed
+                        // Used to test exception
+                        //db.Database.ExecuteSqlCommand("raiserror('Manual SQL exception', 16, 1)");                        
+                        db.Games.Attach(SelectedGame);
+                        db.Games.Remove(SelectedGame);
+                        db.SaveChanges();
+                    }
                 }
+                catch (SqlException exc)
+                {
+                    string errorMessage = $"Error: {exc.Message}\n{exc.InnerException}";
+                    Dialogs.DialogService.DialogViewModelBase errorVM = new Dialogs.DialogOk.DialogOkViewModel("Could not delete!", errorMessage);
+                    Dialogs.DialogService.DialogResult errorVMResult = Dialogs.DialogService.DialogService.OpenDialog(errorVM);
+                }
+                // TODO Move to own function
+                GamesList = GetGamesList();
+                // FUTURE Is there a better way?
+                GamesView = CollectionViewSource.GetDefaultView(GamesList);
+                GamesView.Filter = o => String.IsNullOrEmpty(SearchFilter) ? true : ((Game)o).Title.ToLower().Contains(SearchFilter.ToLower());
             }
-            catch (SqlException exc)
-            {
-                // TODO respond to error
-            }            
-            GamesList = GetGamesList();
-            // FUTURE Is there a better way?
-            GamesView = CollectionViewSource.GetDefaultView(GamesList);
-            GamesView.Filter = o => String.IsNullOrEmpty(SearchFilter) ? true : ((Game)o).Title.ToLower().Contains(SearchFilter.ToLower());            
+            
         }        
         private void Close()
         {
@@ -195,8 +207,10 @@ namespace MyGames.ViewModels
         }
         private void ExportExecute()
         {
-            // TODO Test error handling
-            throw new NotImplementedException();
+            // FUTURE
+            string message = "Export function not yet implemented!";
+            Dialogs.DialogService.DialogViewModelBase vm = new Dialogs.DialogOk.DialogOkViewModel("Not implemented!", message);
+            Dialogs.DialogService.DialogResult result = Dialogs.DialogService.DialogService.OpenDialog(vm);
         }
         // FUTURE
         private void MouseDownExecute()
@@ -329,7 +343,10 @@ namespace MyGames.ViewModels
             }
             catch (SqlException exc)
             {
-                // TODO respond to error
+                string errorMessage = $"Error: {exc.Message}\n{exc.InnerException}";
+                Dialogs.DialogService.DialogViewModelBase errorVM = new Dialogs.DialogOk.DialogOkViewModel("Error!", errorMessage);
+                Dialogs.DialogService.DialogResult errorVMResult = Dialogs.DialogService.DialogService.OpenDialog(errorVM);
+                return;
             }
             GamesList = GetGamesList();
             GamesView = CollectionViewSource.GetDefaultView(GamesList);
@@ -354,7 +371,9 @@ namespace MyGames.ViewModels
             }            
             catch (SqlException exc)
             {
-                // TODO respond to error
+                string errorMessage = $"Error: {exc.Message}\n{exc.InnerException}";
+                Dialogs.DialogService.DialogViewModelBase errorVM = new Dialogs.DialogOk.DialogOkViewModel("Could not get games!", errorMessage);
+                Dialogs.DialogService.DialogResult errorVMResult = Dialogs.DialogService.DialogService.OpenDialog(errorVM);
             }
             return new ObservableCollection<Game>();
         }

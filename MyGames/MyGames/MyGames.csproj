@@ -141,6 +141,17 @@
     <Compile Include="Converters\ImageConverter.cs" />
     <Compile Include="Converters\InverseBoolConverter.cs" />
     <Compile Include="Converters\ObjectNullConverter.cs" />
+    <Compile Include="Dialogs\DialogService\DialogResultEnum.cs" />
+    <Compile Include="Dialogs\DialogService\DialogService.cs" />
+    <Compile Include="Dialogs\DialogService\DialogViewModelBase.cs" />
+    <Compile Include="Dialogs\DialogOk\DialogOkView.xaml.cs">
+      <DependentUpon>DialogOkView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\DialogOk\DialogOkViewModel.cs" />
+    <Compile Include="Dialogs\DialogYesNo\DialogYesNoView.xaml.cs">
+      <DependentUpon>DialogYesNoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\DialogYesNo\DialogYesNoViewModel.cs" />
     <Compile Include="Helpers\ButtonCommandEventArgs.cs" />
     <Compile Include="Helpers\DatabaseHelpers.cs" />
     <Compile Include="Helpers\IListManager.cs" />
@@ -150,9 +161,24 @@
     <Compile Include="Models\MyGamesSQLiteContext.cs" />
     <Compile Include="Models\MyGamesSQLServerCompactContext.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
+    <Compile Include="Dialogs\DialogService\DialogWindow.xaml.cs">
+      <DependentUpon>DialogWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GameView.xaml.cs">
       <DependentUpon>GameView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Dialogs\DialogService\DialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\DialogOk\DialogOkView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\DialogYesNo\DialogYesNoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -247,6 +273,7 @@
   <ItemGroup>
     <Resource Include="Assets\rq_bg.gif" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

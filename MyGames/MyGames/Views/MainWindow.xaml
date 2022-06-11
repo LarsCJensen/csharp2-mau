@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyGames" 
         xmlns:viewmodel="clr-namespace:MyGames.ViewModels" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:dialogYesNo="clr-namespace:MyGames.Dialogs.DialogYesNo"
         mc:Ignorable="d"
         Title="MyGames" Width="800" Height="600" MaxHeight="1000" MaxWidth="800">
     <Window.Resources>
