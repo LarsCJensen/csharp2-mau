@@ -6,7 +6,8 @@
     xmlns:vm="clr-namespace:MyGames.ViewModels"
     xmlns:vw="clr-namespace:MyGames.Views" 
     xmlns:converters="clr-namespace:MyGames.Converters" 
-    xmlns:dialogYesNo="clr-namespace:MyGames.Dialogs.DialogYesNo">
+    xmlns:dialogYesNo="clr-namespace:MyGames.Dialogs.DialogYesNo"
+    xmlns:dialogOk="clr-namespace:MyGames.Dialogs.DialogOk">
     <!--DataTemplate to match ViewModels with Views-->
     <DataTemplate DataType="{x:Type vm:MainViewModel}">
         <vw:MainWindow />
@@ -16,6 +17,9 @@
     </DataTemplate>
     <DataTemplate DataType="{x:Type dialogYesNo:DialogYesNoViewModel}">
         <dialogYesNo:DialogYesNoView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type dialogOk:DialogOkViewModel}">
+        <dialogOk:DialogOkView />
     </DataTemplate>
     <!--Converters-->
     <converters:BoolToVisibilityConverter x:Key="BoolToVis" />

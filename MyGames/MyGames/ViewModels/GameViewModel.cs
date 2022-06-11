@@ -105,9 +105,7 @@ namespace MyGames.ViewModels
             get { return _conditionList; }
             set { _conditionList = value; }
         }
-        // For SQL Server
-        //MyGamesContext _context = new MyGamesContext();
-        MyGamesSQLServerCompactContext _context = new MyGamesSQLServerCompactContext();
+        private bool _isSaved;
         #endregion
         #region Commands
         public RelayCommand SaveCommand { get; private set; }
@@ -124,7 +122,7 @@ namespace MyGames.ViewModels
         /// </summary>
         public GameViewModel()
         {
-            _game = new Game();
+            Game = new Game();
             EditMode = true;
             DetailsMode = false;
             // Bind relay commands
@@ -137,6 +135,7 @@ namespace MyGames.ViewModels
             // Load static comboboxes with numerical values
             _gradesList = GetListOfIntValues(10);
             _conditionList = GetListOfIntValues(10);
+            _isSaved = false;
         }
         /// <summary>
         /// Constructor for edit or open game
@@ -160,7 +159,7 @@ namespace MyGames.ViewModels
             EditMode = edit;
             DetailsMode = details;
             CloseCommand = new RelayCommand(Close);
-            
+            _isSaved = false;
         }
         #endregion
         #region Command methods        
@@ -173,15 +172,21 @@ namespace MyGames.ViewModels
             {
                 using (var db = new MyGamesSQLServerCompactContext())
                 {
+                    // Used to test exception
+                    //db.Database.ExecuteSqlCommand("raiserror('Manual SQL exception', 16, 1)");
                     db.Games.AddOrUpdate(_game);
                     db.SaveChanges();
+                    _isSaved = true;
                 }
                 // Testing Messenger to pass information about events, instead of EventHandler
                 Messenger.Default.Send(new NotificationMessage("GameAddedOrUpdated"));
             }
             catch (SqlException exc)
             {
-                // TODO respond to error
+                string errorMessage = $"Error: {exc.Message}\n{exc.InnerException}";
+                Dialogs.DialogService.DialogViewModelBase errorVM = new Dialogs.DialogOk.DialogOkViewModel("Could not save!", errorMessage);
+                Dialogs.DialogService.DialogResult errorVMResult = Dialogs.DialogService.DialogService.OpenDialog(errorVM);
+                return;
             }
             Close();
         }
@@ -192,6 +197,17 @@ namespace MyGames.ViewModels
         {          
             if(OnClose != null)
             {
+                // FUTURE Better change-tracking
+                if (EditMode && !_isSaved)
+                {
+                    string message = "Are you sure you want to close without saving?";
+                    Dialogs.DialogService.DialogViewModelBase vm = new Dialogs.DialogYesNo.DialogYesNoViewModel("Close?", message);
+                    Dialogs.DialogService.DialogResult result = Dialogs.DialogService.DialogService.OpenDialog(vm);
+                    if(result == Dialogs.DialogService.DialogResult.No)
+                    {
+                        return;
+                    }
+                }
                 OnClose(this, EventArgs.Empty);
             }
         }
@@ -219,7 +235,6 @@ namespace MyGames.ViewModels
             {
                 using (var db = new MyGamesSQLServerCompactContext())
                 {
-                    // TODO Error handling
                     List<Platform> platformsList = db.Platforms.ToList();
                     List<Platform> sortedPlatforms = platformsList.OrderBy(o => o.PlatformShort).ToList();
                     return sortedPlatforms;
@@ -227,7 +242,9 @@ namespace MyGames.ViewModels
             }            
             catch (SqlException exc)
             {
-                // TODO respond to error
+                string errorMessage = $"Error: {exc.Message}\n{exc.InnerException}";
+                Dialogs.DialogService.DialogViewModelBase errorVM = new Dialogs.DialogOk.DialogOkViewModel("Could not get platforms!", errorMessage);
+                Dialogs.DialogService.DialogResult errorVMResult = Dialogs.DialogService.DialogService.OpenDialog(errorVM);                
             }            
             return new List<Platform>();            
         }
@@ -247,7 +264,9 @@ namespace MyGames.ViewModels
             }            
             catch (SqlException exc)
             {
-                // TODO respond to error
+                string errorMessage = $"Error: {exc.Message}\n{exc.InnerException}";
+                Dialogs.DialogService.DialogViewModelBase errorVM = new Dialogs.DialogOk.DialogOkViewModel("Could not get genres!", errorMessage);
+                Dialogs.DialogService.DialogResult errorVMResult = Dialogs.DialogService.DialogService.OpenDialog(errorVM);
             }
             return new List<Genre>();
         }
@@ -265,7 +284,7 @@ namespace MyGames.ViewModels
                 values.Add(i);
             }
             return values;
-        }
+        }       
         #endregion
 
 

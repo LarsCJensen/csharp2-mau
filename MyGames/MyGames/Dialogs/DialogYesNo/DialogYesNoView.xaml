@@ -7,6 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="300">
     <Grid Margin="4">
+        <TextBlock Text="{Binding Message}"/>
         <Button Content="Yes" HorizontalAlignment="Left" Margin="135,70,0,0" VerticalAlignment="Top" Width="75" Command="{Binding YesCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
         <Button Content="No" HorizontalAlignment="Left" Margin="215,70,0,0" VerticalAlignment="Top" Width="75" Command="{Binding NoCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
     </Grid>

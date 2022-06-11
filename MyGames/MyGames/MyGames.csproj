@@ -144,6 +144,10 @@
     <Compile Include="Dialogs\DialogService\DialogResultEnum.cs" />
     <Compile Include="Dialogs\DialogService\DialogService.cs" />
     <Compile Include="Dialogs\DialogService\DialogViewModelBase.cs" />
+    <Compile Include="Dialogs\DialogOk\DialogOkView.xaml.cs">
+      <DependentUpon>DialogOkView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\DialogOk\DialogOkViewModel.cs" />
     <Compile Include="Dialogs\DialogYesNo\DialogYesNoView.xaml.cs">
       <DependentUpon>DialogYesNoView.xaml</DependentUpon>
     </Compile>
@@ -164,6 +168,10 @@
       <DependentUpon>GameView.xaml</DependentUpon>
     </Compile>
     <Page Include="Dialogs\DialogService\DialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\DialogOk\DialogOkView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

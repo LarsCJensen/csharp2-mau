@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace MyGames.Dialogs.DialogService
 {
+    /// <summary>
+    /// Enum for buttons clicked
+    /// </summary>
     public enum DialogResult
     {
         Undefined,

@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MyGames.Dialogs.DialogService
+namespace MyGames.Dialogs.DialogOk
 {
     /// <summary>
-    /// Interaction logic for DialogWindow.xaml
+    /// Interaction logic for DialogMessageOk.xaml
     /// </summary>
-    public partial class DialogWindow : Window
+    public partial class DialogOkView : UserControl
     {
-        public DialogWindow()
+        public DialogOkView()
         {
             InitializeComponent();
         }

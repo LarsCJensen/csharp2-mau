@@ -10,36 +10,46 @@ using System.Windows.Input;
 
 namespace MyGames.Dialogs.DialogYesNo
 {
+    /// <summary>
+    /// ViewModel for DialogYesNo
+    /// </summary>
     public class DialogYesNoViewModel: DialogViewModelBase
-    {
-        private RelayCommand yesCommand = null;
-        public RelayCommand YesCommand
+    {   private RelayCommand<Window> _yesCommand = null;
+        public RelayCommand<Window> YesCommand
         {
-            get { return yesCommand; }
-            set { yesCommand = value; }
+            get { return _yesCommand; }
+            set { _yesCommand = value; }
         }
 
-        private RelayCommand noCommand = null;
-        public RelayCommand NoCommand
+        private RelayCommand<Window> _noCommand = null;
+        public RelayCommand<Window> NoCommand
         {
-            get { return noCommand; }
-            set { noCommand = value; }
+            get { return _noCommand; }
+            set { _noCommand = value; }
         }
 
-        public DialogYesNoViewModel()
+        public DialogYesNoViewModel(string title, string message): base(title, message)
         {
-            yesCommand = new RelayCommand(OnYesClicked);
-            noCommand = new RelayCommand(OnNoClicked);
+            _yesCommand = new RelayCommand<Window>(OnYesClicked);
+            _noCommand = new RelayCommand<Window>(OnNoClicked);
         }
-
+        /// <summary>
+        /// Method for click on Yes
+        /// </summary>
+        /// <param name="parameter"></param>
+        private void OnYesClicked(object parameter)
+        {
+            this.CloseDialogWithResult(parameter as Window, DialogResult.Yes);
+        }
+        /// <summary>
+        /// Method for click on No
+        /// </summary>
+        /// <param name="parameter"></param>
         private void OnNoClicked(object parameter)
         {
             this.CloseDialogWithResult(parameter as Window, DialogResult.No);
         }
 
-        private void OnYesClicked(object parameter)
-        {
-            this.CloseDialogWithResult(parameter as Window, DialogResult.Yes);
-        }
+
     }
 }
