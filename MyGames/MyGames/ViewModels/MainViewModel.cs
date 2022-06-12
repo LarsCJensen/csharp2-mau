@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿/*
+ * Lars Jensen 2022-06-12
+ */
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Data;
-using System.Windows.Input;
 using GalaSoft.MvvmLight.Messaging;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Mvvm.Messaging;
 using MyGames.Helpers;
 using MyGames.Models;
-using MyGames.Views;
 
 namespace MyGames.ViewModels
 {
@@ -94,7 +89,7 @@ namespace MyGames.ViewModels
                 OnPropertyChanged("SearchFilter");
             }
         }
-        private bool _addGameEnabled;
+        private bool _addGameEnabled = true;
         public bool AddGameEnabled
         {
             get { return _addGameEnabled; }
@@ -113,6 +108,7 @@ namespace MyGames.ViewModels
         public RelayCommand CloseCommand { get; private set; }
         public RelayCommand LoadTestData { get; private set; }
         public RelayCommand ExportCommand { get; private set; }
+        public RelayCommand AboutCommand { get; private set; }
         public RelayCommand MouseDown { get; private set; }
         public RelayCommand<string> SortCommand { get; private set; }
         #endregion
@@ -139,6 +135,7 @@ namespace MyGames.ViewModels
             LoadTestData = new RelayCommand(LoadTestDataExecute);
             CloseCommand = new RelayCommand(Close);
             ExportCommand = new RelayCommand(ExportExecute);
+            AboutCommand = new RelayCommand(AboutExecute);
             MouseDown = new RelayCommand(MouseDownExecute);
             SortCommand = new RelayCommand<string>(param => SortCommandExecute(param));
         }
@@ -232,6 +229,12 @@ namespace MyGames.ViewModels
             // FUTURE
             string message = "Export function not yet implemented!";
             Dialogs.DialogService.DialogViewModelBase vm = new Dialogs.DialogOk.DialogOkViewModel("Not implemented!", message);
+            Dialogs.DialogService.DialogResult result = Dialogs.DialogService.DialogService.OpenDialog(vm);
+        }
+        private void AboutExecute()
+        {            
+            string message = "MyGames made my Lars Jensen.\n\nAdd your games collection to keep track of your precious items.\n\nCopyright Lars Jensen 2022";
+            Dialogs.DialogService.DialogViewModelBase vm = new Dialogs.DialogOk.DialogOkViewModel("About", message);
             Dialogs.DialogService.DialogResult result = Dialogs.DialogService.DialogService.OpenDialog(vm);
         }
         // FUTURE
