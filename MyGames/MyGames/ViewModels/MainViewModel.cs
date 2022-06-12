@@ -24,6 +24,23 @@ namespace MyGames.ViewModels
     /// </summary>
     public class MainViewModel : BaseViewModel
     {
+        private int _tabControlSelectedIndex;
+        public int TabControlSelectedIndex
+        {
+            get { return _tabControlSelectedIndex; }
+            set
+            {
+                AddGameEnabled = true;
+                // If hardware
+                if (value == 1)
+                {
+                    // FUTURE Initialize Hardware view etc                    
+                    AddGameEnabled = false;
+                }
+                _tabControlSelectedIndex = value;
+                OnPropertyChanged("TabControlSelectedIndex");                
+            }
+        }
         private ObservableCollection<Game> _gamesList = new ObservableCollection<Game>();
         public ObservableCollection<Game> GamesList
         {
@@ -75,6 +92,16 @@ namespace MyGames.ViewModels
 
                 _gamesView.Refresh();
                 OnPropertyChanged("SearchFilter");
+            }
+        }
+        private bool _addGameEnabled;
+        public bool AddGameEnabled
+        {
+            get { return _addGameEnabled; }
+            set 
+            { 
+                _addGameEnabled = value;
+                OnPropertyChanged("AddGameEnabled");
             }
         }
 

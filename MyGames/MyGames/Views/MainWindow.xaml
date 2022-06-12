@@ -52,21 +52,23 @@
                     <MenuItem Header="_Options">
                         <MenuItem Header="_None Yet" />
                     </MenuItem>
-                <MenuItem Header="_Help" />
+                <MenuItem Header="_Help">
+                    <MenuItem Header="_About" Command="{Binding AboutCommand}"/>
+                </MenuItem>
+>
                 </Menu>            
         </Grid>
         <Grid Grid.Row="1" Grid.Column="0">
             <TextBlock Text="Filter" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,15,0,0"/>
-            <StackPanel Orientation="Horizontal" Margin="5,5">                
-                <TextBox Height="30" Width="200" Padding="5,5"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,30,0,0" Text="{Binding SearchFilter, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Text="{Binding Count, FallbackValue='0 games in collection' , StringFormat= '\{0\} games in your collection'}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,30,0,10"/>
-                <Button Content="Load test data" Command="{Binding LoadTestData}"  Width="100" Height="20" Margin="200,30,0,0"/>
+            <StackPanel Orientation="Horizontal" Margin="5,5">
+                <TextBox Height="30" Width="200" Padding="5,5"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,30,0,0" Text="{Binding SearchFilter, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding AddGameEnabled}"/>
+                <TextBlock Text="{Binding Count, FallbackValue='0 games in collection' , StringFormat= '\{0\} games in your collection'}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,30,0,10" Visibility="{Binding AddGameEnabled, Converter={StaticResource BoolToVis}}"/>
+                <Button Content="Load test data" Command="{Binding LoadTestData}"  Width="100" Height="20" Margin="200,30,0,0" IsEnabled="{Binding AddGameEnabled}"/>
             </StackPanel>            
         </Grid>
         <Grid Grid.Row="2" Grid.Column="0" Margin="10,5">
-            <!--<TabControl  >-->
-                <!--<GroupBox Margin="5,5">-->
-                    <!--<ListView x:Name="lvGamesList" ItemsSource="{Binding GamesList, Mode=TwoWay}" SelectedItem="{Binding SelectedGame, FallbackValue=null}">-->
+            <TabControl SelectedIndex="{Binding TabControlSelectedIndex}">
+                <TabItem Header="Games">
                     <ListView x:Name="lvGamesList" ItemsSource="{Binding GamesView}" SelectedItem="{Binding SelectedGame, FallbackValue=null}">
                         <ListView.View>
                             <GridView>
@@ -74,7 +76,7 @@
                                     <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="Title">Title</GridViewColumnHeader>
                                 </GridViewColumn>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Platform.PlatformShort}" Width="100">
-                            <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="Platform.PlatformShort">Platform</GridViewColumnHeader>
+                                    <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="Platform.PlatformShort">Platform</GridViewColumnHeader>
                                 </GridViewColumn>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Genre.GenreName}" Width="150">
                                     <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="Genre.GenreName">Genre</GridViewColumnHeader>
@@ -93,14 +95,40 @@
                                 </GridViewColumn>
                             </GridView>
                         </ListView.View>
+                    </ListView>                    
+                </TabItem>
+                <TabItem Header="Hardware">
+                    <ListView x:Name="lvHardwareList" ItemsSource="{Binding HardwareView}" SelectedItem="{Binding SelectedHardware, FallbackValue=null}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Width="200">
+                                    <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="Name">Name</GridViewColumnHeader>
+                                </GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Platform.PlatformShort}" Width="100">
+                                    <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="Platform.PlatformShort">Platform</GridViewColumnHeader>
+                                </GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=ReleaseDate, StringFormat='yyyy-MM-dd'}" Width="100">
+                                    <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="ReleaseDate">Release</GridViewColumnHeader>
+                                </GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Box, Converter={StaticResource BoolToStringConverter}, TargetNullValue=False}" Width="50">
+                                    <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="Box">Box</GridViewColumnHeader>
+                                </GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Manual, Converter={StaticResource BoolToStringConverter}, TargetNullValue=False}" Width="50">
+                                    <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="Manual">Manual</GridViewColumnHeader>
+                                </GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Region, TargetNullValue=False}" Width="50">
+                                    <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="Region">Region</GridViewColumnHeader>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
                     </ListView>
-                <!--</GroupBox>-->
-            <!--</TabControl>-->
+                </TabItem>
+            </TabControl>
         </Grid>        
         <Grid Grid.Row="3" Grid.Column="0">            
             <StackPanel Orientation="Horizontal" Margin="5,5">
                 <Button Content="Open" Width="50" Height="20" Margin="5" Command="{Binding OpenGameCommand}" IsEnabled="{Binding SelectedGame, Converter={StaticResource ObjectNullConverter}, FallbackValue=False}"/>
-                <Button Content="Add" Width="50" Height="20" Margin="5" Command="{Binding AddGameCommand}"/>
+                <Button Content="Add" Width="50" Height="20" Margin="5" Command="{Binding AddGameCommand}" IsEnabled="{Binding AddGameEnabled}"/>
                 <Button Content="Edit" Width="50" Height="20" Margin="5" Command="{Binding EditGameCommand}" IsEnabled="{Binding SelectedGame, Converter={StaticResource ObjectNullConverter}, FallbackValue=False}"/>
                 <Button Content="Delete"  Width="50" Height="20" Margin="5" Command="{Binding DeleteGameCommand}" IsEnabled="{Binding SelectedGame, Converter={StaticResource ObjectNullConverter}, FallbackValue=False}"/>                
             </StackPanel>
