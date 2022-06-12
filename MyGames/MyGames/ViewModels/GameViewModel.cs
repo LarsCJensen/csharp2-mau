@@ -217,7 +217,8 @@ namespace MyGames.ViewModels
         private void ChooseImage()
         {
             FileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "JPG|*.jpg|BMP|*.bmp|PNG|*.png|All files (*.*)|*.*";
+            // Only allow image files to be chosen
+            dialog.Filter = "JPG|*.jpg|BMP|*.bmp|PNG|*.png";
             bool? result = dialog.ShowDialog();
             if (result == true)
             {

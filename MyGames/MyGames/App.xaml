@@ -1,26 +1,7 @@
 ﻿<Application x:Class="MyGames.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:MyGames"
-             xmlns:vm="clr-namespace:MyGames.ViewModels"
-             xmlns:vw="clr-namespace:MyGames.Views"
-             xmlns:dialogYesNo="clr-namespace:MyGames.Dialogs.DialogYesNo">
-             <!--StartupUri="Views/MainWindow.xaml"-->
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">       
     <Application.Resources>
-        <!--TODO REMOVE?-->
-        <!--<DataTemplate DataType="{x:Type vm:MainViewModel}">
-            <vw:MainWindow/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:GameViewModel}">
-            <vw:GameView/>
-        </DataTemplate>-->
-        <!--<DataTemplate DataType="{x:Type dialogYesNo:DialogYesNoViewModel}">
-            <dialogYesNo:DialogYesNoView />
-        </DataTemplate>-->
-        <!--<DataTemplate DataType="{x:Type dialogYesNo:DialogYesNoViewModel}">
-            <dialogYesNo:DialogYesNoView />
-        </DataTemplate>-->
-
-        <!--<BooleanToVisibilityConverter x:Key="BoolToVis" />-->
+       
     </Application.Resources>
 </Application>

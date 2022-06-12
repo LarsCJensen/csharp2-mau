@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,18 +20,37 @@ namespace MyGames.Converters
         {
             if (targetType == typeof(ImageSource))
             {
-                // Handle if value is string (always in our case)
-                if (value is string)
+                try
                 {
-                    string str = (string)value;
-                    return new BitmapImage(new Uri(str, UriKind.RelativeOrAbsolute));
+                    // Handle if value is string (always in our case)
+                    if (value is string)
+                    {
+                        string str = (string)value;
+                        return new BitmapImage(new Uri(str, UriKind.RelativeOrAbsolute));
+                    }
+                    // Handle if value is Uri
+                    else if (value is Uri)
+                    {
+                        Uri uri = (Uri)value;
+                        return new BitmapImage(uri);
+                    }
                 }
-                // Handle if value is Uri
-                else if (value is Uri)
+                catch(FileNotFoundException exc)
                 {
-                    Uri uri = (Uri)value;
-                    return new BitmapImage(uri);
+                    // If file not found, fallback to standard null value
+                    return null;
                 }
+                catch(NotSupportedException exc)
+                {
+                    // If not a compatible image
+                    return null;
+                }
+                // Always return null upon exception
+                catch(Exception exc)
+                {
+                    return null;
+                }
+                
             }
             return value;
         }

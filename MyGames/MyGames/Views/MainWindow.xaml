@@ -15,7 +15,7 @@
         <ImageBrush ImageSource="/MyGames;component/Assets/rq_bg.gif" TileMode="Tile" ViewportUnits="Absolute" Viewport="0,0,31,42"/>
     </Window.Background>
     <Grid x:Name="MainGrid">
-        <!--TODO-->
+        <!--FUTURE-->
         <!--<i:Interaction.Triggers>
             <i:EventTrigger EventName="MouseUp">
                 <i:InvokeCommandAction Command="{Binding MouseDown}" />

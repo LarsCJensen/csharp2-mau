@@ -128,10 +128,7 @@ namespace MyGames.ViewModels
             if (msg.Notification == "GameAddedOrUpdated")
             {
                 // Refresh CollectionView
-                GamesList = GetGamesList();                
-                // FUTURE Seems weird to have to do this
-                GamesView = CollectionViewSource.GetDefaultView(GamesList);                
-                GamesView.Filter = o => String.IsNullOrEmpty(SearchFilter) ? true : ((Game)o).Title.ToLower().Contains(SearchFilter.ToLower());
+                RefreshView();
             }
         }
         #region CommandExecutors
@@ -180,7 +177,7 @@ namespace MyGames.ViewModels
                         // Needs to be attached to the db context
                         // before it is removed
                         // Used to test exception
-                        //db.Database.ExecuteSqlCommand("raiserror('Manual SQL exception', 16, 1)");                        
+                        //db.Database.ExecuteSqlCommand("raiserror('Manual SQL exception', 16, 1)");
                         db.Games.Attach(SelectedGame);
                         db.Games.Remove(SelectedGame);
                         db.SaveChanges();
@@ -192,11 +189,7 @@ namespace MyGames.ViewModels
                     Dialogs.DialogService.DialogViewModelBase errorVM = new Dialogs.DialogOk.DialogOkViewModel("Could not delete!", errorMessage);
                     Dialogs.DialogService.DialogResult errorVMResult = Dialogs.DialogService.DialogService.OpenDialog(errorVM);
                 }
-                // TODO Move to own function
-                GamesList = GetGamesList();
-                // FUTURE Is there a better way?
-                GamesView = CollectionViewSource.GetDefaultView(GamesList);
-                GamesView.Filter = o => String.IsNullOrEmpty(SearchFilter) ? true : ((Game)o).Title.ToLower().Contains(SearchFilter.ToLower());
+                RefreshView();
             }
             
         }        
@@ -373,9 +366,7 @@ namespace MyGames.ViewModels
                 Dialogs.DialogService.DialogResult errorVMResult = Dialogs.DialogService.DialogService.OpenDialog(errorVM);
                 return;
             }
-            GamesList = GetGamesList();
-            GamesView = CollectionViewSource.GetDefaultView(GamesList);
-            GamesView.Filter = o => String.IsNullOrEmpty(SearchFilter) ? true : ((Game)o).Title.ToLower().Contains(SearchFilter.ToLower());
+            RefreshView();
         }
         #endregion
 
@@ -402,7 +393,13 @@ namespace MyGames.ViewModels
             }
             return new ObservableCollection<Game>();
         }
-        
+        public void RefreshView()
+        {
+            GamesList = GetGamesList();
+            // FUTURE Is there a better way?
+            GamesView = CollectionViewSource.GetDefaultView(GamesList);
+            GamesView.Filter = o => String.IsNullOrEmpty(SearchFilter) ? true : ((Game)o).Title.ToLower().Contains(SearchFilter.ToLower());
+        }
 
     }
 }
